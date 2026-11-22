@@ -76,9 +76,25 @@
       </div>
     </section>
 
-    <section class="destaque" aria-label="Destaque">
-      <!-- Bloco azul grande do layout: troque pelo conteúdo final (vídeo, galeria, capa da revista etc.) -->
-      <div class="destaque__bloco"></div>
+    <section class="revista" id="revista" aria-label="Leia a Revista Película">
+      <div class="revista__palco">
+        <div class="revista__livro">
+          <div id="livro"></div>
+        </div>
+
+        <div class="revista__controles">
+          <button class="revista__botao" id="revista-anterior" type="button" aria-label="Página anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
+          </button>
+          <span class="revista__contador" id="revista-contador" aria-live="polite">1 / 72</span>
+          <button class="revista__botao" id="revista-proxima" type="button" aria-label="Próxima página">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg>
+          </button>
+          <button class="revista__botao revista__botao--tela" id="revista-tela-cheia" type="button" aria-label="Tela cheia">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          </button>
+        </div>
+      </div>
     </section>
 
     <section class="saiba" id="saiba-mais">
@@ -89,6 +105,8 @@
   </main>
 
   <script src="js/hero.js"></script>
+  <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+  <script src="js/revista.js"></script>
   <script src="js/cinemas.js"></script>
   <script src="js/mapa.js"></script>
 </body>

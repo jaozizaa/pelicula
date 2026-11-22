@@ -273,15 +273,85 @@ img { display: block; max-width: 100%; }
 .maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
 .maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip { border-top-color: #434242; }
 
-/* ---------- Destaque (padding 100 px, bloco 1240 × 653) ---------- */
-.destaque {
+/* ---------- Revista (leitor com virada de página) ----------
+   Área do Figma: 1240 × 653 dentro da faixa creme com 100 px de margem.
+   Duas páginas lado a lado = 44 × 20 cm (proporção 2,2 : 1). */
+.revista {
   background: var(--creme);
   padding: calc(100 * var(--u));
 }
-.destaque__bloco {
-  width: 100%;
+.revista__palco {
   height: calc(653 * var(--u));
-  background: var(--azul);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(22 * var(--u));
+}
+.revista__livro {
+  width: min(calc(1240 * var(--u)), calc((653 - 70) * var(--u) * 2.2));
+}
+#livro { margin: 0 auto; }
+.revista__pagina { background: #fff; overflow: hidden; }
+.revista__pagina img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+.revista__aviso { color: var(--azul); text-align: center; }
+
+.revista__controles {
+  display: flex;
+  align-items: center;
+  gap: calc(18 * var(--u));
+  color: var(--azul);
+}
+.revista__contador {
+  min-width: calc(110 * var(--u));
+  text-align: center;
+  font-family: var(--fonte-texto);
+  font-size: calc(16 * var(--u));
+  letter-spacing: calc(-0.32 * var(--u));
+  font-variant-numeric: tabular-nums;
+}
+.revista__botao {
+  display: grid;
+  place-items: center;
+  width: calc(42 * var(--u));
+  height: calc(42 * var(--u));
+  padding: 0;
+  border: calc(2.643 * var(--u)) solid var(--azul);
+  border-radius: calc(8.434 * var(--u));
+  background: transparent;
+  color: var(--azul);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.revista__botao svg {
+  width: 55%;
+  height: 55%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.revista__botao:hover:not(:disabled) { background: var(--azul); color: var(--creme); }
+.revista__botao:disabled { opacity: .3; cursor: default; }
+.revista__botao--tela { margin-left: calc(12 * var(--u)); }
+
+/* Tela cheia */
+.revista.is-tela-cheia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.revista.is-tela-cheia .revista__palco { height: 100%; width: 100%; gap: 16px; }
+.revista.is-tela-cheia .revista__livro {
+  width: min(calc(100vw - 48px), calc((100vh - 110px) * 2.2));
 }
 
 /* ---------- Saiba mais (812 px) ---------- */
@@ -334,8 +404,12 @@ img { display: block; max-width: 100%; }
   .botao-seculo { width: 102px; height: 42px; font-size: 33px; letter-spacing: -1.65px; border-width: 2.6px; border-radius: 8.4px; }
   .mapa__mapa { aspect-ratio: 1 / 1; }
 
-  .destaque { padding: 24px; }
-  .destaque__bloco { height: auto; aspect-ratio: 1240 / 653; }
+  .revista { padding: 32px 24px; }
+  .revista__palco { height: auto; gap: 18px; }
+  .revista__livro { width: 100%; }
+  .revista__contador { font-size: 15px; min-width: 90px; }
+  .revista__botao { width: 42px; height: 42px; border-width: 2.6px; border-radius: 8.4px; }
+  .revista.is-tela-cheia .revista__livro { width: min(calc(100vw - 48px), calc((100vh - 110px) * 1.1)); }
 
   .saiba { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 32px; }
   .saiba .titulo, .saiba__imagem { position: static; }
