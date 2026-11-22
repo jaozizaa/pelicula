@@ -216,11 +216,58 @@ img { display: block; max-width: 100%; }
   color: var(--azul);
 }
 
-.mapa__imagem img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.mapa__mapa {
+  position: relative;
+  background: #d2d2d2;
+  overflow: hidden;
 }
+
+#map {
+  position: absolute;
+  inset: 0;
+}
+
+/* Controles do mapa no estilo da revista */
+.maplibregl-ctrl-group {
+  background: #ffffff !important;
+  border: 1px solid #434242 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.maplibregl-ctrl-group button {
+  width: 34px !important;
+  height: 34px !important;
+  color: #434242 !important;
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid #d2d2d2 !important;
+}
+.maplibregl-ctrl-attrib {
+  background: rgba(210, 210, 210, .8) !important;
+  color: #434242 !important;
+  font-size: 10px !important;
+}
+.maplibregl-ctrl-attrib a { color: #434242 !important; }
+
+/* Balão dos cinemas */
+.maplibregl-popup-content {
+  background: #ffffff;
+  color: #434242;
+  border: 1px solid #434242;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 10px 14px;
+  font-family: var(--fonte-texto);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.maplibregl-popup-content strong { display: block; font-weight: 700; }
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip { border-bottom-color: #434242; }
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip { border-top-color: #434242; }
 
 /* ---------- Destaque ---------- */
 .destaque {
@@ -271,7 +318,7 @@ img { display: block; max-width: 100%; }
   .mapa__lista { margin-top: 8vw; font-size: 1.05rem; }
   .mapa__seculos { flex-direction: row; gap: 3vw; margin-top: 6vw; }
   .botao-seculo { font-size: 1.1rem; border-width: 2px; border-radius: 6px; }
-  .mapa__imagem img { aspect-ratio: 1 / 1; }
+  .mapa__mapa { aspect-ratio: 1 / 1; }
 
   .saiba { min-height: 0; flex-direction: column-reverse; gap: 8vw; padding: 12vw var(--margem); }
   .saiba__imagem { width: 60%; }
