@@ -8,7 +8,7 @@
   <meta property="og:title" content="Revista Película">
   <meta property="og:description" content="A história dos cinemas de rua de Belo Horizonte, contada pelo design gráfico.">
   <meta property="og:image" content="img/hero-cine-pathe.jpg">
-  <meta name="theme-color" content="#0133ca">
+  <meta name="theme-color" content="#0132ca">
 
   <link rel="preload" href="fonts/OrgandaMN-Bold.ttf" as="font" type="font/ttf" crossorigin>
   <!-- MapLibre GL JS (gratuito e open source) -->
@@ -20,7 +20,7 @@
 
   <header class="topo">
     <a href="#" aria-label="Revista Película — início">
-      <img src="img/logo.png" alt="Película" width="112" height="59">
+      <img src="img/logo.svg" alt="Película" width="110" height="54">
     </a>
   </header>
 
@@ -32,7 +32,10 @@
     </section>
 
     <section class="sobre" id="sobre">
-      <h2 class="titulo">Sobre o projeto <img class="estrela" src="img/estrela.svg" alt="" width="40" height="40"></h2>
+      <div class="sobre__cabecalho">
+        <h2 class="titulo">Sobre o projeto</h2>
+        <img class="estrela" src="img/estrela.svg" alt="" width="44" height="46">
+      </div>
 
       <div class="sobre__grid">
         <p class="sobre__credito">
@@ -51,7 +54,7 @@
 
     <section class="mapa" id="mapa">
       <aside class="mapa__lateral">
-        <h2 class="titulo">Séc. XXI</h2>
+        <h2 class="titulo titulo--seculo">Séc. XXI</h2>
 
         <ol class="mapa__lista">
           <li>Theatro Brasil</li>
@@ -63,8 +66,8 @@
         </ol>
 
         <div class="mapa__seculos">
-          <button class="botao-seculo" type="button" aria-pressed="false">Séc. XX</button>
-          <button class="botao-seculo botao-seculo--ativo" type="button" aria-pressed="true">Séc. XXI</button>
+          <button class="botao-seculo" type="button" aria-pressed="true">Séc. XXI</button>
+          <button class="botao-seculo botao-seculo--amarelo" type="button" aria-pressed="false">Séc. XX</button>
         </div>
       </aside>
 
@@ -79,9 +82,9 @@
     </section>
 
     <section class="saiba" id="saiba-mais">
-      <!-- Quadrado cinza do layout: troque pela imagem real -->
-      <div class="saiba__imagem" role="img" aria-label="Espaço reservado para imagem"></div>
       <h2 class="titulo">Saiba mais</h2>
+      <!-- Retângulo cinza do layout: troque pela imagem real -->
+      <div class="saiba__imagem" role="img" aria-label="Espaço reservado para imagem"></div>
     </section>
   </main>
 

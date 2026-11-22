@@ -27,6 +27,26 @@
   // Botões de zoom (+ / -) minimalistas no canto inferior direito
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
+  // Enquadramento inicial: o mais perto possível mostrando os seis cinemas.
+  // Para abrir mais perto ou mais longe, diminua ou aumente os paddings abaixo.
+  function enquadrarCinemas(animar) {
+    if (!window.CINEMAS) return;
+    const b = new maplibregl.LngLatBounds();
+    window.CINEMAS.forEach((c) => b.extend(c.coords));
+    const el = map.getContainer();
+    const w = el.clientWidth, h = el.clientHeight;
+    const estreito = w < 600;
+    map.fitBounds(b, {
+      padding: estreito
+        ? { top: h * 0.08, bottom: h * 0.08, left: w * 0.08, right: w * 0.08 }
+        : { top: h * 0.10, bottom: h * 0.10, left: w * 0.10, right: w * 0.10 },
+      maxZoom: 15,
+      animate: !!animar
+    });
+  }
+
+  map.once('load', () => enquadrarCinemas(false));
+
 
   // Cria os ícones, a camada e o popup dos cinemas
   async function adicionarCinemas() {
@@ -61,7 +81,7 @@
         'icon-image': ['get', 'icone'],
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.14, 13.5, 0.22, 15.5, 0.32, 18, 0.45]
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.2, 13.5, 0.28, 14.5, 0.33, 16, 0.4, 18, 0.5]
       }
     });
 
@@ -120,7 +140,7 @@
 
           // Ruas menores somem no zoom out (visão geral de BH)
           if (id.includes('minor') || id.includes('service') || id.includes('path')) {
-            map.setLayerZoomRange(layer.id, 13.8, 24);
+            map.setLayerZoomRange(layer.id, 12.8, 24);
           }
         } else {
           // Remove fronteiras administrativas e linhas extras
@@ -137,8 +157,8 @@
           map.setPaintProperty(layer.id, 'text-color', COR_TEXTO);
           map.setPaintProperty(layer.id, 'text-halo-color', COR_RUAS);
           map.setPaintProperty(layer.id, 'text-halo-width', 1.5);
-          // Nomes das ruas só aparecem ao aproximar (a partir do zoom 14.2)
-          map.setLayerZoomRange(layer.id, 14.2, 24);
+          // Nomes das ruas só aparecem com bastante zoom (a partir do 16)
+          map.setLayerZoomRange(layer.id, 16, 24);
         } else if (isNeighborhood) {
           map.setPaintProperty(layer.id, 'text-color', COR_TEXTO);
           map.setPaintProperty(layer.id, 'text-halo-color', COR_FUNDO_BLOCOS);
