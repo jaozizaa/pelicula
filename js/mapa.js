@@ -72,8 +72,8 @@
       }
     });
 
-    // O ícone cresce e diminui conforme o zoom (ajuste os valores à vontade).
-    // Em zoom 15 (abertura do mapa) ele mantém o tamanho original; ao afastar, diminui bem mais.
+    // Tamanho do ícone conforme o zoom: maior com o mapa afastado, menor com o mapa detalhado.
+    // Em ~14.25 (abertura do mapa) fica no tamanho original.
     map.addLayer({
       id: 'camada-cinemas',
       type: 'symbol',
@@ -82,7 +82,7 @@
         'icon-image': ['concat', 'cinema-', ['to-string', ['get', 'id']]],
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.07, 12.5, 0.11, 13.5, 0.18, 14.5, 0.29, 15, 0.355, 16, 0.4, 18, 0.5]
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.5, 13, 0.4, 14.25, 0.32, 16, 0.2, 18, 0.12]
       }
     });
 
