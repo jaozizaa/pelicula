@@ -24,6 +24,8 @@
   function depois(ms, fn) { timers.push(setTimeout(fn, ms)); }
   try { sessionStorage.setItem('pelicula-intro', '1'); } catch (e) {}
   window.scrollTo(0, 0);
+  // Alguns navegadores restauram a rolagem só depois do carregamento: volta ao topo de novo
+  window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
   // Monta o texto inteiro em letras invisíveis: as linhas já ficam na posição final
   function montar(texto) {
@@ -80,12 +82,14 @@
   function revelar() {
     if (terminou) return;
     terminou = true;
+    window.scrollTo(0, 0);
     // A faixa azul que sobrou tem a mesma cor e altura do header: some sem corte visível
     intro.style.visibility = 'hidden';
     html.classList.add('intro-header');
     setTimeout(function () { html.classList.add('intro-legenda'); }, 900);
     setTimeout(function () {
       document.dispatchEvent(new Event('intro-fim'));
+      if (window.scrollY !== 0) window.scrollTo(0, 0);
       intro.remove();
       html.classList.remove('com-intro', 'intro-sobe', 'intro-header', 'intro-legenda');
     }, 3600);

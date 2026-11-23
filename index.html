@@ -35,7 +35,13 @@
         var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         // Teste: com ?intro no endereço a abertura roda sempre, a cada recarregamento
         var forcar = /[?&]intro\b/.test(location.search);
-        if (forcar || (!reduz && !sessionStorage.getItem('pelicula-intro'))) document.documentElement.classList.add('com-intro');
+        if (forcar || (!reduz && !sessionStorage.getItem('pelicula-intro'))) {
+          document.documentElement.classList.add('com-intro');
+          // Quem vê a abertura começa do topo: o navegador não restaura a rolagem do recarregamento
+          // e um #seção no endereço não faz pular para baixo
+          if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+          if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+        }
       } catch (e) {}
     })();
   </script>
