@@ -39,6 +39,16 @@
   font-display: swap;
 }
 
+/* Heiti TC Medium (lista dos cinemas e rodapé). Recorte só com letras latinas: 12 KB em vez de 54 MB.
+   Quem tem a fonte instalada (Mac) usa a do sistema. */
+@font-face {
+  font-family: "Heiti TC Web";
+  src: local("Heiti TC Medium"), local("STHeitiTC-Medium"), url("../fonts/HeitiTC-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---------- Variáveis ----------
    Medidas tiradas do Figma (frame de 1440 px).
    No desktop, 1 unidade (--u) = 1 px do Figma, escalando com a largura da tela. */
@@ -51,7 +61,7 @@
 
   --fonte-titulo: "Organda MN", "Arial Narrow", sans-serif;
   --fonte-texto: "Helvetica Local", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --fonte-lista: "Heiti TC", "Helvetica Local", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fonte-lista: "Heiti TC Web", "Heiti TC", "Helvetica Local", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --u: calc(100vw / 1440);
 }
