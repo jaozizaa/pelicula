@@ -33,7 +33,9 @@
     (function () {
       try {
         var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!reduz && !sessionStorage.getItem('pelicula-intro')) document.documentElement.classList.add('com-intro');
+        // Teste: com ?intro no endereço a abertura roda sempre, a cada recarregamento
+        var forcar = /[?&]intro\b/.test(location.search);
+        if (forcar || (!reduz && !sessionStorage.getItem('pelicula-intro'))) document.documentElement.classList.add('com-intro');
       } catch (e) {}
     })();
   </script>
