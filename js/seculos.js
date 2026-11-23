@@ -8,8 +8,17 @@
 
   var ROTULOS = { xx: 'Séc. XX', xxi: 'Séc. XXI' };
 
+  var lateral = secao.querySelector('.mapa__lateral');
+
   function definir(seculo) {
+    if (secao.getAttribute('data-seculo') === seculo) return;
     secao.setAttribute('data-seculo', seculo);
+    // Reinicia a revelação do texto (da esquerda para a direita)
+    if (lateral) {
+      lateral.classList.remove('revela');
+      void lateral.offsetWidth;
+      lateral.classList.add('revela');
+    }
     if (titulo) titulo.textContent = ROTULOS[seculo];
     botoes.forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-seculo') === seculo));

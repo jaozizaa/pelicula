@@ -48,12 +48,30 @@
     showCover: true,
     usePortrait: true,
     autoSize: true,
-    maxShadowOpacity: 0.4,
-    flippingTime: 900,
+    maxShadowOpacity: 0.3,
+    flippingTime: 700,
     mobileScrollSupport: true,
     swipeDistance: 30
   });
   livro.loadFromHTML(document.querySelectorAll('#livro .revista__pagina'));
+
+  // Virada de página com ease-in-out (o StPageFlip anima em velocidade constante).
+  // Os quadros da animação são reordenados pela curva: começa e termina devagar.
+  (function () {
+    var render = livro.getRender && livro.getRender();
+    if (!render || typeof render.startAnimation !== 'function') return;
+    var original = render.startAnimation.bind(render);
+    function easeInOut(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    render.startAnimation = function (quadros, duracao, aoTerminar) {
+      var n = quadros.length;
+      if (n > 2) {
+        quadros = quadros.map(function (_, i) {
+          return quadros[Math.round(easeInOut(i / (n - 1)) * (n - 1))];
+        });
+      }
+      return original(quadros, duracao, aoTerminar);
+    };
+  })();
 
   // Controles
   var contador = document.getElementById('revista-contador');

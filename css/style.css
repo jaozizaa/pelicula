@@ -316,24 +316,28 @@ img { display: block; max-width: 100%; }
   border: 0;
   background: none;
   cursor: pointer;
-  transition: transform .15s ease;
+  /* taste-skill: sobe 1px no hover (150 ms), afunda 1px e escala .985 no clique (90 ms) */
+  transition: transform 120ms cubic-bezier(.2, .8, .2, 1);
   -webkit-tap-highlight-color: transparent;
 }
 .botao-seculo svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* Troca de estado (contorno ↔ preenchido) com ease-in-out: sai e chega suave */
 .botao-seculo__fundo {
   fill: rgba(1, 50, 202, 0);
   stroke: var(--azul);
-  transition: fill .35s ease;
+  transition: fill .45s cubic-bezier(.65, 0, .35, 1);
 }
 .botao-seculo__texto {
   fill: var(--azul);
-  transition: fill .35s ease;
+  transition: fill .45s cubic-bezier(.65, 0, .35, 1);
 }
 .botao-seculo[aria-pressed="true"] .botao-seculo__fundo { fill: var(--azul); }
 .botao-seculo[aria-pressed="true"] .botao-seculo__texto { fill: var(--creme); }
-.botao-seculo:hover .botao-seculo__fundo { fill: rgba(1, 50, 202, .12); }
-.botao-seculo[aria-pressed="true"]:hover .botao-seculo__fundo { fill: var(--azul); }
-.botao-seculo:active { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) {
+  .botao-seculo:hover { transform: translateY(-1px); transition-duration: 150ms; }
+  .botao-seculo[aria-pressed="false"]:hover .botao-seculo__fundo { fill: rgba(1, 50, 202, .14); transition-duration: 150ms; }
+}
+.botao-seculo:active { transform: translateY(1px) scale(.985); transition-duration: 90ms; }
 .botao-seculo:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 10px; }
 @media (prefers-reduced-motion: reduce) {
   .botao-seculo, .botao-seculo__fundo, .botao-seculo__texto { transition: none; }
@@ -640,6 +644,28 @@ img { display: block; max-width: 100%; }
   .pular { transition: none; }
   .hero__pausa { display: none; } /* com animações reduzidas o slideshow já fica parado */
   .mapa__cinema { transition: none; }
+}
+
+/* Troca de século: título e lista surgem da esquerda para a direita (recorte com ease-in-out) */
+/* Margens negativas no recorte: o acento do "É" (acima da caixa) e os números da lista
+   (fora, à esquerda) também entram na revelação, sem ficarem cortados */
+@keyframes revela-esq {
+  from { clip-path: inset(-40% calc(100% + 2em) -40% -2em); }
+  to   { clip-path: inset(-40% -1em -40% -2em); }
+}
+.mapa__lateral.revela .titulo--seculo,
+.mapa__lateral.revela .mapa__lista li {
+  animation: revela-esq .8s cubic-bezier(.65, 0, .35, 1) both;
+}
+.mapa__lateral.revela .mapa__lista li:nth-child(1) { animation-delay: .12s; }
+.mapa__lateral.revela .mapa__lista li:nth-child(2) { animation-delay: .18s; }
+.mapa__lateral.revela .mapa__lista li:nth-child(3) { animation-delay: .24s; }
+.mapa__lateral.revela .mapa__lista li:nth-child(4) { animation-delay: .30s; }
+.mapa__lateral.revela .mapa__lista li:nth-child(5) { animation-delay: .36s; }
+.mapa__lateral.revela .mapa__lista li:nth-child(6) { animation-delay: .42s; }
+@media (prefers-reduced-motion: reduce) {
+  .mapa__lateral.revela .titulo--seculo,
+  .mapa__lateral.revela .mapa__lista li { animation: none; }
 }
 
 /* ---------- Abertura ----------
