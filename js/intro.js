@@ -89,13 +89,12 @@
     // A faixa azul que sobrou tem a mesma cor e altura do header: some sem corte visível
     intro.style.visibility = 'hidden';
     html.classList.add('intro-header');
-    setTimeout(function () { html.classList.add('intro-legenda'); }, 900);
     setTimeout(function () {
       document.dispatchEvent(new Event('intro-fim'));
       if (window.scrollY !== 0) window.scrollTo(0, 0);
       intro.remove();
-      html.classList.remove('com-intro', 'intro-sobe', 'intro-header', 'intro-legenda');
-    }, 3600);
+      html.classList.remove('com-intro', 'intro-sobe', 'intro-header');
+    }, 1400);
   }
 
   // Pular: vai direto ao final (com a subida do azul, que é rápida)
