@@ -69,22 +69,26 @@
   function subir() {
     if (terminou) return;
     caixa.classList.add('sai');
-    intro.style.height = topo.offsetHeight + 'px';
+    // O azul "sobe": recorta de baixo para cima até sobrar só a altura do header
+    var h = topo.offsetHeight;
+    intro.style.clipPath = 'inset(0 0 calc(100% - ' + h + 'px) 0)';
     intro.classList.add('sobe');
-    depois(1150, revelar);
+    html.classList.add('intro-sobe');
+    depois(1320, revelar);          // o header entra quando o azul termina de subir
   }
 
   function revelar() {
     if (terminou) return;
     terminou = true;
+    // A faixa azul que sobrou tem a mesma cor e altura do header: some sem corte visível
+    intro.style.visibility = 'hidden';
     html.classList.add('intro-header');
-    setTimeout(function () { html.classList.add('intro-foto'); }, 750);
-    setTimeout(function () { html.classList.add('intro-legenda'); }, 1700);
+    setTimeout(function () { html.classList.add('intro-legenda'); }, 900);
     setTimeout(function () {
       document.dispatchEvent(new Event('intro-fim'));
       intro.remove();
-      html.classList.remove('com-intro', 'intro-header', 'intro-foto', 'intro-legenda');
-    }, 2600);
+      html.classList.remove('com-intro', 'intro-sobe', 'intro-header', 'intro-legenda');
+    }, 3600);
   }
 
   // Pular: vai direto ao final (com a subida do azul, que é rápida)

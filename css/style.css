@@ -642,20 +642,25 @@ img { display: block; max-width: 100%; }
 
 /* ---------- Abertura ----------
    Fundo azul com o texto datilografado (como em 197historiasilustradas.com). No fim, o azul sobe
-   até a altura do header; aí entram logo e links (da esquerda para a direita), a foto e o subtítulo. */
+   (recorte com clip-path) e descobre a foto, que já está carregada por baixo; entram logo e links
+   (da esquerda para a direita) e o subtítulo: primeiro a faixa vem da direita, depois o texto.
+   Curvas da taste-skill: --io para deslocamentos (sai e chega suave), --entra para assentar. */
+:root {
+  --io: cubic-bezier(.65, 0, .35, 1);
+  --entra: cubic-bezier(.22, 1, .36, 1);
+}
 .intro { display: none; }
 html.com-intro { overflow: hidden; }
 html.com-intro .intro {
   position: fixed;
-  inset: 0 0 auto 0;
+  inset: 0;
   z-index: 50;
-  height: 100vh;
-  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--azul);
-  transition: height 1.1s cubic-bezier(.7, 0, .2, 1);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.3s var(--io);
 }
 .intro__texto {
   max-width: min(36em, 86vw);
@@ -667,7 +672,7 @@ html.com-intro .intro {
   letter-spacing: -0.01em;
   text-align: center;
   color: var(--branco);
-  transition: opacity .6s ease;
+  transition: opacity .6s var(--io);
 }
 .intro__texto span { opacity: 0; }
 .intro__texto span.on { opacity: 1; }
@@ -690,26 +695,32 @@ html.com-intro .intro {
 .intro__pular:hover { color: var(--branco); }
 html.com-intro .intro.sobe .intro__pular { opacity: 0; pointer-events: none; }
 
-/* O que entra depois da abertura começa escondido */
+/* Estado inicial (escondido atrás do azul) */
 html.com-intro .topo__logo,
-html.com-intro .topo__nav li { opacity: 0; transform: translateX(-14px); }
-html.com-intro .hero__slide.is-active,
-html.com-intro .hero__pausa { opacity: 0; }
-html.com-intro .hero__legenda { opacity: 0; transform: translateX(40px); }
+html.com-intro .topo__nav li { opacity: 0; transform: translateX(-16px); }
 html.com-intro .hero[data-enter] .hero__slide.is-active { animation: none; }
+html.com-intro .hero__slide.is-active { transform: scale(1.06); }
+html.com-intro .hero__pausa { opacity: 0; }
+html.com-intro .hero__legenda { transform: translateX(100%); }
+html.com-intro .hero__legenda span { clip-path: inset(0 100% 0 0); }
 
-.topo__logo, .topo__nav li, .hero__legenda {
-  transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1);
-}
+.topo__logo, .topo__nav li { transition: opacity .7s var(--entra), transform .9s var(--entra); }
+.hero__legenda { transition: transform 1.1s var(--io); }
+.hero__legenda span { display: block; transition: clip-path 1s var(--io); }
+
+/* 1. o azul sobe: a foto assenta (escala 1,06 → 1) enquanto aparece */
+html.intro-sobe .hero__slide.is-active { transform: none; transition: transform 1.8s var(--entra), opacity 1.4s ease-in-out; }
+/* 2. header, da esquerda para a direita */
 html.intro-header .topo__logo,
 html.intro-header .topo__nav li { opacity: 1; transform: none; }
-html.intro-header .topo__nav li:nth-child(1) { transition-delay: .12s; }
-html.intro-header .topo__nav li:nth-child(2) { transition-delay: .24s; }
-html.intro-header .topo__nav li:nth-child(3) { transition-delay: .36s; }
-html.intro-header .topo__nav li:nth-child(4) { transition-delay: .48s; }
-html.intro-foto .hero__slide.is-active { opacity: 1; transition: opacity 1.2s ease; }
-html.intro-foto .hero__pausa { opacity: .75; }
-html.intro-legenda .hero__legenda { opacity: 1; transform: none; }
+html.intro-header .topo__nav li:nth-child(1) { transition-delay: .1s; }
+html.intro-header .topo__nav li:nth-child(2) { transition-delay: .2s; }
+html.intro-header .topo__nav li:nth-child(3) { transition-delay: .3s; }
+html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
+/* 3. a faixa do subtítulo entra da direita; depois o texto se revela da esquerda para a direita */
+html.intro-legenda .hero__legenda { transform: none; }
+html.intro-legenda .hero__legenda span { clip-path: inset(0 0 0 0); transition-delay: .75s; }
+html.intro-legenda .hero__pausa { opacity: .75; transition: opacity .6s ease .9s; }
 
 /* ---------- Celular ----------
    Abaixo de 800 px o layout passa a empilhar os blocos. */
