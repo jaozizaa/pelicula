@@ -24,12 +24,19 @@
     attributionControl: true,
     // Rolagem da página não vira zoom: no computador, Ctrl/⌘ + rolagem; no celular, dois dedos
     cooperativeGestures: true,
+    // Somente 2D: sem inclinação (Ctrl + arrastar) e sem rotação
+    pitchWithRotate: false,
+    dragRotate: false,
+    maxPitch: 0,
+    pitch: 0,
     locale: {
       'CooperativeGesturesHandler.WindowsHelpText': 'Use Ctrl + rolagem para dar zoom no mapa',
       'CooperativeGesturesHandler.MacHelpText': 'Use ⌘ + rolagem para dar zoom no mapa',
       'CooperativeGesturesHandler.MobileHelpText': 'Use dois dedos para mover o mapa'
     }
   });
+  map.touchZoomRotate.disableRotation();
+  if (map.touchPitch) map.touchPitch.disable();
 
   // Botões de zoom (+ / -) minimalistas no canto inferior direito
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
