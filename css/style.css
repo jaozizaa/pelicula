@@ -359,6 +359,15 @@ img { display: block; max-width: 100%; }
   width: min(calc(1240 * var(--u)), calc((653 - 70) * var(--u) * 2.2));
 }
 #livro { margin: 0 auto; }
+/* Borda e sombra da revista: as páginas brancas somem no fundo branco sem isso.
+   drop-shadow acompanha o formato real das páginas (só a capa, a página dupla, a página virando).
+   1ª camada = fio de borda (~1 px); 2ª e 3ª = sombra curta + difusa, discreta como papel sobre a mesa. */
+#livro .stf__block {
+  filter:
+    drop-shadow(0 0 .6px rgb(0 0 0 / .45))
+    drop-shadow(0 1px 2px rgb(0 0 0 / .12))
+    drop-shadow(0 8px 18px rgb(0 0 0 / .16));
+}
 .revista__pagina { background: #fff; overflow: hidden; }
 .revista__pagina img {
   width: 100%;
