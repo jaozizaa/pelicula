@@ -31,12 +31,15 @@
     cortina.style.left = '0px';
     cortina.style.width = base.width + 'px';
     cortina.style.height = (l.bottom - base.top + 16) + 'px';
-    // Como a entrada do header: a cortina abre devagar (ease-in-out, 1,2 s) e, junto, o texto
-    // desliza 16 px da esquerda enquanto aparece (curva de entrada da taste-skill: final longo e suave)
+    // Só a cortina se move: o texto fica parado e nítido (animar o texto o deixava borrado
+    // até o fim da animação). Ease-in-out com arranque curto (.4,0,.2,1): começa logo,
+    // desacelera devagar no fim. 1,6 s.
     if (animacao) animacao.forEach(function (an) { an.cancel(); });
-    var entrada = [
-      { opacity: 0, transform: 'translateX(-16px)' },
-      { opacity: 1, transform: 'none' }
+    animacao = [
+      cortina.animate(
+        [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
+        { duration: 1600, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'forwards' }
+      )
     ];
     var opcoesTexto = { duration: 1100, delay: 120, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' };
     animacao = [
