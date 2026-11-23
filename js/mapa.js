@@ -48,18 +48,6 @@
   map.once('load', () => enquadrarCinemas(false));
 
 
-  // Século XX = estrela, século XXI = círculo (mesmos 6 cinemas nos dois)
-  function iconeDoSeculo(seculo) {
-    const prefixo = seculo === 'xxi' ? 'cinema-' : 'estrela-';
-    return ['concat', prefixo, ['to-string', ['get', 'id']]];
-  }
-
-  document.addEventListener('seculo', (e) => {
-    if (map.getLayer('camada-cinemas')) {
-      map.setLayoutProperty('camada-cinemas', 'icon-image', iconeDoSeculo(e.detail));
-    }
-  });
-
   // Cria os ícones, a camada e o popup dos cinemas
   async function adicionarCinemas() {
     if (!window.CINEMAS || !window.criarIconeCinema) return;
@@ -70,8 +58,6 @@
     window.CINEMAS.forEach((cinema) => {
       const nome = 'cinema-' + cinema.id;
       if (!map.hasImage(nome)) map.addImage(nome, window.criarIconeCinema(cinema.id, 160));
-      const estrela = 'estrela-' + cinema.id;
-      if (!map.hasImage(estrela)) map.addImage(estrela, window.criarIconeEstrela(cinema.id, 160));
     });
 
     map.addSource('cinemas', {
@@ -86,16 +72,17 @@
       }
     });
 
-    // O ícone cresce e diminui conforme o zoom (ajuste os valores à vontade)
+    // O ícone cresce e diminui conforme o zoom (ajuste os valores à vontade).
+    // Em zoom 15 (abertura do mapa) ele mantém o tamanho original; ao afastar, diminui bem mais.
     map.addLayer({
       id: 'camada-cinemas',
       type: 'symbol',
       source: 'cinemas',
       layout: {
-        'icon-image': iconeDoSeculo(window.SECULO_ATUAL),
+        'icon-image': ['concat', 'cinema-', ['to-string', ['get', 'id']]],
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.2, 13.5, 0.28, 14.5, 0.33, 16, 0.4, 18, 0.5]
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.07, 12.5, 0.11, 13.5, 0.18, 14.5, 0.29, 15, 0.355, 16, 0.4, 18, 0.5]
       }
     });
 
