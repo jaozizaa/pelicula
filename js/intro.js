@@ -11,7 +11,7 @@
 
   var TEXTOS = [
     'No século XX, a capital mineira Belo Horizonte contava com mais de 100 salas de cinema de rua. ' +
-    'Todos os bairros da cidade tinham um lugar para que os moradores pudessem assistir filmes e ' +
+    'Diversos bairros da cidade tinham um lugar para que os moradores pudessem assistir filmes e ' +
     'aproveitar os finais de semana.',
     'Hoje restam 6.'
   ];
