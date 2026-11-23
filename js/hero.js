@@ -10,11 +10,15 @@
   var timer = null;
 
   function mostrar(i) {
-    slides[atual].classList.remove('is-active');
-    slides[atual].setAttribute('aria-hidden', 'true');
+    var anterior = slides[atual];
+    slides.forEach(function (sl) { sl.classList.remove('is-saindo'); });
+    anterior.classList.remove('is-active');
+    anterior.classList.add('is-saindo');          // continua visível por baixo
+    anterior.setAttribute('aria-hidden', 'true');
     atual = i;
-    slides[atual].classList.add('is-active');
+    slides[atual].classList.add('is-active');     // a nova aparece por cima
     slides[atual].removeAttribute('aria-hidden');
+    setTimeout(function () { anterior.classList.remove('is-saindo'); }, 1500);
   }
 
   function proximo() { mostrar((atual + 1) % slides.length); }

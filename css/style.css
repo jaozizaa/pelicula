@@ -68,7 +68,13 @@
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Reserva o espaço da barra de rolagem: quando a abertura libera a rolagem, a página não
+     muda de largura (antes isso redimensionava tudo e a foto "pulava") */
+  scrollbar-gutter: stable;
+  background: var(--azul);
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 a, button { touch-action: manipulation; }
 /* Conteúdo só para leitores de tela */
@@ -164,7 +170,9 @@ img { display: block; max-width: 100%; }
 .hero__slide:first-child { object-position: center top; }
 .hero__slide--teatro { object-position: center 30%; }
 .hero__slide--metropole { object-position: center 40%; }
-.hero__slide.is-active { opacity: 1; }
+.hero__slide.is-active { opacity: 1; z-index: 1; transition: opacity 1.4s cubic-bezier(.65, 0, .35, 1); }
+/* A foto que sai fica inteira por baixo até a nova terminar de aparecer: a troca nunca mostra o fundo azul */
+.hero__slide.is-saindo { opacity: 1; z-index: 0; transition: none; }
 /* Faixa azul com o subtítulo (sai pela borda direita, como no Figma) */
 .hero__legenda {
   position: absolute;
@@ -628,14 +636,7 @@ img { display: block; max-width: 100%; }
 .hero__pausa[aria-pressed="true"] .icone-pausa { display: none; }
 .hero__pausa[aria-pressed="true"] .icone-tocar { display: block; }
 
-/* Entrada suave do hero ao carregar */
-@keyframes hero-entra {
-  from { opacity: 0; transform: scale(1.04); }
-  to   { opacity: 1; transform: none; }
-}
-.hero[data-enter] .hero__slide.is-active { animation: hero-entra 1.4s cubic-bezier(.2, .7, .2, 1) both; }
 @media (prefers-reduced-motion: reduce) {
-  .hero[data-enter] .hero__slide.is-active { animation: none; }
   .pular { transition: none; }
   .hero__pausa { display: none; } /* com animações reduzidas o slideshow já fica parado */
   .mapa__cinema { transition: none; }
@@ -699,7 +700,6 @@ html.com-intro .intro.sobe .intro__pular { opacity: 0; pointer-events: none; }
 /* Estado inicial (escondido atrás do azul) */
 html.com-intro .topo__logo,
 html.com-intro .topo__nav li { opacity: 0; transform: translateX(-16px); }
-html.com-intro .hero[data-enter] .hero__slide.is-active { animation: none; }
 html.com-intro .hero__pausa { opacity: 0; }
 html.com-intro .hero__legenda { transform: translateX(100%); }
 html.com-intro .hero__legenda span { clip-path: inset(0 100% 0 0); }
