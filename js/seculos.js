@@ -41,15 +41,6 @@
         { duration: 1600, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'forwards' }
       )
     ];
-    var opcoesTexto = { duration: 1100, delay: 120, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' };
-    animacao = [
-      cortina.animate(
-        [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
-        { duration: 1200, easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'forwards' }
-      ),
-      titulo.animate(entrada, opcoesTexto),
-      lista.animate(entrada, opcoesTexto)
-    ];
   }
 
   function definir(seculo) {
