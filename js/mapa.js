@@ -62,9 +62,12 @@
   // Os dois conjuntos de cinemas: séc. XXI (js/cinemas.js, azul) e séc. XX (js/cinemas-xx.js, amarelo)
   const CONJUNTOS = {
     xxi: { dados: () => window.CINEMAS || [], camada: 'camada-cinemas', fonte: 'cinemas', prefixo: 'cinema-',
-           cores: null },
+           cores: null,
+           tamanho: ['interpolate', ['linear'], ['zoom'], 11.5, 0.45, 13, 0.385, 14.25, 0.32, 16, 0.22, 18, 0.155] },
     xx:  { dados: () => window.CINEMAS_XX || [], camada: 'camada-cinemas-xx', fonte: 'cinemas-xx', prefixo: 'cinema-xx-',
-           cores: { fundo: '#FEB801', anel: '#FFFFFF', numero: '#0132CA' } }
+           cores: { fundo: '#FEB801', anel: '#FFFFFF', numero: '#0132CA' },
+           // 86 cinemas: ícones menores e com variação mais suave, para não virarem um bolo no centro
+           tamanho: ['interpolate', ['linear'], ['zoom'], 11.5, 0.2, 13, 0.21, 14.25, 0.22, 16, 0.2, 18, 0.18] }
   };
   let seculo = window.SECULO_ATUAL || 'xxi';
   const popup = new maplibregl.Popup({ closeButton: false, offset: 18, maxWidth: '260px' });
@@ -160,7 +163,7 @@
           'icon-ignore-placement': true,
           // ícone de número menor por cima (ordem de desenho segue o id)
           'symbol-sort-key': ['-', 0, ['get', 'id']],
-          'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.45, 13, 0.385, 14.25, 0.32, 16, 0.22, 18, 0.155]
+          'icon-size': conj.tamanho
         }
       });
       map.on('click', conj.camada, (e) => {

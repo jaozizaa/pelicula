@@ -430,6 +430,8 @@ img { display: block; max-width: 100%; }
 }
 .mapa[data-seculo="xx"] .mapa__lista li,
 .mapa[data-seculo="xx"] .mapa__lista li:first-child { line-height: 1.2; }
+/* nome longo quebra em duas linhas com o número alinhado à primeira */
+.mapa[data-seculo="xx"] .mapa__cinema { display: inline; }
 .mapa[data-seculo="xx"] .mapa__lista::-webkit-scrollbar { width: 4px; }
 .mapa[data-seculo="xx"] .mapa__lista::-webkit-scrollbar-thumb { background: var(--azul); border-radius: 2px; }
 .maplibregl-popup-anchor-top .maplibregl-popup-tip,
