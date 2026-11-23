@@ -427,6 +427,8 @@ img { display: block; max-width: 100%; }
 }
 .autores__coluna a:hover,
 .autores__coluna a:focus-visible { color: var(--creme); text-decoration: underline; text-underline-offset: .2em; }
+.autores__copy a { color: inherit; text-decoration: none; }
+.autores__copy a:hover, .autores__copy a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
 .autores__logo {
   position: absolute;
   left: calc(99 * var(--u));
