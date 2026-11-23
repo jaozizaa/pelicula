@@ -2,6 +2,11 @@
 @font-face {
   font-family: "Organda MN";
   src: url("../fonts/OrgandaMN-Regular.ttf") format("truetype");
+  /* Fixa as métricas verticais (iguais às do arquivo) para o texto ficar no mesmo lugar em
+     qualquer navegador/sistema. Sem isso, Windows/Firefox/Safari usam outras medidas. */
+  ascent-override: 69.92%;
+  descent-override: 23%;
+  line-gap-override: 0%;
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -9,6 +14,11 @@
 @font-face {
   font-family: "Organda MN";
   src: url("../fonts/OrgandaMN-Bold.ttf") format("truetype");
+  /* Fixa as métricas verticais (iguais às do arquivo) para o texto ficar no mesmo lugar em
+     qualquer navegador/sistema. Sem isso, Windows/Firefox/Safari usam outras medidas. */
+  ascent-override: 69.92%;
+  descent-override: 24.85%;
+  line-gap-override: 0%;
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -126,10 +136,12 @@ img { display: block; max-width: 100%; }
   top: calc(93.26 * var(--u));
   height: calc(61.647 * var(--u));
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: calc(38.293 * var(--u));
 }
+.sobre__cabecalho .titulo { margin-top: calc(0.977 * var(--u)); }
 .sobre__cabecalho .estrela {
+  margin-top: calc(7.644 * var(--u));
   width: calc(44.09 * var(--u));
   height: calc(46.359 * var(--u));
 }
