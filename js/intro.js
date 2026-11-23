@@ -5,6 +5,9 @@
   var intro = document.getElementById('intro');
   if (!intro) return;
   if (!html.classList.contains('com-intro')) { intro.remove(); return; }
+  // A foto do hero fica parada durante e depois da abertura: sem a animação de entrada própria do hero
+  var hero = document.querySelector('.hero[data-enter]');
+  if (hero) hero.removeAttribute('data-enter');
 
   var TEXTOS = [
     'No século XX, a capital mineira Belo Horizonte contava com mais de 100 salas de cinema de rua. ' +
