@@ -1,5 +1,5 @@
-// Botões SÉC. XX / SÉC. XXI: o clicado fica preenchido em azul, o outro só com contorno,
-// e o título da lateral acompanha. Por enquanto os dois séculos mostram os mesmos 6 cinemas.
+// Botões SÉC. XX / SÉC. XXI: o clicado fica preenchido em azul, o outro só com contorno;
+// o título e a lista da lateral mudam para os cinemas da época (js/cinemas.js e js/cinemas-xx.js).
 (function () {
   var secao = document.getElementById('mapa');
   if (!secao) return;
@@ -43,9 +43,30 @@
     ];
   }
 
+  // Monta a lista de cinemas da época (nomes curtos no séc. XXI, como no Figma)
+  var NOMES_XXI = { 1: 'Theatro Brasil', 2: 'Humberto Mauro', 3: 'Belas Artes', 4: 'Minas Tênis', 5: 'Graciano', 6: 'Santa Tereza' };
+  function montarLista(seculo) {
+    if (!lista) return;
+    var dados = seculo === 'xx' ? (window.CINEMAS_XX || []) : (window.CINEMAS || []);
+    lista.textContent = '';
+    dados.forEach(function (c) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'mapa__cinema';
+      b.dataset.cinema = c.id;
+      b.textContent = seculo === 'xx' ? c.nome : (NOMES_XXI[c.id] || c.nome);
+      li.appendChild(b);
+      lista.appendChild(li);
+    });
+    lista.scrollTop = 0;
+    lista.setAttribute('aria-label', (seculo === 'xx' ? 'Cinemas do século XX' : 'Cinemas do século XXI') + ' — clique para ver no mapa');
+  }
+
   function definir(seculo) {
     if (secao.getAttribute('data-seculo') === seculo) return;
     secao.setAttribute('data-seculo', seculo);
+    montarLista(seculo);
     revelarTexto();
     if (titulo) titulo.textContent = ROTULOS[seculo];
     botoes.forEach(function (b) {

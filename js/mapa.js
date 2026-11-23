@@ -59,90 +59,141 @@
   });
 
 
-  // Cria os ícones, a camada e o popup dos cinemas
-  async function adicionarCinemas() {
-    if (!window.CINEMAS || !window.criarIconeCinema) return;
+  // Os dois conjuntos de cinemas: séc. XXI (js/cinemas.js, azul) e séc. XX (js/cinemas-xx.js, amarelo)
+  const CONJUNTOS = {
+    xxi: { dados: () => window.CINEMAS || [], camada: 'camada-cinemas', fonte: 'cinemas', prefixo: 'cinema-',
+           cores: null },
+    xx:  { dados: () => window.CINEMAS_XX || [], camada: 'camada-cinemas-xx', fonte: 'cinemas-xx', prefixo: 'cinema-xx-',
+           cores: { fundo: '#FEB801', anel: '#FFFFFF', numero: '#0132CA' } }
+  };
+  let seculo = window.SECULO_ATUAL || 'xxi';
+  const popup = new maplibregl.Popup({ closeButton: false, offset: 18, maxWidth: '260px' });
+  const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Aviso pequeno no canto do mapa (só no séc. XX)
+  const aviso = document.createElement('p');
+  aviso.className = 'mapa__aviso';
+  aviso.textContent = 'Algumas localizações do séc. XX são aproximadas: o livro "O Fim das Coisas" (PBH, 1995) cita só a rua ou o bairro.';
+  map.getContainer().appendChild(aviso);
+
+  function abrirBalao(c) {
+    const el = document.createElement('div');
+    const titulo = document.createElement('strong');
+    titulo.textContent = c.id + '. ' + c.nome;
+    const end = document.createElement('span');
+    end.textContent = c.endereco;
+    el.append(titulo, end);
+    if (c.ano) {
+      const ano = document.createElement('span');
+      ano.className = 'mapa__balao-ano';
+      ano.textContent = 'Inaugurado em ' + c.ano;
+      el.append(ano);
+    }
+    if (c.aproximado) {
+      const ap = document.createElement('em');
+      ap.textContent = 'Localização aproximada';
+      el.append(ap);
+    }
+    popup.setLngLat(c.coords).setDOMContent(el).addTo(map);
+    marcarNaLista(c.id);
+  }
+
+  function marcarNaLista(id) {
+    document.querySelectorAll('.mapa__cinema').forEach((b) => {
+      if (id !== null && String(b.dataset.cinema) === String(id)) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+  }
+  popup.on('close', () => marcarNaLista(null));
+
+  function irPara(c) {
+    const destino = { center: c.coords, zoom: Math.max(map.getZoom(), 15.5) };
+    let aberto = false;
+    const abrir = () => { if (!aberto) { aberto = true; abrirBalao(c); } };
+    map.once('moveend', abrir);
+    setTimeout(abrir, reduzir ? 50 : 1400); // garante o balão mesmo se o mapa já estiver no lugar
+    if (reduzir) map.jumpTo(destino); else map.flyTo(Object.assign({ duration: 1200, essential: true }, destino));
+  }
+
+  // Lista lateral (montada por js/seculos.js): clique leva o mapa até o cinema e abre o balão
+  document.querySelector('.mapa__lista').addEventListener('click', (e) => {
+    const b = e.target.closest('.mapa__cinema');
+    if (!b) return;
+    const c = CONJUNTOS[seculo].dados().find((x) => String(x.id) === b.dataset.cinema);
+    if (c) irPara(c);
+  });
+
+  async function adicionarCinemas() {
+    if (!window.criarIconeCinema) return;
     // Garante que a Helvetica Bold esteja carregada antes de desenhar os números
     try { await document.fonts.load('700 80px "Helvetica Local"'); } catch (e) {}
 
-    window.CINEMAS.forEach((cinema) => {
-      const nome = 'cinema-' + cinema.id;
-      if (!map.hasImage(nome)) map.addImage(nome, window.criarIconeCinema(cinema.id, 160));
-    });
-
-    map.addSource('cinemas', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: window.CINEMAS.map((c) => ({
-          type: 'Feature',
-          properties: { id: c.id, nome: c.nome, endereco: c.endereco },
-          geometry: { type: 'Point', coordinates: c.coords }
-        }))
-      }
-    });
-
-    // Tamanho do ícone conforme o zoom: maior com o mapa afastado, menor com o mapa detalhado.
-    // Em ~14.25 (abertura do mapa) fica no tamanho original.
-    map.addLayer({
-      id: 'camada-cinemas',
-      type: 'symbol',
-      source: 'cinemas',
-      layout: {
-        'icon-image': ['concat', 'cinema-', ['to-string', ['get', 'id']]],
-        'icon-allow-overlap': true,
-        'icon-ignore-placement': true,
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.45, 13, 0.385, 14.25, 0.32, 16, 0.22, 18, 0.155]
-      }
-    });
-
-    // Clique: abre um balão com o nome e o endereço
-    const popup = new maplibregl.Popup({ closeButton: false, offset: 18, maxWidth: '240px' });
-
-    function abrirBalao(id, nome, endereco, coords) {
-      const el = document.createElement('div');
-      const titulo = document.createElement('strong');
-      titulo.textContent = id + '. ' + nome;
-      const end = document.createElement('span');
-      end.textContent = endereco;
-      el.append(titulo, end);
-      popup.setLngLat(coords).setDOMContent(el).addTo(map);
-      marcarNaLista(id);
-    }
-
-    map.on('click', 'camada-cinemas', (e) => {
-      const f = e.features[0];
-      abrirBalao(f.properties.id, f.properties.nome, f.properties.endereco, f.geometry.coordinates.slice());
-    });
-
-    // Lista lateral: cada nome leva o mapa até o cinema e abre o balão (funciona também pelo teclado)
-    const botoesLista = document.querySelectorAll('.mapa__cinema');
-    function marcarNaLista(id) {
-      botoesLista.forEach((b) => {
-        if (String(b.dataset.cinema) === String(id)) b.setAttribute('aria-current', 'true');
-        else b.removeAttribute('aria-current');
+    Object.keys(CONJUNTOS).forEach((chave) => {
+      const conj = CONJUNTOS[chave];
+      const lista = conj.dados();
+      lista.forEach((c) => {
+        const nome = conj.prefixo + c.id;
+        if (!map.hasImage(nome)) map.addImage(nome, window.criarIconeCinema(c.id, 160, conj.cores));
       });
-    }
-    popup.on('close', () => marcarNaLista(null));
-
-    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    botoesLista.forEach((b) => {
-      b.addEventListener('click', () => {
-        const c = window.CINEMAS.find((x) => String(x.id) === b.dataset.cinema);
-        if (!c) return;
-        const destino = { center: c.coords, zoom: Math.max(map.getZoom(), 15.5) };
-        let aberto = false;
-        const abrir = () => { if (!aberto) { aberto = true; abrirBalao(c.id, c.nome, c.endereco, c.coords); } };
-        map.once('moveend', abrir);
-        setTimeout(abrir, reduzir ? 50 : 1400); // garante o balão mesmo se o mapa já estiver no lugar
-        if (reduzir) map.jumpTo(destino); else map.flyTo(Object.assign({ duration: 1200, essential: true }, destino));
+      if (map.getSource(conj.fonte)) return;
+      map.addSource(conj.fonte, {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: lista.map((c) => ({
+            type: 'Feature',
+            properties: { id: c.id },
+            geometry: { type: 'Point', coordinates: c.coords }
+          }))
+        }
       });
+      // Tamanho do ícone conforme o zoom: maior com o mapa afastado, menor com o mapa detalhado.
+      // Em ~14.25 (abertura do mapa) fica no tamanho original.
+      map.addLayer({
+        id: conj.camada,
+        type: 'symbol',
+        source: conj.fonte,
+        layout: {
+          visibility: chave === seculo ? 'visible' : 'none',
+          'icon-image': ['concat', conj.prefixo, ['to-string', ['get', 'id']]],
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
+          // ícone de número menor por cima (ordem de desenho segue o id)
+          'symbol-sort-key': ['-', 0, ['get', 'id']],
+          'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.45, 13, 0.385, 14.25, 0.32, 16, 0.22, 18, 0.155]
+        }
+      });
+      map.on('click', conj.camada, (e) => {
+        const id = e.features[0].properties.id;
+        const c = conj.dados().find((x) => x.id === id);
+        if (c) abrirBalao(c);
+      });
+      map.on('mouseenter', conj.camada, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', conj.camada, () => { map.getCanvas().style.cursor = ''; });
     });
-
-    map.on('mouseenter', 'camada-cinemas', () => { map.getCanvas().style.cursor = 'pointer'; });
-    map.on('mouseleave', 'camada-cinemas', () => { map.getCanvas().style.cursor = ''; });
+    aplicarSeculo(seculo, false);
   }
+
+  // Troca de século: mostra só a camada da época e enquadra os cinemas dela
+  function aplicarSeculo(novo, animar) {
+    seculo = novo;
+    popup.remove();
+    aviso.classList.toggle('is-visivel', novo === 'xx');
+    Object.keys(CONJUNTOS).forEach((chave) => {
+      const camada = CONJUNTOS[chave].camada;
+      if (map.getLayer(camada)) map.setLayoutProperty(camada, 'visibility', chave === novo ? 'visible' : 'none');
+    });
+    if (animar === false) return;
+    const opcoes = { padding: 40, duration: reduzir ? 0 : 1400, essential: true };
+    if (novo === 'xxi') {
+      map.fitBounds(VISTA_INICIAL, Object.assign({}, opcoes, { padding: 0 }));
+    } else {
+      const b = new maplibregl.LngLatBounds();
+      CONJUNTOS.xx.dados().forEach((c) => b.extend(c.coords));
+      map.fitBounds(b, opcoes);
+    }
+  }
+  document.addEventListener('seculo', (e) => aplicarSeculo(e.detail, true));
 
   map.on('style.load', () => {
     const layers = map.getStyle().layers;

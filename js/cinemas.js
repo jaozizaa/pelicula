@@ -44,10 +44,12 @@ window.CINEMAS = [
 // Desenha o ícone: círculo azul, anel branco, miolo azul e número em Helvetica Bold.
 // Proporções medidas a partir do ícone do Figma (78 px): raios 1 / 0,795 / 0,692
 // e número com altura de ~35% do diâmetro.
-window.criarIconeCinema = function (numero, diametro) {
+// cores (opcional): { fundo, anel, numero }. Séc. XXI = azul; séc. XX = amarelo com número azul.
+window.criarIconeCinema = function (numero, diametro, cores) {
   var D = diametro || 160;
-  var AZUL = '#0132CA';
-  var BRANCO = '#FFFFFF';
+  var AZUL = (cores && cores.fundo) || '#0132CA';
+  var BRANCO = (cores && cores.anel) || '#FFFFFF';
+  var COR_NUMERO = (cores && cores.numero) || BRANCO;
   var canvas = document.createElement('canvas');
   canvas.width = D;
   canvas.height = D;
@@ -66,10 +68,10 @@ window.criarIconeCinema = function (numero, diametro) {
   disco(c * 0.692, AZUL);    // miolo azul
 
   // Número em Helvetica Bold, centralizado pelo contorno real do glifo
-  ctx.fillStyle = BRANCO;
+  ctx.fillStyle = COR_NUMERO;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
-  ctx.font = '700 ' + Math.round(D * 0.5) + 'px "Helvetica Local", Arial, sans-serif';
+  ctx.font = '700 ' + Math.round(D * (String(numero).length > 1 ? 0.4 : 0.5)) + 'px "Helvetica Local", Arial, sans-serif';
   var texto = String(numero);
   var m = ctx.measureText(texto);
   var altura = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;

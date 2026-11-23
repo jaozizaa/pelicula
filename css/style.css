@@ -389,6 +389,49 @@ img { display: block; max-width: 100%; }
   line-height: 1.35;
 }
 .maplibregl-popup-content strong { display: block; font-weight: 700; }
+.maplibregl-popup-content span { display: block; }
+.maplibregl-popup-content .mapa__balao-ano { margin-top: 2px; font-size: 12px; color: #6b6a6a; }
+.maplibregl-popup-content em { display: block; margin-top: 4px; font-size: 11px; font-style: italic; color: #6b6a6a; }
+
+/* Aviso das localizações aproximadas (séc. XX): bem pequeno, no canto inferior esquerdo do mapa */
+.mapa__aviso {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  max-width: min(340px, calc(100% - 120px));
+  margin: 0;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, .85);
+  color: #434242;
+  font-family: var(--fonte-texto);
+  font-size: 10px;
+  line-height: 1.35;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .6s cubic-bezier(.4, 0, .2, 1);
+}
+.mapa__aviso.is-visivel { opacity: 1; }
+
+/* Séc. XX: muitos cinemas. A lista ocupa a mesma área da do séc. XXI e rola por dentro,
+   assim os botões de século não mudam de lugar */
+.mapa[data-seculo="xx"] .mapa__lista {
+  height: calc(268 * var(--u));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: calc(16 * var(--u));
+  margin-right: calc(24 * var(--u));
+  scrollbar-width: thin;
+  scrollbar-color: var(--azul) transparent;
+  gap: calc(18 * var(--u));
+  /* esmaece em baixo para indicar que há mais */
+  -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent);
+          mask-image: linear-gradient(to bottom, #000 85%, transparent);
+}
+.mapa[data-seculo="xx"] .mapa__lista li,
+.mapa[data-seculo="xx"] .mapa__lista li:first-child { line-height: 1.2; }
+.mapa[data-seculo="xx"] .mapa__lista::-webkit-scrollbar { width: 4px; }
+.mapa[data-seculo="xx"] .mapa__lista::-webkit-scrollbar-thumb { background: var(--azul); border-radius: 2px; }
 .maplibregl-popup-anchor-top .maplibregl-popup-tip,
 .maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
 .maplibregl-popup-anchor-top-right .maplibregl-popup-tip { border-bottom-color: #434242; }
@@ -764,6 +807,7 @@ html.intro-legenda .hero__pausa { opacity: .75; transition: opacity .6s ease .9s
   .titulo--seculo { height: auto; letter-spacing: -2.4px; }
   .mapa__lista { font-size: 17px; gap: 24px; padding-left: 24px; }
   .mapa__lista li, .mapa__lista li:first-child { line-height: 1.1; }
+  .mapa[data-seculo="xx"] .mapa__lista { height: 300px; gap: 0; margin-right: 0; }
   .mapa__cinema { min-height: 44px; }
   .mapa__lista { gap: 0; }
   .mapa__seculos { flex-direction: row; gap: 16px; }
