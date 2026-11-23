@@ -126,6 +126,30 @@
     if (c) irPara(c);
   });
 
+  // Tamanho dos ícones proporcional ao tamanho do mapa na tela.
+  // Referência: o mapa em tela cheia no computador (~1190 px de largura), onde os tamanhos foram
+  // aprovados. Num mapa menor (janela estreita, celular) o enquadramento inicial fica com menos zoom;
+  // aqui a curva é deslocada por essa diferença e os ícones encolhem na mesma proporção do mapa,
+  // para a relação ícone/mapa ser a mesma da referência.
+  const LARGURA_REF = 1190;
+  function tamanhoProporcional(base) {
+    const w = map.getContainer().clientWidth || LARGURA_REF;
+    const fator = Math.min(1, Math.max(0.45, w / LARGURA_REF)); // não deixa sumir no celular
+    const desloc = Math.log2(LARGURA_REF / Math.max(w, 1));
+    const novo = base.slice(0, 3);
+    for (let k = 3; k < base.length; k += 2) {
+      novo.push(base[k] - desloc, +Math.max(0.11, base[k + 1] * fator).toFixed(4)); // mínimo ~18 px para tocar
+    }
+    return novo;
+  }
+  function atualizarTamanhos() {
+    Object.keys(CONJUNTOS).forEach((chave) => {
+      const conj = CONJUNTOS[chave];
+      if (map.getLayer(conj.camada)) map.setLayoutProperty(conj.camada, 'icon-size', tamanhoProporcional(conj.tamanho));
+    });
+  }
+  map.on('resize', atualizarTamanhos);
+
   async function adicionarCinemas() {
     if (!window.criarIconeCinema) return;
     // Garante que a Helvetica Bold esteja carregada antes de desenhar os números
@@ -163,7 +187,7 @@
           'icon-ignore-placement': true,
           // ícone de número menor por cima (ordem de desenho segue o id)
           'symbol-sort-key': ['-', 0, ['get', 'id']],
-          'icon-size': conj.tamanho
+          'icon-size': tamanhoProporcional(conj.tamanho)
         }
       });
       map.on('click', conj.camada, (e) => {
