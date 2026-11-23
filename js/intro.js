@@ -91,7 +91,6 @@
     html.classList.add('intro-header');
     setTimeout(function () {
       document.dispatchEvent(new Event('intro-fim'));
-      if (window.scrollY !== 0) window.scrollTo(0, 0);
       intro.remove();
       html.classList.remove('com-intro', 'intro-sobe', 'intro-header');
     }, 1400);

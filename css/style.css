@@ -712,7 +712,7 @@ img { display: block; max-width: 100%; }
   --entra: cubic-bezier(.22, 1, .36, 1);
 }
 .intro { display: none; }
-html.com-intro { overflow: hidden; }
+html.com-intro:not(.intro-header) { overflow: hidden; }
 html.com-intro .intro {
   position: fixed;
   inset: 0;
