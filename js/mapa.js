@@ -46,6 +46,18 @@
 
   map.once('load', enquadrarInicial);
 
+  // O zoom do navegador (Ctrl + rolagem fora do mapa) e o redimensionamento da janela mudam o
+  // tamanho do mapa em pixels. Sem isto, o MapLibre mantém o nível de zoom e a área visível muda
+  // (o mapa parece aproximar/afastar sozinho). Aqui guardamos a área visível e a restauramos.
+  let areaVisivel = null;
+  map.on('moveend', () => { areaVisivel = map.getBounds(); });
+  map.on('resize', () => {
+    if (!areaVisivel) return;
+    const area = areaVisivel;
+    map.fitBounds(area, { padding: 0, animate: false });
+    areaVisivel = area; // mantém a referência original, sem acumular arredondamentos
+  });
+
 
   // Cria os ícones, a camada e o popup dos cinemas
   async function adicionarCinemas() {
