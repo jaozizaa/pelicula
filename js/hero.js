@@ -6,6 +6,7 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var atual = 0;
+  var pausadoPeloUsuario = false;
   var timer = null;
 
   function mostrar(i) {
@@ -22,8 +23,19 @@
 
   // Pausa quando a aba não está visível
   document.addEventListener('visibilitychange', function () {
-    document.hidden ? parar() : iniciar();
+    if (document.hidden) parar(); else if (!pausadoPeloUsuario) iniciar();
   });
+
+  // Botão de pausa (pedido de acessibilidade: nada se mexe por mais de 5 s sem poder parar)
+  var botao = document.querySelector('.hero__pausa');
+  if (botao) {
+    botao.addEventListener('click', function () {
+      pausadoPeloUsuario = !pausadoPeloUsuario;
+      pausadoPeloUsuario ? parar() : iniciar();
+      botao.setAttribute('aria-pressed', String(pausadoPeloUsuario));
+      botao.setAttribute('aria-label', pausadoPeloUsuario ? 'Retomar fotos' : 'Pausar fotos');
+    });
+  }
 
   iniciar();
 })();

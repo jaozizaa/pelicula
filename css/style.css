@@ -429,6 +429,7 @@ img { display: block; max-width: 100%; }
   gap: calc(8.534 * var(--u));
 }
 .autores__coluna a {
+  display: inline-block;
   font-family: var(--fonte-lista);
   font-weight: 500;
   font-size: calc(19.505 * var(--u));
@@ -436,7 +437,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: calc(-0.3901 * var(--u));
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgba(255, 250, 243, .55);
+  color: rgba(255, 250, 243, .78);
   text-decoration: none;
   transition: color .2s;
 }
@@ -463,6 +464,70 @@ img { display: block; max-width: 100%; }
   letter-spacing: calc(-0.9499 * var(--u));
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* ---------- Acessibilidade e detalhes (prévia taste-skill) ---------- */
+/* Foco visível só na navegação por teclado */
+:where(a, button):focus-visible {
+  outline: 2px solid var(--amarelo);
+  outline-offset: 3px;
+}
+.mapa__lateral :where(a, button):focus-visible,
+.revista :where(a, button):focus-visible { outline-color: var(--azul); }
+.botao-seculo:focus-visible { border-radius: calc(10 * var(--u)); }
+
+/* Link "Pular para o conteúdo": aparece só ao usar Tab */
+.pular {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 10;
+  padding: 10px 16px;
+  background: var(--creme);
+  color: var(--azul);
+  font-family: var(--fonte-texto);
+  font-size: 15px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: top .2s ease;
+}
+.pular:focus { top: 16px; }
+
+/* Botão de pausa do slideshow */
+.hero__pausa {
+  position: absolute;
+  right: calc(24 * var(--u));
+  bottom: calc(24 * var(--u));
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(1, 50, 202, .72);
+  color: var(--creme);
+  cursor: pointer;
+  opacity: .75;
+  transition: opacity .2s ease, background-color .2s ease, transform .15s ease;
+}
+.hero__pausa:hover { opacity: 1; background: var(--azul); }
+.hero__pausa:active { transform: scale(.94); }
+.hero__pausa svg { width: 18px; height: 18px; fill: currentColor; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.hero__pausa .icone-tocar { display: none; stroke-width: 1.5; }
+.hero__pausa[aria-pressed="true"] .icone-pausa { display: none; }
+.hero__pausa[aria-pressed="true"] .icone-tocar { display: block; }
+
+/* Entrada suave do hero ao carregar */
+@keyframes hero-entra {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: none; }
+}
+.hero[data-enter] .hero__slide.is-active { animation: hero-entra 1.4s cubic-bezier(.2, .7, .2, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero[data-enter] .hero__slide.is-active { animation: none; }
+  .pular, .hero__pausa { transition: none; }
 }
 
 /* ---------- Celular ----------
@@ -510,4 +575,13 @@ img { display: block; max-width: 100%; }
   .autores__coluna a { font-size: 17px; white-space: normal; word-break: break-word; }
   .autores__logo { width: 160px; }
   .autores__copy { font-size: 14px; white-space: normal; letter-spacing: -0.5px; }
+
+  /* Áreas de toque de 44 px e nada passando da tela em 320 px */
+  .autores__coluna a { padding: 12px 0; }
+  .autores__coluna ul { gap: 0; }
+  .revista__botao { width: 44px; height: 44px; }
+  .botao-seculo { min-height: 44px; }
+  .sobre__cabecalho { flex-wrap: wrap; }
+  .sobre__cabecalho .titulo { white-space: normal; font-size: clamp(32px, 11vw, 44px); }
+  .hero__pausa { right: 12px; bottom: 12px; }
 }

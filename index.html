@@ -9,7 +9,15 @@
   <meta property="og:url" content="https://revistapelicula.online/">
   <meta property="og:title" content="Revista Película">
   <meta property="og:description" content="A história dos cinemas de rua de Belo Horizonte, contada pelo design gráfico.">
-  <meta property="og:image" content="https://revistapelicula.online/img/hero-cine-pathe.jpg">
+  <meta property="og:image" content="https://revistapelicula.online/img/og-pelicula.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo da Revista Película sobre fundo azul">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Revista Película">
+  <meta name="twitter:image" content="https://revistapelicula.online/img/og-pelicula.jpg">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#0132ca">
 
   <link rel="preload" href="fonts/OrgandaMN-Bold.ttf" as="font" type="font/ttf" crossorigin>
@@ -19,18 +27,23 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <a class="pular" href="#sobre">Pular para o conteúdo</a>
 
-  <header class="topo">
-    <a href="#" aria-label="Revista Película — início">
+  <header class="topo" id="topo">
+    <a href="#topo" aria-label="Revista Película — início">
       <img src="img/logo.svg" alt="Película" width="167" height="82">
     </a>
   </header>
 
   <main>
-    <section class="hero" aria-label="Fotografias históricas de cinemas de rua de Belo Horizonte">
-      <img class="hero__slide is-active" src="img/hero-cine-pathe.jpg" alt="Fachada do Cine Pathé, em Belo Horizonte, com fila de pessoas na entrada para o filme Quatro Casamentos e um Funeral">
-      <img class="hero__slide hero__slide--teatro" src="img/hero-cine-teatro-brasil.jpg" alt="Fachada do Cine Teatro Brasil, com letreiro de Dick Tracy e multidão na calçada" aria-hidden="true">
-      <img class="hero__slide hero__slide--metropole" src="img/hero-cine-metropole.jpg" alt="Fachada do Cine Metrópole, com janelas em arco e letreiro luminoso" aria-hidden="true">
+    <section class="hero" data-enter aria-label="Fotografias históricas de cinemas de rua de Belo Horizonte">
+      <img class="hero__slide is-active" src="img/hero-cine-pathe-1400.jpg" srcset="img/hero-cine-pathe-800.jpg 800w, img/hero-cine-pathe-1400.jpg 1400w, img/hero-cine-pathe.jpg 2000w" sizes="100vw" alt="Fachada do Cine Pathé, em Belo Horizonte, com fila de pessoas na entrada para o filme Quatro Casamentos e um Funeral">
+      <img class="hero__slide hero__slide--teatro" src="img/hero-cine-teatro-brasil-1400.jpg" srcset="img/hero-cine-teatro-brasil-800.jpg 800w, img/hero-cine-teatro-brasil-1400.jpg 1400w, img/hero-cine-teatro-brasil.jpg 2000w" sizes="100vw" alt="Fachada do Cine Teatro Brasil, com letreiro de Dick Tracy e multidão na calçada" aria-hidden="true">
+      <img class="hero__slide hero__slide--metropole" src="img/hero-cine-metropole-1400.jpg" srcset="img/hero-cine-metropole-800.jpg 800w, img/hero-cine-metropole-1400.jpg 1400w, img/hero-cine-metropole.jpg 2000w" sizes="100vw" alt="Fachada do Cine Metrópole, com janelas em arco e letreiro luminoso" aria-hidden="true">
+      <button class="hero__pausa" type="button" aria-label="Pausar fotos" aria-pressed="false">
+        <svg class="icone-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+        <svg class="icone-tocar" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+      </button>
     </section>
 
     <section class="sobre" id="sobre">
@@ -130,7 +143,7 @@
         </ul>
       </div>
 
-      <a class="autores__logo" href="#" aria-label="Revista Película — voltar ao topo">
+      <a class="autores__logo" href="#topo" aria-label="Revista Película — voltar ao topo">
         <img src="img/logo.svg" alt="Película" width="223" height="110">
       </a>
       <p class="autores__copy"><a href="https://revistapelicula.online">revistapelicula.online</a>© 2026 All Rights Reserved</p>
