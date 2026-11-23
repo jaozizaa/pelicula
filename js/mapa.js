@@ -21,7 +21,14 @@
       [-44.08, -20.06], // Sudoeste
       [-43.82, -19.77]  // Nordeste
     ],
-    attributionControl: true
+    attributionControl: true,
+    // Rolagem da página não vira zoom: no computador, Ctrl/⌘ + rolagem; no celular, dois dedos
+    cooperativeGestures: true,
+    locale: {
+      'CooperativeGesturesHandler.WindowsHelpText': 'Use Ctrl + rolagem para dar zoom no mapa',
+      'CooperativeGesturesHandler.MacHelpText': 'Use ⌘ + rolagem para dar zoom no mapa',
+      'CooperativeGesturesHandler.MobileHelpText': 'Use dois dedos para mover o mapa'
+    }
   });
 
   // Botões de zoom (+ / -) minimalistas no canto inferior direito
@@ -81,15 +88,44 @@
     // Clique: abre um balão com o nome e o endereço
     const popup = new maplibregl.Popup({ closeButton: false, offset: 18, maxWidth: '240px' });
 
-    map.on('click', 'camada-cinemas', (e) => {
-      const f = e.features[0];
+    function abrirBalao(id, nome, endereco, coords) {
       const el = document.createElement('div');
       const titulo = document.createElement('strong');
-      titulo.textContent = f.properties.id + '. ' + f.properties.nome;
+      titulo.textContent = id + '. ' + nome;
       const end = document.createElement('span');
-      end.textContent = f.properties.endereco;
+      end.textContent = endereco;
       el.append(titulo, end);
-      popup.setLngLat(f.geometry.coordinates.slice()).setDOMContent(el).addTo(map);
+      popup.setLngLat(coords).setDOMContent(el).addTo(map);
+      marcarNaLista(id);
+    }
+
+    map.on('click', 'camada-cinemas', (e) => {
+      const f = e.features[0];
+      abrirBalao(f.properties.id, f.properties.nome, f.properties.endereco, f.geometry.coordinates.slice());
+    });
+
+    // Lista lateral: cada nome leva o mapa até o cinema e abre o balão (funciona também pelo teclado)
+    const botoesLista = document.querySelectorAll('.mapa__cinema');
+    function marcarNaLista(id) {
+      botoesLista.forEach((b) => {
+        if (String(b.dataset.cinema) === String(id)) b.setAttribute('aria-current', 'true');
+        else b.removeAttribute('aria-current');
+      });
+    }
+    popup.on('close', () => marcarNaLista(null));
+
+    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    botoesLista.forEach((b) => {
+      b.addEventListener('click', () => {
+        const c = window.CINEMAS.find((x) => String(x.id) === b.dataset.cinema);
+        if (!c) return;
+        const destino = { center: c.coords, zoom: Math.max(map.getZoom(), 15.5) };
+        let aberto = false;
+        const abrir = () => { if (!aberto) { aberto = true; abrirBalao(c.id, c.nome, c.endereco, c.coords); } };
+        map.once('moveend', abrir);
+        setTimeout(abrir, reduzir ? 50 : 1400); // garante o balão mesmo se o mapa já estiver no lugar
+        if (reduzir) map.jumpTo(destino); else map.flyTo(Object.assign({ duration: 1200, essential: true }, destino));
+      });
     });
 
     map.on('mouseenter', 'camada-cinemas', () => { map.getCanvas().style.cursor = 'pointer'; });

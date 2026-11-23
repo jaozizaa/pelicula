@@ -22,6 +22,8 @@
 
   <link rel="preload" href="fonts/OrgandaMN-Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/HeitiTC-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- MapLibre GL JS (gratuito e open source) -->
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -37,10 +39,13 @@
   </header>
 
   <main>
+    <!-- Título principal: invisível na tela, lido por leitores de tela e buscadores -->
+    <h1 class="so-leitor">Revista Película — cinemas de rua de Belo Horizonte</h1>
+
     <section class="hero" data-enter aria-label="Fotografias históricas de cinemas de rua de Belo Horizonte">
-      <img class="hero__slide is-active" src="img/hero-cine-pathe-1400.jpg" srcset="img/hero-cine-pathe-800.jpg 800w, img/hero-cine-pathe-1400.jpg 1400w, img/hero-cine-pathe.jpg 2000w" sizes="100vw" alt="Fachada do Cine Pathé, em Belo Horizonte, com fila de pessoas na entrada para o filme Quatro Casamentos e um Funeral">
-      <img class="hero__slide hero__slide--teatro" src="img/hero-cine-teatro-brasil-1400.jpg" srcset="img/hero-cine-teatro-brasil-800.jpg 800w, img/hero-cine-teatro-brasil-1400.jpg 1400w, img/hero-cine-teatro-brasil.jpg 2000w" sizes="100vw" alt="Fachada do Cine Teatro Brasil, com letreiro de Dick Tracy e multidão na calçada" aria-hidden="true">
-      <img class="hero__slide hero__slide--metropole" src="img/hero-cine-metropole-1400.jpg" srcset="img/hero-cine-metropole-800.jpg 800w, img/hero-cine-metropole-1400.jpg 1400w, img/hero-cine-metropole.jpg 2000w" sizes="100vw" alt="Fachada do Cine Metrópole, com janelas em arco e letreiro luminoso" aria-hidden="true">
+      <img class="hero__slide is-active" width="2000" height="1307" fetchpriority="high" src="img/hero-cine-pathe-1400.jpg" srcset="img/hero-cine-pathe-800.jpg 800w, img/hero-cine-pathe-1400.jpg 1400w, img/hero-cine-pathe.jpg 2000w" sizes="100vw" alt="Fachada do Cine Pathé, em Belo Horizonte, com fila de pessoas na entrada para o filme Quatro Casamentos e um Funeral">
+      <img class="hero__slide hero__slide--teatro" width="2000" height="1420" loading="lazy" src="img/hero-cine-teatro-brasil-1400.jpg" srcset="img/hero-cine-teatro-brasil-800.jpg 800w, img/hero-cine-teatro-brasil-1400.jpg 1400w, img/hero-cine-teatro-brasil.jpg 2000w" sizes="100vw" alt="Fachada do Cine Teatro Brasil, com letreiro de Dick Tracy e multidão na calçada" aria-hidden="true">
+      <img class="hero__slide hero__slide--metropole" width="2000" height="1284" loading="lazy" src="img/hero-cine-metropole-1400.jpg" srcset="img/hero-cine-metropole-800.jpg 800w, img/hero-cine-metropole-1400.jpg 1400w, img/hero-cine-metropole.jpg 2000w" sizes="100vw" alt="Fachada do Cine Metrópole, com janelas em arco e letreiro luminoso" aria-hidden="true">
       <button class="hero__pausa" type="button" aria-label="Pausar fotos" aria-pressed="false">
         <svg class="icone-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
         <svg class="icone-tocar" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
@@ -72,13 +77,13 @@
       <aside class="mapa__lateral">
         <h2 class="titulo titulo--seculo" id="mapa-titulo">Séc. XXI</h2>
 
-        <ol class="mapa__lista">
-          <li>Theatro Brasil</li>
-          <li>Humberto Mauro</li>
-          <li>Belas Artes</li>
-          <li>Minas Tênis</li>
-          <li>Graciano</li>
-          <li>Santa Tereza</li>
+        <ol class="mapa__lista" aria-label="Cinemas — clique para ver no mapa">
+          <li><button type="button" class="mapa__cinema" data-cinema="1">Theatro Brasil</button></li>
+          <li><button type="button" class="mapa__cinema" data-cinema="2">Humberto Mauro</button></li>
+          <li><button type="button" class="mapa__cinema" data-cinema="3">Belas Artes</button></li>
+          <li><button type="button" class="mapa__cinema" data-cinema="4">Minas Tênis</button></li>
+          <li><button type="button" class="mapa__cinema" data-cinema="5">Graciano</button></li>
+          <li><button type="button" class="mapa__cinema" data-cinema="6">Santa Tereza</button></li>
         </ol>
 
         <div class="mapa__seculos">

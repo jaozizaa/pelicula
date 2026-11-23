@@ -69,6 +69,17 @@
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+a, button { touch-action: manipulation; }
+/* Conteúdo só para leitores de tela */
+.so-leitor {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
 body {
   margin: 0;
   background: var(--creme);
@@ -88,6 +99,7 @@ img { display: block; max-width: 100%; }
   line-height: normal;
   text-transform: uppercase;
   white-space: nowrap;
+  text-wrap: balance;
   color: var(--branco);
 }
 
@@ -217,6 +229,25 @@ img { display: block; max-width: 100%; }
 }
 .mapa__lista li { line-height: calc(14 * var(--u)); }
 .mapa__lista li:first-child { line-height: calc(18 * var(--u)); }
+/* Cada cinema é um botão com a mesma aparência do texto do Figma */
+.mapa__cinema {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: .25em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color .2s ease;
+}
+.mapa__cinema:hover,
+.mapa__cinema[aria-current="true"] { text-decoration-color: currentColor; }
 
 .mapa__seculos {
   display: flex;
@@ -537,7 +568,9 @@ img { display: block; max-width: 100%; }
 .hero[data-enter] .hero__slide.is-active { animation: hero-entra 1.4s cubic-bezier(.2, .7, .2, 1) both; }
 @media (prefers-reduced-motion: reduce) {
   .hero[data-enter] .hero__slide.is-active { animation: none; }
-  .pular, .hero__pausa { transition: none; }
+  .pular { transition: none; }
+  .hero__pausa { display: none; } /* com animações reduzidas o slideshow já fica parado */
+  .mapa__cinema { transition: none; }
 }
 
 /* ---------- Celular ----------
@@ -566,6 +599,8 @@ img { display: block; max-width: 100%; }
   .titulo--seculo { height: auto; letter-spacing: -2.4px; }
   .mapa__lista { font-size: 17px; gap: 24px; padding-left: 24px; }
   .mapa__lista li, .mapa__lista li:first-child { line-height: 1.1; }
+  .mapa__cinema { min-height: 44px; }
+  .mapa__lista { gap: 0; }
   .mapa__seculos { flex-direction: row; gap: 16px; }
     .mapa__mapa { aspect-ratio: 1 / 1; }
 
