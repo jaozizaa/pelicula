@@ -23,18 +23,14 @@
       cortina.setAttribute('aria-hidden', 'true');
       lateral.appendChild(cortina);
     }
+    // Cobre do topo da lateral até logo abaixo da lista, na largura toda: assim nenhum pedaço
+    // do título (letras de 85 px saem da caixa do texto) aparece antes da hora
     var base = lateral.getBoundingClientRect();
-    var t = titulo.getBoundingClientRect();
     var l = lista.getBoundingClientRect();
-    var folga = 12;
-    var topo = Math.min(t.top, l.top) - base.top - folga * 2;     // inclui o acento do É
-    var baixo = Math.max(t.bottom, l.bottom) - base.top + folga;
-    var esquerda = Math.min(t.left, l.left) - base.left - 40;    // inclui os números da lista
-    var direita = Math.max(t.right, l.right) - base.left + folga;
-    cortina.style.top = topo + 'px';
-    cortina.style.height = (baixo - topo) + 'px';
-    cortina.style.left = Math.max(0, esquerda) + 'px';
-    cortina.style.width = (direita - Math.max(0, esquerda)) + 'px';
+    cortina.style.top = '0px';
+    cortina.style.left = '0px';
+    cortina.style.width = base.width + 'px';
+    cortina.style.height = (l.bottom - base.top + 16) + 'px';
     if (animacao) animacao.cancel();
     animacao = cortina.animate(
       [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
