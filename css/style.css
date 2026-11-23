@@ -675,10 +675,8 @@ img { display: block; max-width: 100%; }
 .mapa__lateral.revela .mapa__lista li:nth-child(4)::after { animation-delay: .30s; }
 .mapa__lateral.revela .mapa__lista li:nth-child(5)::after { animation-delay: .36s; }
 .mapa__lateral.revela .mapa__lista li:nth-child(6)::after { animation-delay: .42s; }
-@media (prefers-reduced-motion: reduce) {
-  .mapa__lateral.revela .titulo--seculo::after,
-  .mapa__lateral.revela .mapa__lista li::after { display: none; }
-}
+/* Roda também com "animações reduzidas" ligado no sistema (pedido do projeto): é só uma
+   revelação curta, sem nada se deslocando na tela */
 
 /* ---------- Abertura ----------
    Fundo azul com o texto datilografado (como em 197historiasilustradas.com). No fim, o azul sobe
