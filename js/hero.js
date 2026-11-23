@@ -23,7 +23,7 @@
 
   // Pausa quando a aba não está visível
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) parar(); else if (!pausadoPeloUsuario) iniciar();
+    if (document.hidden) parar(); else if (!pausadoPeloUsuario && !document.documentElement.classList.contains('com-intro')) iniciar();
   });
 
   // Botão de pausa (pedido de acessibilidade: nada se mexe por mais de 5 s sem poder parar)
@@ -37,5 +37,10 @@
     });
   }
 
-  iniciar();
+  // Com a abertura rodando, o slideshow só começa quando a foto aparece
+  if (document.documentElement.classList.contains('com-intro')) {
+    document.addEventListener('intro-fim', function () { if (!pausadoPeloUsuario) iniciar(); }, { once: true });
+  } else {
+    iniciar();
+  }
 })();

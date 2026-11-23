@@ -28,14 +28,38 @@
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Abertura: roda uma vez por sessão e nunca com animações reduzidas
+    (function () {
+      try {
+        var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduz && !sessionStorage.getItem('pelicula-intro')) document.documentElement.classList.add('com-intro');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <a class="pular" href="#sobre">Pular para o conteúdo</a>
 
+  <!-- Abertura animada (texto datilografado; depois o azul sobe e vira o header) -->
+  <div class="intro" id="intro" role="region" aria-label="Abertura">
+    <p class="intro__texto" id="intro-texto" aria-hidden="true"></p>
+    <p class="so-leitor">No século XX, Belo Horizonte contava com mais de 100 salas de cinema de rua. Hoje restam 6.</p>
+    <button class="intro__pular" id="intro-pular" type="button">[ pular ]</button>
+  </div>
+
   <header class="topo" id="topo">
-    <a href="#topo" aria-label="Revista Película — início">
-      <img src="img/logo.svg" alt="Película" width="167" height="82">
+    <a class="topo__logo" href="#topo" aria-label="Revista Película — início">
+      <img src="img/logo.svg" alt="Película" width="208" height="102">
     </a>
+    <nav class="topo__nav" aria-label="Seções do site">
+      <ul>
+        <li><a href="#sobre">sobre o projeto</a></li>
+        <li><a href="#mapa">mapa</a></li>
+        <li><a href="#revista">revista</a></li>
+        <li><a href="#autores">saiba mais</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
@@ -46,6 +70,7 @@
       <img class="hero__slide is-active" width="2000" height="1307" fetchpriority="high" src="img/hero-cine-pathe-1400.jpg" srcset="img/hero-cine-pathe-800.jpg 800w, img/hero-cine-pathe-1400.jpg 1400w, img/hero-cine-pathe.jpg 2000w" sizes="100vw" alt="Fachada do Cine Pathé, em Belo Horizonte, com fila de pessoas na entrada para o filme Quatro Casamentos e um Funeral">
       <img class="hero__slide hero__slide--teatro" width="2000" height="1420" loading="lazy" src="img/hero-cine-teatro-brasil-1400.jpg" srcset="img/hero-cine-teatro-brasil-800.jpg 800w, img/hero-cine-teatro-brasil-1400.jpg 1400w, img/hero-cine-teatro-brasil.jpg 2000w" sizes="100vw" alt="Fachada do Cine Teatro Brasil, com letreiro de Dick Tracy e multidão na calçada" aria-hidden="true">
       <img class="hero__slide hero__slide--metropole" width="2000" height="1284" loading="lazy" src="img/hero-cine-metropole-1400.jpg" srcset="img/hero-cine-metropole-800.jpg 800w, img/hero-cine-metropole-1400.jpg 1400w, img/hero-cine-metropole.jpg 2000w" sizes="100vw" alt="Fachada do Cine Metrópole, com janelas em arco e letreiro luminoso" aria-hidden="true">
+      <p class="hero__legenda"><span>Cinema e memória de Belo Horizonte</span></p>
       <button class="hero__pausa" type="button" aria-label="Pausar fotos" aria-pressed="false">
         <svg class="icone-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
         <svg class="icone-tocar" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
@@ -126,7 +151,7 @@
       </div>
 
       <div class="autores__coluna autores__coluna--portfolio">
-        <h3>Portfólio</h3>
+        <h3>Portfolio</h3>
         <ul>
           <li><a href="https://www.behance.net/luzacypriano" target="_blank" rel="noopener noreferrer">behance.net/luzacypriano</a></li>
           <li><a href="https://www.behance.net/joovimiranda13" target="_blank" rel="noopener noreferrer">behance.net/joovimiranda13</a></li>
@@ -134,7 +159,7 @@
       </div>
 
       <div class="autores__coluna autores__coluna--social">
-        <h3>Social Media</h3>
+        <h3>Social media</h3>
         <ul>
           <li><a href="https://www.instagram.com/luh_cy/" target="_blank" rel="noopener noreferrer">@luh_cy</a></li>
           <li><a href="https://www.instagram.com/jaoziza/" target="_blank" rel="noopener noreferrer">@jaoziza</a></li>
@@ -149,6 +174,15 @@
         </ul>
       </div>
 
+      <div class="autores__coluna autores__coluna--revista">
+        <h3>Revista</h3>
+        <ul>
+          <!-- Links da revista: trocar pelos endereços reais (Behance do projeto e arquivo PDF) -->
+          <li><span class="autores__link-pendente">behance</span></li>
+          <li><span class="autores__link-pendente">pdf</span></li>
+        </ul>
+      </div>
+
       <a class="autores__logo" href="#topo" aria-label="Revista Película — voltar ao topo">
         <img src="img/logo.svg" alt="Película" width="223" height="110">
       </a>
@@ -156,6 +190,7 @@
     </section>
   </main>
 
+  <script src="js/intro.js"></script>
   <script src="js/hero.js"></script>
   <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
   <script src="js/revista.js"></script>
