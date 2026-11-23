@@ -12,7 +12,7 @@
     // Fonte vetorial gratuita (OpenFreeMap)
     style: 'https://tiles.openfreemap.org/styles/positron',
     // Centro de Belo Horizonte (região da Av. Afonso Pena / Praça Sete)
-    center: [-43.93247, -19.92859],
+    center: [-43.93105, -19.92137],
     zoom: 13.6,
     minZoom: 11.5,
     maxZoom: 18,
@@ -27,11 +27,11 @@
   // Botões de zoom (+ / -) minimalistas no canto inferior direito
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-  // Enquadramento inicial: a área exata escolhida no print de 23/11 (cantos sudoeste e nordeste
-  // do mapa). Como usa os cantos, o mesmo recorte aparece em qualquer tamanho de tela.
+  // Enquadramento inicial: zoom do print de 23/11, centralizado no conjunto dos 6 cinemas
+  // (cantos sudoeste e nordeste do mapa). Como usa os cantos, o mesmo recorte aparece em qualquer tamanho de tela.
   const VISTA_INICIAL = [
-    [-43.96236, -19.95614], // Sudoeste
-    [-43.90259, -19.90103]  // Nordeste
+    [-43.96094, -19.94893], // Sudoeste
+    [-43.90117, -19.89382]  // Nordeste
   ];
   function enquadrarInicial() {
     map.fitBounds(VISTA_INICIAL, { padding: 0, animate: false });
