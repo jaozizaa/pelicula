@@ -25,7 +25,7 @@
 }
 @font-face {
   font-family: "Helvetica Local";
-  src: url("../fonts/Helvetica.ttf") format("truetype");
+  src: url("../fonts/Helvetica.woff2") format("woff2"), url("../fonts/Helvetica.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -33,7 +33,7 @@
 
 @font-face {
   font-family: "Helvetica Local";
-  src: url("../fonts/Helvetica-Bold.ttf") format("truetype");
+  src: url("../fonts/Helvetica-Bold.woff2") format("woff2"), url("../fonts/Helvetica-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -60,8 +60,8 @@
   --branco: #ffffff;
 
   --fonte-titulo: "Organda MN", "Arial Narrow", sans-serif;
-  --fonte-texto: "Helvetica Local", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --fonte-lista: "Heiti TC Web", "Heiti TC", "Helvetica Local", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fonte-texto: "Helvetica Local", Arial, sans-serif; /* sem "Helvetica" do sistema: cópias instaladas no Windows trocam letras (ex.: i → I) */
+  --fonte-lista: "Heiti TC Web", "Heiti TC", "Helvetica Local", Arial, sans-serif;
 
   --u: calc(100vw / 1440);
 }
@@ -371,7 +371,8 @@ img { display: block; max-width: 100%; }
   border-radius: 0;
   box-shadow: none;
   padding: 10px 14px;
-  font-family: var(--fonte-texto);
+  font-family: var(--fonte-texto) !important;
+  font-synthesis: none;
   font-size: 14px;
   line-height: 1.35;
 }
