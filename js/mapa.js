@@ -179,7 +179,7 @@
         const cv = document.createElement('canvas');
         cv.width = cv.height = 160;
         const cx = cv.getContext('2d');
-        cx.beginPath(); cx.arc(80, 80, 80, 0, Math.PI * 2); cx.fillStyle = conj.cores.fundo; cx.fill();
+        cx.beginPath(); cx.arc(80, 80, 80, 0, Math.PI * 2); cx.fillStyle = (conj.cores && conj.cores.fundo) || '#0132CA'; cx.fill();
         map.addImage(discoNome, cx.getImageData(0, 0, 160, 160));
       }
       // esc = escala da bolinha (0→1); op = opacidade do ícone completo (0→1). Em repouso ficam em 1.
