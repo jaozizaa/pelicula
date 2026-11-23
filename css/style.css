@@ -364,9 +364,9 @@ img { display: block; max-width: 100%; }
    1ª camada = fio de borda (~1 px); 2ª e 3ª = sombra curta + difusa, discreta como papel sobre a mesa. */
 #livro .stf__block {
   filter:
-    drop-shadow(0 0 .6px rgb(0 0 0 / .45))
-    drop-shadow(0 1px 2px rgb(0 0 0 / .12))
-    drop-shadow(0 8px 18px rgb(0 0 0 / .16));
+    drop-shadow(0 0 .7px rgb(0 0 0 / .55))
+    drop-shadow(0 1px 2px rgb(0 0 0 / .16))
+    drop-shadow(0 8px 18px rgb(0 0 0 / .21));
 }
 /* Firefox e Zen não desenham drop-shadow sobre as páginas 3D do leitor:
    neles a borda e a sombra vão em cada página (box-shadow), com o mesmo efeito. */
@@ -374,9 +374,9 @@ img { display: block; max-width: 100%; }
   #livro .stf__block { filter: none; }
   #livro .revista__pagina {
     box-shadow:
-      0 0 0 .6px rgb(0 0 0 / .4),
-      0 1px 2px rgb(0 0 0 / .12),
-      0 8px 18px rgb(0 0 0 / .16);
+      0 0 0 .7px rgb(0 0 0 / .5),
+      0 1px 2px rgb(0 0 0 / .16),
+      0 8px 18px rgb(0 0 0 / .21);
   }
 }
 .revista__pagina { background: #fff; overflow: hidden; }
