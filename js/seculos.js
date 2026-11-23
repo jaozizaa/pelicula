@@ -31,11 +31,22 @@
     cortina.style.left = '0px';
     cortina.style.width = base.width + 'px';
     cortina.style.height = (l.bottom - base.top + 16) + 'px';
-    if (animacao) animacao.cancel();
-    animacao = cortina.animate(
-      [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
-      { duration: 800, easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'forwards' }
-    );
+    // Como a entrada do header: a cortina abre devagar (ease-in-out, 1,2 s) e, junto, o texto
+    // desliza 16 px da esquerda enquanto aparece (curva de entrada da taste-skill: final longo e suave)
+    if (animacao) animacao.forEach(function (an) { an.cancel(); });
+    var entrada = [
+      { opacity: 0, transform: 'translateX(-16px)' },
+      { opacity: 1, transform: 'none' }
+    ];
+    var opcoesTexto = { duration: 1100, delay: 120, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' };
+    animacao = [
+      cortina.animate(
+        [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
+        { duration: 1200, easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'forwards' }
+      ),
+      titulo.animate(entrada, opcoesTexto),
+      lista.animate(entrada, opcoesTexto)
+    ];
   }
 
   function definir(seculo) {
