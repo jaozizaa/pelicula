@@ -4,6 +4,14 @@
   var html = document.documentElement;
   var intro = document.getElementById('intro');
   if (!intro) return;
+  // Clique na logo do header: a abertura toca de novo (apaga a marca desta aba e recarrega do topo)
+  var logo = document.querySelector('.topo__logo');
+  if (logo) logo.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { sessionStorage.removeItem('pelicula-intro'); } catch (err) {}
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    location.replace(location.pathname + location.search);
+  });
   if (!html.classList.contains('com-intro')) { intro.remove(); return; }
   // A foto do hero fica parada durante e depois da abertura: sem a animação de entrada própria do hero
   var hero = document.querySelector('.hero[data-enter]');

@@ -36,9 +36,6 @@
         var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         // Teste: com ?intro no endereço a abertura roda sempre, a cada recarregamento
         var forcar = /[?&]intro\b/.test(location.search);
-        // TESTE: abertura a cada F5. Para voltar a "uma vez por visita", troque true por false.
-        var SEMPRE = true;
-        if (SEMPRE) forcar = true;
         if (forcar || (!reduz && !sessionStorage.getItem('pelicula-intro'))) {
           document.documentElement.classList.add('com-intro');
           // Quem vê a abertura começa do topo: o navegador não restaura a rolagem do recarregamento
