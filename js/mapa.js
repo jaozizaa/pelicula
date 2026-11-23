@@ -12,8 +12,8 @@
     // Fonte vetorial gratuita (OpenFreeMap)
     style: 'https://tiles.openfreemap.org/styles/positron',
     // Centro de Belo Horizonte (região da Av. Afonso Pena / Praça Sete)
-    center: [-43.9386, -19.9191],
-    zoom: 13.5,
+    center: [-43.93247, -19.92859],
+    zoom: 13.6,
     minZoom: 11.5,
     maxZoom: 18,
     // Limita a navegação para não sair da região de BH
@@ -27,25 +27,17 @@
   // Botões de zoom (+ / -) minimalistas no canto inferior direito
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-  // Enquadramento inicial: o mais perto possível mostrando os seis cinemas.
-  // Para abrir mais perto ou mais longe, diminua ou aumente os paddings abaixo.
-  function enquadrarCinemas(animar) {
-    if (!window.CINEMAS) return;
-    const b = new maplibregl.LngLatBounds();
-    window.CINEMAS.forEach((c) => b.extend(c.coords));
-    const el = map.getContainer();
-    const w = el.clientWidth, h = el.clientHeight;
-    const estreito = w < 600;
-    map.fitBounds(b, {
-      padding: estreito
-        ? { top: h * 0.08, bottom: h * 0.08, left: w * 0.08, right: w * 0.08 }
-        : { top: h * 0.10, bottom: h * 0.10, left: w * 0.10, right: w * 0.10 },
-      maxZoom: 15,
-      animate: !!animar
-    });
+  // Enquadramento inicial: a área exata escolhida no print de 23/11 (cantos sudoeste e nordeste
+  // do mapa). Como usa os cantos, o mesmo recorte aparece em qualquer tamanho de tela.
+  const VISTA_INICIAL = [
+    [-43.96236, -19.95614], // Sudoeste
+    [-43.90259, -19.90103]  // Nordeste
+  ];
+  function enquadrarInicial() {
+    map.fitBounds(VISTA_INICIAL, { padding: 0, animate: false });
   }
 
-  map.once('load', () => enquadrarCinemas(false));
+  map.once('load', enquadrarInicial);
 
 
   // Cria os ícones, a camada e o popup dos cinemas
@@ -82,7 +74,7 @@
         'icon-image': ['concat', 'cinema-', ['to-string', ['get', 'id']]],
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.5, 13, 0.4, 14.25, 0.32, 16, 0.2, 18, 0.12]
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.45, 13, 0.385, 14.25, 0.32, 16, 0.22, 18, 0.155]
       }
     });
 
