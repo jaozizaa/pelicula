@@ -420,6 +420,8 @@ img { display: block; max-width: 100%; }
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: calc(16 * var(--u));
+  /* folga no fim: o último nome rola para fora da área esmaecida */
+  padding-bottom: calc(48 * var(--u));
   margin-right: calc(24 * var(--u));
   scrollbar-width: thin;
   scrollbar-color: var(--azul) transparent;
@@ -800,7 +802,7 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
   .titulo--seculo { height: auto; letter-spacing: -2.4px; }
   .mapa__lista { font-size: 17px; gap: 24px; padding-left: 24px; }
   .mapa__lista li, .mapa__lista li:first-child { line-height: 1.1; }
-  .mapa[data-seculo="xx"] .mapa__lista { height: 300px; gap: 0; margin-right: 0; }
+  .mapa[data-seculo="xx"] .mapa__lista { height: 300px; gap: 0; margin-right: 0; padding-bottom: 52px; }
   .mapa__cinema { min-height: 44px; }
   .mapa__lista { gap: 0; }
   .mapa__seculos { flex-direction: row; gap: 16px; }

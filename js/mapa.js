@@ -139,13 +139,15 @@
   // aqui a curva é deslocada por essa diferença e os ícones encolhem na mesma proporção do mapa,
   // para a relação ícone/mapa ser a mesma da referência.
   const LARGURA_REF = 1190;
-  function tamanhoProporcional(base) {
+  function tamanhoProporcional(base, animado) {
     const w = map.getContainer().clientWidth || LARGURA_REF;
     const fator = Math.min(1, Math.max(0.45, w / LARGURA_REF)); // não deixa sumir no celular
     const desloc = Math.log2(LARGURA_REF / Math.max(w, 1));
     const novo = base.slice(0, 3);
     for (let k = 3; k < base.length; k += 2) {
-      novo.push(base[k] - desloc, +Math.max(0.11, base[k + 1] * fator).toFixed(4)); // mínimo ~18 px para tocar
+      const tam = +Math.max(0.11, base[k + 1] * fator).toFixed(4); // mínimo ~18 px para tocar
+      // animado: o tamanho vira "tamanho × progresso da feição" (a bolinha crescendo)
+      novo.push(base[k] - desloc, animado ? ['*', tam, ['coalesce', ['get', 'esc'], 1]] : tam);
     }
     return novo;
   }
@@ -153,6 +155,7 @@
     Object.keys(CONJUNTOS).forEach((chave) => {
       const conj = CONJUNTOS[chave];
       if (map.getLayer(conj.camada)) map.setLayoutProperty(conj.camada, 'icon-size', tamanhoProporcional(conj.tamanho));
+      if (map.getLayer(conj.camada + '-base')) map.setLayoutProperty(conj.camada + '-base', 'icon-size', tamanhoProporcional(conj.tamanho, true));
     });
   }
   map.on('resize', atualizarTamanhos);
@@ -170,15 +173,36 @@
         if (!map.hasImage(nome)) map.addImage(nome, window.criarIconeCinema(c.id, 160, conj.cores));
       });
       if (map.getSource(conj.fonte)) return;
-      map.addSource(conj.fonte, {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: lista.map((c) => ({
-            type: 'Feature',
-            properties: { id: c.id },
-            geometry: { type: 'Point', coordinates: c.coords }
-          }))
+      // Disco liso da cor do ícone: é a "bolinha" que cresce antes do número e do contorno aparecerem
+      const discoNome = conj.prefixo + 'disco';
+      if (!map.hasImage(discoNome)) {
+        const cv = document.createElement('canvas');
+        cv.width = cv.height = 160;
+        const cx = cv.getContext('2d');
+        cx.beginPath(); cx.arc(80, 80, 80, 0, Math.PI * 2); cx.fillStyle = conj.cores.fundo; cx.fill();
+        map.addImage(discoNome, cx.getImageData(0, 0, 160, 160));
+      }
+      // esc = escala da bolinha (0→1); op = opacidade do ícone completo (0→1). Em repouso ficam em 1.
+      conj.fc = {
+        type: 'FeatureCollection',
+        features: lista.slice().sort((a, b) => a.id - b.id).map((c) => ({
+          type: 'Feature',
+          properties: { id: c.id, esc: 1, op: 1 },
+          geometry: { type: 'Point', coordinates: c.coords }
+        }))
+      };
+      map.addSource(conj.fonte, { type: 'geojson', data: conj.fc });
+      map.addLayer({
+        id: conj.camada + '-base',
+        type: 'symbol',
+        source: conj.fonte,
+        layout: {
+          visibility: 'none',
+          'icon-image': discoNome,
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
+          'symbol-sort-key': ['-', 0, ['get', 'id']],
+          'icon-size': tamanhoProporcional(conj.tamanho, true)
         }
       });
       // Tamanho do ícone conforme o zoom: maior com o mapa afastado, menor com o mapa detalhado.
@@ -195,7 +219,8 @@
           // ícone de número menor por cima (ordem de desenho segue o id)
           'symbol-sort-key': ['-', 0, ['get', 'id']],
           'icon-size': tamanhoProporcional(conj.tamanho)
-        }
+        },
+        paint: { 'icon-opacity': ['coalesce', ['get', 'op'], 1] }
       });
       map.on('click', conj.camada, (e) => {
         const id = e.features[0].properties.id;
@@ -208,24 +233,83 @@
     aplicarSeculo(seculo, false);
   }
 
-  // Troca de século: mostra só a camada da época e enquadra os cinemas dela
+  // Animação dos ícones ao trocar de século: uma bolinha cresce e, logo depois, o contorno e o número
+  // surgem. Um por vez, na ordem numerada, cada vez mais rápido. Curvas ease in-out (taste-skill).
+  const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  let tokenAnim = 0;
+
+  function aplicarProgresso(conj) {
+    const src = map.getSource(conj.fonte);
+    if (src && conj.fc) src.setData(conj.fc);
+  }
+  function repousoIcones() {
+    Object.keys(CONJUNTOS).forEach((chave) => {
+      const conj = CONJUNTOS[chave];
+      if (!conj.fc) return;
+      conj.fc.features.forEach((f) => { f.properties.esc = 1; f.properties.op = 1; });
+      aplicarProgresso(conj);
+      if (map.getLayer(conj.camada + '-base')) map.setLayoutProperty(conj.camada + '-base', 'visibility', 'none');
+    });
+  }
+
+  function animarIcones(conj, atraso) {
+    const meu = ++tokenAnim;
+    const feicoes = conj.fc.features;
+    const n = feicoes.length;
+    const T = Math.min(2800, 900 + n * 18);   // tempo até o último começar
+    const DUR = 560;                           // a bolinha crescendo
+    const FADE_INI = DUR * 0.7, FADE = 420;    // contorno e número depois da bolinha
+    const inicios = feicoes.map((_, i) => T * (1 - Math.pow(1 - i / n, 1.8))); // intervalos cada vez menores
+    const total = T + FADE_INI + FADE;
+    feicoes.forEach((f) => { f.properties.esc = 0; f.properties.op = 0; });
+    const base = conj.camada + '-base';
+
+    function iniciar() {
+      if (meu !== tokenAnim) return;
+      map.setLayoutProperty(base, 'visibility', 'visible');
+      map.setLayoutProperty(conj.camada, 'visibility', 'visible');
+      const t0 = performance.now();
+      (function quadro(agora) {
+        if (meu !== tokenAnim) return;
+        const t = agora - t0;
+        feicoes.forEach((f, i) => {
+          const u = t - inicios[i];
+          f.properties.esc = +easeIO(Math.min(1, Math.max(0, u / DUR))).toFixed(3);
+          f.properties.op = +easeIO(Math.min(1, Math.max(0, (u - FADE_INI) / FADE))).toFixed(3);
+        });
+        aplicarProgresso(conj);
+        if (t < total) { requestAnimationFrame(quadro); return; }
+        feicoes.forEach((f) => { f.properties.esc = 1; f.properties.op = 1; });
+        aplicarProgresso(conj);
+        map.setLayoutProperty(base, 'visibility', 'none');
+      })(t0);
+    }
+    // Envia o estado zerado ao mapa antes de mostrar a camada, para os ícones não piscarem inteiros
+    aplicarProgresso(conj);
+    let ok = false;
+    const liberar = () => { if (!ok) { ok = true; setTimeout(iniciar, atraso); } };
+    const aoCarregar = (e) => {
+      if (e.sourceId === conj.fonte && e.isSourceLoaded) { map.off('sourcedata', aoCarregar); liberar(); }
+    };
+    map.on('sourcedata', aoCarregar);
+    setTimeout(() => { map.off('sourcedata', aoCarregar); liberar(); }, 200);
+  }
+
+  // Troca de século: mostra só a camada da época. O enquadramento é o mesmo do séc. XXI (mesma posição e zoom)
   function aplicarSeculo(novo, animar) {
     seculo = novo;
     popup.remove();
     aviso.classList.toggle('is-visivel', novo === 'xx');
+    tokenAnim++;
+    repousoIcones();
     Object.keys(CONJUNTOS).forEach((chave) => {
       const camada = CONJUNTOS[chave].camada;
-      if (map.getLayer(camada)) map.setLayoutProperty(camada, 'visibility', chave === novo ? 'visible' : 'none');
+      if (map.getLayer(camada)) map.setLayoutProperty(camada, 'visibility', chave === novo && animar !== false ? 'none' : (chave === novo ? 'visible' : 'none'));
     });
     if (animar === false) return;
-    const opcoes = { padding: 40, duration: reduzir ? 0 : 1400, essential: true };
-    if (novo === 'xxi') {
-      map.fitBounds(VISTA_INICIAL, Object.assign({}, opcoes, { padding: 0 }));
-    } else {
-      const b = new maplibregl.LngLatBounds();
-      CONJUNTOS.xx.dados().forEach((c) => b.extend(c.coords));
-      map.fitBounds(b, opcoes);
-    }
+    map.fitBounds(VISTA_INICIAL, { padding: 0, duration: reduzir ? 0 : 1400, essential: true });
+    const conj = CONJUNTOS[novo];
+    if (conj && conj.fc) animarIcones(conj, reduzir ? 0 : 450);
   }
   document.addEventListener('seculo', (e) => aplicarSeculo(e.detail, true));
 
