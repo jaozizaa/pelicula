@@ -49,7 +49,7 @@
     usePortrait: true,
     autoSize: true,
     maxShadowOpacity: 0.3,
-    flippingTime: 700,
+    flippingTime: 820,
     mobileScrollSupport: true,
     swipeDistance: 30
   });
