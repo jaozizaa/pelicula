@@ -71,21 +71,21 @@ img { display: block; max-width: 100%; }
   color: var(--branco);
 }
 
-/* ---------- Topo (100 px, logo 110 × 54 a 23 px do topo) ---------- */
+/* ---------- Topo (148 px, logo 166,7 × 81,9 a 33 px do topo) ---------- */
 .topo {
   position: relative;
   z-index: 2;
-  height: calc(100 * var(--u));
+  height: calc(148 * var(--u));
   background: var(--azul);
 }
 .topo a {
   position: absolute;
-  top: calc(23 * var(--u));
+  top: calc(33 * var(--u));
   left: 50%;
   transform: translateX(-50%);
 }
 .topo img {
-  width: calc(110.016 * var(--u));
+  width: calc(166.729 * var(--u));
   height: auto;
 }
 
@@ -93,7 +93,7 @@ img { display: block; max-width: 100%; }
 .hero {
   position: relative;
   width: 100%;
-  height: calc(924 * var(--u));
+  height: calc(1024 * var(--u));
   overflow: hidden;
   background: var(--azul);
 }
@@ -114,10 +114,10 @@ img { display: block; max-width: 100%; }
   .hero__slide { transition: none; }
 }
 
-/* ---------- Sobre o projeto (757 px) ---------- */
+/* ---------- Sobre o projeto (839 px) ---------- */
 .sobre {
   position: relative;
-  height: calc(757 * var(--u));
+  height: calc(839 * var(--u));
   background: var(--azul);
 }
 .sobre__cabecalho {
@@ -142,17 +142,17 @@ img { display: block; max-width: 100%; }
   line-height: 1.25;
 }
 .sobre__texto {
-  top: calc(300.53 * var(--u));
+  top: calc(319 * var(--u));
   font-size: calc(18 * var(--u));
   letter-spacing: calc(-0.36 * var(--u));
 }
 .sobre__grid { display: contents; }
 .sobre__texto strong { font-weight: 700; }
-.sobre__texto--a { left: calc(720 * var(--u)); width: calc(292 * var(--u)); }
+.sobre__texto--a { left: calc(730 * var(--u)); width: calc(295 * var(--u)); }
 .sobre__texto--b { left: calc(1045 * var(--u)); width: calc(295 * var(--u)); }
 .sobre__credito {
-  left: calc(99 * var(--u));
-  bottom: calc(108.44 * var(--u));
+  left: calc(100 * var(--u));
+  bottom: calc(177 * var(--u));
   width: calc(315 * var(--u));
   font-size: calc(12 * var(--u));
 }
@@ -163,14 +163,25 @@ img { display: block; max-width: 100%; }
   grid-template-columns: calc(396 * var(--u)) 1fr;
   height: calc(1024 * var(--u));
 }
+.mapa {
+  --lat-bg: var(--azul);
+  --lat-fg: var(--branco);
+}
+.mapa[data-seculo="xx"] {
+  --lat-bg: var(--amarelo);
+  --lat-fg: var(--azul);
+}
 .mapa__lateral {
-  background: var(--azul);
-  padding: calc(73 * var(--u)) 0 0 calc(100 * var(--u));
+  background: var(--lat-bg);
+  color: var(--lat-fg);
+  padding: calc(178 * var(--u)) 0 0 calc(100 * var(--u));
+  transition: background .3s;
   display: flex;
   flex-direction: column;
   gap: calc(64 * var(--u));
 }
 .titulo--seculo {
+  color: var(--lat-fg);
   height: calc(60 * var(--u));
   letter-spacing: calc(-4.2518 * var(--u));
 }
@@ -181,7 +192,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--fonte-lista);
   font-weight: 500;
   font-size: calc(18 * var(--u));
-  color: var(--branco);
+  color: var(--lat-fg);
   display: flex;
   flex-direction: column;
   gap: calc(30 * var(--u));
@@ -200,10 +211,10 @@ img { display: block; max-width: 100%; }
   width: calc(101.553 * var(--u));
   height: calc(41.973 * var(--u));
   padding: 0 0 0 calc(10.36 * var(--u));
-  border: calc(2.643 * var(--u)) solid var(--creme);
+  border: calc(2.643 * var(--u)) solid var(--lat-fg);
   border-radius: calc(8.434 * var(--u));
   background: transparent;
-  color: var(--branco);
+  color: var(--lat-fg);
   font-family: var(--fonte-titulo);
   font-weight: 700;
   font-size: calc(33.032 * var(--u));
@@ -214,12 +225,14 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;
   cursor: pointer;
 }
-.botao-seculo--amarelo {
+/* O botão do século que NÃO está aberto fica preenchido com a cor do outro tema */
+.botao-seculo[aria-pressed="false"] {
   border: 0;
   padding-left: calc(13.21 * var(--u));
-  background: var(--amarelo);
-  color: var(--azul);
 }
+.botao-seculo--xxi[aria-pressed="false"] { background: var(--azul); color: var(--creme); }
+.botao-seculo--xx[aria-pressed="false"] { background: var(--amarelo); color: var(--azul); }
+.botao-seculo:focus-visible { outline: 2px solid var(--lat-fg); outline-offset: 3px; }
 
 .mapa__mapa {
   position: relative;
@@ -354,24 +367,85 @@ img { display: block; max-width: 100%; }
   width: min(calc(100vw - 48px), calc((100vh - 110px) * 2.2));
 }
 
-/* ---------- Saiba mais (812 px) ---------- */
-.saiba {
+/* ---------- Saiba mais sobre os autores (715 px) ---------- */
+.autores {
   position: relative;
-  height: calc(812 * var(--u));
+  height: calc(715.46 * var(--u));
   background: var(--azul);
+  color: var(--creme);
 }
-.saiba .titulo {
+.autores__cabecalho {
   position: absolute;
-  left: calc(100 * var(--u));
-  top: calc(95 * var(--u));
+  top: calc(83 * var(--u));
+  left: 50%;
+  transform: translateX(-50%);
+  height: calc(62 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(38.293 * var(--u));
 }
-.saiba__imagem {
+.autores__cabecalho .estrela {
+  width: calc(46.359 * var(--u));
+  height: calc(46.359 * var(--u));
+}
+.autores__coluna {
   position: absolute;
-  left: calc(100 * var(--u));
-  top: calc(243 * var(--u));
-  width: calc(320 * var(--u));
-  height: calc(445 * var(--u));
-  background: var(--cinza);
+  top: calc(266.75 * var(--u));
+}
+.autores__coluna--portfolio { left: calc(99 * var(--u)); }
+.autores__coluna--social { left: calc(632 * var(--u)); }
+.autores__coluna--contatos { left: calc(1048 * var(--u)); }
+.autores__coluna h3 {
+  margin: 0 0 calc(10.972 * var(--u));
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: calc(40 * var(--u));
+  line-height: 1.39;
+  letter-spacing: calc(-0.8 * var(--u));
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.autores__coluna ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: calc(8.534 * var(--u));
+}
+.autores__coluna a {
+  font-family: var(--fonte-lista);
+  font-weight: 500;
+  font-size: calc(19.505 * var(--u));
+  line-height: 1.39;
+  letter-spacing: calc(-0.3901 * var(--u));
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 250, 243, .55);
+  text-decoration: none;
+  transition: color .2s;
+}
+.autores__coluna a:hover,
+.autores__coluna a:focus-visible { color: var(--creme); text-decoration: underline; text-underline-offset: .2em; }
+.autores__logo {
+  position: absolute;
+  left: calc(99 * var(--u));
+  top: calc(485 * var(--u));
+  width: calc(223 * var(--u));
+}
+.autores__logo img { width: 100%; height: auto; }
+.autores__copy {
+  position: absolute;
+  left: calc(99 * var(--u));
+  top: calc(644.5 * var(--u));
+  margin: 0;
+  font-family: var(--fonte-lista);
+  font-weight: 500;
+  font-size: calc(18.997 * var(--u));
+  line-height: 1.1;
+  letter-spacing: calc(-0.9499 * var(--u));
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* ---------- Celular ----------
@@ -379,9 +453,9 @@ img { display: block; max-width: 100%; }
 @media (max-width: 800px) {
   :root { --u: 1px; }
 
-  .topo { height: 64px; }
-  .topo a { top: 13px; }
-  .topo img { width: 80px; }
+  .topo { height: 72px; }
+  .topo a { top: 12px; }
+  .topo img { width: 96px; }
 
   .hero { height: 62vw; }
 
@@ -411,7 +485,13 @@ img { display: block; max-width: 100%; }
   .revista__botao { width: 42px; height: 42px; border-width: 2.6px; border-radius: 8.4px; }
   .revista.is-tela-cheia .revista__livro { width: min(calc(100vw - 48px), calc((100vh - 110px) * 1.1)); }
 
-  .saiba { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 32px; }
-  .saiba .titulo, .saiba__imagem { position: static; }
-  .saiba__imagem { width: 70%; height: auto; aspect-ratio: 320 / 445; }
+  .autores { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 32px; }
+  .autores__cabecalho, .autores__coluna, .autores__logo, .autores__copy { position: static; transform: none; height: auto; }
+  .autores__cabecalho { gap: 12px; justify-content: center; text-align: center; }
+  .autores__cabecalho .titulo { white-space: normal; font-size: 34px; }
+  .autores__cabecalho .estrela { width: 24px; height: 24px; }
+  .autores__coluna h3 { font-size: 32px; }
+  .autores__coluna a { font-size: 17px; white-space: normal; word-break: break-word; }
+  .autores__logo { width: 160px; }
+  .autores__copy { font-size: 14px; white-space: normal; letter-spacing: -0.5px; }
 }

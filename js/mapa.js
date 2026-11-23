@@ -48,6 +48,18 @@
   map.once('load', () => enquadrarCinemas(false));
 
 
+  // Século XX = estrela, século XXI = círculo (mesmos 6 cinemas nos dois)
+  function iconeDoSeculo(seculo) {
+    const prefixo = seculo === 'xxi' ? 'cinema-' : 'estrela-';
+    return ['concat', prefixo, ['to-string', ['get', 'id']]];
+  }
+
+  document.addEventListener('seculo', (e) => {
+    if (map.getLayer('camada-cinemas')) {
+      map.setLayoutProperty('camada-cinemas', 'icon-image', iconeDoSeculo(e.detail));
+    }
+  });
+
   // Cria os ícones, a camada e o popup dos cinemas
   async function adicionarCinemas() {
     if (!window.CINEMAS || !window.criarIconeCinema) return;
@@ -58,6 +70,8 @@
     window.CINEMAS.forEach((cinema) => {
       const nome = 'cinema-' + cinema.id;
       if (!map.hasImage(nome)) map.addImage(nome, window.criarIconeCinema(cinema.id, 160));
+      const estrela = 'estrela-' + cinema.id;
+      if (!map.hasImage(estrela)) map.addImage(estrela, window.criarIconeEstrela(cinema.id, 160));
     });
 
     map.addSource('cinemas', {
@@ -66,7 +80,7 @@
         type: 'FeatureCollection',
         features: window.CINEMAS.map((c) => ({
           type: 'Feature',
-          properties: { id: c.id, nome: c.nome, endereco: c.endereco, icone: 'cinema-' + c.id },
+          properties: { id: c.id, nome: c.nome, endereco: c.endereco },
           geometry: { type: 'Point', coordinates: c.coords }
         }))
       }
@@ -78,7 +92,7 @@
       type: 'symbol',
       source: 'cinemas',
       layout: {
-        'icon-image': ['get', 'icone'],
+        'icon-image': iconeDoSeculo(window.SECULO_ATUAL),
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
         'icon-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0.2, 13.5, 0.28, 14.5, 0.33, 16, 0.4, 18, 0.5]

@@ -1,0 +1,27 @@
+// Botões SÉC. XX / SÉC. XXI: trocam o tema da lateral (amarelo / azul),
+// o título e avisam o mapa (que troca o ícone: estrela no XX, círculo no XXI).
+// Os dois séculos mostram os mesmos 6 cinemas, como no layout do Figma.
+(function () {
+  var secao = document.getElementById('mapa');
+  if (!secao) return;
+  var titulo = document.getElementById('mapa-titulo');
+  var botoes = secao.querySelectorAll('.botao-seculo');
+
+  var ROTULOS = { xx: 'Séc. XX', xxi: 'Séc. XXI' };
+
+  function definir(seculo) {
+    secao.setAttribute('data-seculo', seculo);
+    if (titulo) titulo.textContent = ROTULOS[seculo];
+    botoes.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-seculo') === seculo));
+    });
+    window.SECULO_ATUAL = seculo;
+    document.dispatchEvent(new CustomEvent('seculo', { detail: seculo }));
+  }
+
+  botoes.forEach(function (b) {
+    b.addEventListener('click', function () { definir(b.getAttribute('data-seculo')); });
+  });
+
+  window.SECULO_ATUAL = secao.getAttribute('data-seculo') || 'xx';
+})();

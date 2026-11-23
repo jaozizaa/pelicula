@@ -20,7 +20,7 @@
 
   <header class="topo">
     <a href="#" aria-label="Revista Película — início">
-      <img src="img/logo.svg" alt="Película" width="110" height="54">
+      <img src="img/logo.svg" alt="Película" width="167" height="82">
     </a>
   </header>
 
@@ -52,9 +52,9 @@
       </div>
     </section>
 
-    <section class="mapa" id="mapa">
+    <section class="mapa" id="mapa" data-seculo="xx">
       <aside class="mapa__lateral">
-        <h2 class="titulo titulo--seculo">Séc. XXI</h2>
+        <h2 class="titulo titulo--seculo" id="mapa-titulo">Séc. XX</h2>
 
         <ol class="mapa__lista">
           <li>Theatro Brasil</li>
@@ -66,8 +66,8 @@
         </ol>
 
         <div class="mapa__seculos">
-          <button class="botao-seculo" type="button" aria-pressed="true">Séc. XXI</button>
-          <button class="botao-seculo botao-seculo--amarelo" type="button" aria-pressed="false">Séc. XX</button>
+          <button class="botao-seculo botao-seculo--xxi" type="button" data-seculo="xxi" aria-pressed="false">Séc. XXI</button>
+          <button class="botao-seculo botao-seculo--xx" type="button" data-seculo="xx" aria-pressed="true">Séc. XX</button>
         </div>
       </aside>
 
@@ -97,10 +97,41 @@
       </div>
     </section>
 
-    <section class="saiba" id="saiba-mais">
-      <h2 class="titulo">Saiba mais</h2>
-      <!-- Retângulo cinza do layout: troque pela imagem real -->
-      <div class="saiba__imagem" role="img" aria-label="Espaço reservado para imagem"></div>
+    <section class="autores" id="autores" aria-labelledby="autores-titulo">
+      <div class="autores__cabecalho">
+        <img class="estrela" src="img/estrela.svg" alt="" width="46" height="46">
+        <h2 class="titulo" id="autores-titulo">Saiba mais sobre os autores</h2>
+        <img class="estrela" src="img/estrela.svg" alt="" width="46" height="46">
+      </div>
+
+      <div class="autores__coluna autores__coluna--portfolio">
+        <h3>Portfólio</h3>
+        <ul>
+          <li><a href="https://www.behance.net/luzacypriano" target="_blank" rel="noopener noreferrer">behance.net/luzacypriano</a></li>
+          <li><a href="https://www.behance.net/joovimiranda13" target="_blank" rel="noopener noreferrer">behance.net/joovimiranda13</a></li>
+        </ul>
+      </div>
+
+      <div class="autores__coluna autores__coluna--social">
+        <h3>Social Media</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/luh_cy/" target="_blank" rel="noopener noreferrer">@luh_cy</a></li>
+          <li><a href="https://www.instagram.com/jaoziza/" target="_blank" rel="noopener noreferrer">@jaoziza</a></li>
+        </ul>
+      </div>
+
+      <div class="autores__coluna autores__coluna--contatos">
+        <h3>Contatos</h3>
+        <ul>
+          <li><a href="mailto:luizacyprisouz4@gmail.com">luizacyprisouz4@gmail.com</a></li>
+          <li><a href="mailto:jvmiranda2003@gmail.com">jvmiranda2003@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <a class="autores__logo" href="#" aria-label="Revista Película — voltar ao topo">
+        <img src="img/logo.svg" alt="Película" width="223" height="110">
+      </a>
+      <p class="autores__copy">revistapelicula.online© 2026 All Rights Reserved</p>
     </section>
   </main>
 
@@ -108,6 +139,7 @@
   <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
   <script src="js/revista.js"></script>
   <script src="js/cinemas.js"></script>
+  <script src="js/seculos.js"></script>
   <script src="js/mapa.js"></script>
 </body>
 </html>

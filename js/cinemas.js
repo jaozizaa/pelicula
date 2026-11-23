@@ -79,3 +79,44 @@ window.criarIconeCinema = function (numero, diametro) {
 
   return ctx.getImageData(0, 0, D, D);
 };
+
+// Ícone do século XX: estrela azul com o número em branco (Star 18 do Figma, 32 px).
+window.criarIconeEstrela = function (numero, tamanho) {
+  var D = tamanho || 160;
+  var AZUL = '#0132CA';
+  var BRANCO = '#FFFFFF';
+  // Vértices da estrela (mesmos pontos de img/estrela.svg, em 44,09 × 46,36)
+  var PONTOS = [
+    [22.0449, 0], [25.1965, 13.4796], [35.6693, 4.42686], [30.296, 17.1846], [44.0897, 16.0165],
+    [32.2438, 23.1793], [44.0897, 30.3422], [30.296, 29.1741], [35.6693, 41.9318], [25.1965, 32.8791],
+    [22.0449, 46.3587], [18.8932, 32.8791], [8.42039, 41.9318], [13.7938, 29.1741], [0, 30.3422],
+    [11.846, 23.1793], [0, 16.0165], [13.7938, 17.1846], [8.42039, 4.42686], [18.8932, 13.4796]
+  ];
+  var canvas = document.createElement('canvas');
+  canvas.width = D;
+  canvas.height = D;
+  var ctx = canvas.getContext('2d');
+
+  ctx.beginPath();
+  PONTOS.forEach(function (p, i) {
+    var x = p[0] / 44.0897 * D, y = p[1] / 46.3587 * D;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = AZUL;
+  ctx.fill();
+
+  ctx.fillStyle = BRANCO;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.font = '700 ' + Math.round(D * 0.36) + 'px "Helvetica Local", "Helvetica Neue", Helvetica, Arial, sans-serif';
+  var texto = String(numero);
+  var m = ctx.measureText(texto);
+  var altura = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+  var c = D / 2;
+  var y = c + altura / 2 - m.actualBoundingBoxDescent;
+  var x = c + (m.actualBoundingBoxLeft - m.actualBoundingBoxRight) / 2;
+  ctx.fillText(texto, x, y);
+
+  return ctx.getImageData(0, 0, D, D);
+};
