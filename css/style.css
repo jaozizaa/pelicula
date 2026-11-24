@@ -461,10 +461,10 @@ img { color: transparent; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: calc(22 * var(--u));
+  gap: calc(56 * var(--u)); /* respiro entre a revista (com a sombra) e os botões */
 }
 .revista__livro {
-  width: min(calc(1240 * var(--u)), calc((653 - 70) * var(--u) * 2.2));
+  width: min(calc(1240 * var(--u)), calc((653 - 118) * var(--u) * 2.2));
 }
 #livro { margin: 0 auto; }
 /* Borda e sombra da revista: as páginas brancas somem no fundo branco sem isso.
@@ -544,7 +544,7 @@ img { color: transparent; }
   justify-content: center;
   padding: 24px;
 }
-.revista.is-tela-cheia .revista__palco { height: 100%; width: 100%; gap: 16px; }
+.revista.is-tela-cheia .revista__palco { height: 100%; width: 100%; gap: 28px; }
 .revista.is-tela-cheia .revista__livro {
   width: min(calc(100vw - 48px), calc((100vh - 110px) * 2.2));
 }
@@ -813,7 +813,7 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
     .mapa__mapa { aspect-ratio: 1 / 1; }
 
   .revista { padding: 32px 24px; }
-  .revista__palco { height: auto; gap: 18px; }
+  .revista__palco { height: auto; gap: 36px; }
   .revista__livro { width: 100%; }
   .revista__contador { font-size: 15px; min-width: 90px; }
   .revista__botao { width: 42px; height: 42px; border-width: 2.6px; border-radius: 8.4px; }
