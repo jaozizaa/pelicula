@@ -844,7 +844,7 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
 .revista__palco:focus:not(:focus-visible) { outline: none; }
 
 /* Ícone do Instagram (contorno branco) ao lado dos @ do rodapé */
-.autores__coluna--social a { display: inline-flex; align-items: center; gap: .45em; }
+.autores__coluna a, .autores__link-pendente { display: inline-flex; align-items: center; gap: .45em; }
 .icone-instagram {
   flex: none;
   width: 1.15em;
