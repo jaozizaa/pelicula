@@ -55,7 +55,17 @@
       b.type = 'button';
       b.className = 'mapa__cinema';
       b.dataset.cinema = c.id;
-      b.textContent = seculo === 'xx' ? c.nome : (NOMES_XXI[c.id] || c.nome);
+      if (seculo === 'xx') {
+        // Séc. XX: o número fica dentro do botão e preso à primeira linha (o marcador nativo da lista
+        // alinhava com a última linha quando o nome quebrava em duas, no Firefox/Zen)
+        var num = document.createElement('span');
+        num.className = 'mapa__num';
+        num.textContent = c.id + '.';
+        b.appendChild(num);
+        b.appendChild(document.createTextNode(c.nome));
+      } else {
+        b.textContent = NOMES_XXI[c.id] || c.nome;
+      }
       li.appendChild(b);
       lista.appendChild(li);
     });

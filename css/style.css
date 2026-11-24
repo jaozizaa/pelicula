@@ -433,7 +433,15 @@ img { color: transparent; }
 .mapa[data-seculo="xx"] .mapa__lista li,
 .mapa[data-seculo="xx"] .mapa__lista li:first-child { line-height: 1.2; }
 /* nome longo quebra em duas linhas com o número alinhado à primeira */
-.mapa[data-seculo="xx"] .mapa__cinema { display: inline; }
+.mapa[data-seculo="xx"] .mapa__lista { list-style: none; padding-left: calc(34 * var(--u)); }
+.mapa[data-seculo="xx"] .mapa__lista li { position: relative; }
+.mapa[data-seculo="xx"] .mapa__cinema { display: block; width: 100%; }
+.mapa[data-seculo="xx"] .mapa__num {
+  position: absolute;
+  right: 100%;
+  margin-right: .3em;
+  white-space: nowrap;
+}
 .mapa[data-seculo="xx"] .mapa__lista::-webkit-scrollbar { width: 4px; }
 .mapa[data-seculo="xx"] .mapa__lista::-webkit-scrollbar-thumb { background: var(--azul); border-radius: 2px; }
 .maplibregl-popup-anchor-top .maplibregl-popup-tip,
@@ -801,7 +809,7 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
   .titulo--seculo { height: auto; letter-spacing: -2.4px; }
   .mapa__lista { font-size: 17px; gap: 24px; padding-left: 24px; }
   .mapa__lista li, .mapa__lista li:first-child { line-height: 1.1; }
-  .mapa[data-seculo="xx"] .mapa__lista { height: 300px; gap: 0; margin-right: 0; padding-bottom: 52px; }
+  .mapa[data-seculo="xx"] .mapa__lista { height: 300px; gap: 0; margin-right: 0; padding-bottom: 52px; padding-left: 36px; }
   .mapa__cinema { min-height: 44px; }
   .mapa__lista { gap: 0; }
   .mapa__seculos { flex-direction: row; gap: 16px; }
