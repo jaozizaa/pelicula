@@ -4,23 +4,8 @@
   var html = document.documentElement;
   var intro = document.getElementById('intro');
   if (!intro) return;
-  // Clique na logo do header: a abertura toca de novo (apaga a marca desta aba e recarrega do topo)
-  var logo = document.querySelector('.topo__logo');
-  if (logo) logo.addEventListener('click', function (e) {
-    // Ctrl/Cmd/Shift/Alt + clique e clique do meio mantêm o comportamento normal do link
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    try { sessionStorage.removeItem('pelicula-intro'); } catch (err) {}
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    location.replace(location.pathname + location.search);
-  });
-  if (!html.classList.contains('com-intro')) { intro.remove(); return; }
-  // A foto do hero fica parada durante e depois da abertura: sem a animação de entrada própria do hero
   // Enquanto a abertura cobre a tela, o conteúdo de trás não recebe foco pelo teclado
   var atras = document.querySelectorAll('header.topo, main');
-  atras.forEach(function (el) { el.setAttribute('inert', ''); });
-  var hero = document.querySelector('.hero[data-enter]');
-  if (hero) hero.removeAttribute('data-enter');
 
   var TEXTOS = [
     'No século XX, a capital mineira Belo Horizonte contava com mais de 100 salas de cinema de rua. ' +
@@ -38,10 +23,6 @@
   var terminou = false;
 
   function depois(ms, fn) { timers.push(setTimeout(fn, ms)); }
-  try { sessionStorage.setItem('pelicula-intro', '1'); } catch (e) {}
-  window.scrollTo(0, 0);
-  // Alguns navegadores restauram a rolagem só depois do carregamento: volta ao topo de novo
-  window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
   // Monta o texto inteiro em letras invisíveis: as linhas já ficam na posição final
   function montar(texto) {
@@ -105,7 +86,7 @@
     html.classList.add('intro-header');
     setTimeout(function () {
       document.dispatchEvent(new Event('intro-fim'));
-      intro.remove();
+      // A faixa fica no HTML (escondida) para a abertura poder tocar de novo
       html.classList.remove('com-intro', 'intro-sobe', 'intro-header');
     }, 1400);
   }
@@ -124,7 +105,43 @@
     }
   });
 
-  // Espera a fonte carregar para as linhas não mudarem durante a digitação
-  var comecar = function () { depois(500, function () { datilografar(0); }); };
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(comecar); else comecar();
+  // Começa (ou recomeça) a abertura do zero, sem recarregar a página
+  function tocar() {
+    timers.forEach(clearTimeout);
+    timers = [];
+    terminou = false;
+    try { sessionStorage.setItem('pelicula-intro', '1'); } catch (e) {}
+    intro.style.clipPath = '';
+    intro.style.visibility = '';
+    intro.classList.remove('sobe');
+    caixa.textContent = '';
+    caixa.classList.remove('sai');
+    html.classList.remove('intro-sobe', 'intro-header');
+    html.classList.add('com-intro');
+    atras.forEach(function (el) { el.setAttribute('inert', ''); });
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    // Espera a fonte carregar para as linhas não mudarem durante a digitação
+    var comecar = function () { depois(500, function () { datilografar(0); }); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(comecar); else comecar();
+  }
+
+  // Clique na logo do header: a abertura toca de novo (não com animações reduzidas)
+  var logo = document.querySelector('.topo__logo');
+  if (logo) logo.addEventListener('click', function (e) {
+    // Ctrl/Cmd/Shift/Alt + clique e clique do meio mantêm o comportamento normal do link
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    e.preventDefault();
+    if (!html.classList.contains('com-intro')) tocar();
+  });
+
+  if (html.classList.contains('com-intro')) {
+    // A foto do hero fica parada durante e depois da abertura: sem a animação de entrada própria do hero
+    var hero = document.querySelector('.hero[data-enter]');
+    if (hero) hero.removeAttribute('data-enter');
+    window.scrollTo(0, 0);
+    // Alguns navegadores restauram a rolagem só depois do carregamento: volta ao topo de novo
+    window.addEventListener('load', function () { window.scrollTo(0, 0); });
+    tocar();
+  }
 })();
