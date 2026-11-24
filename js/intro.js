@@ -125,12 +125,11 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(comecar); else comecar();
   }
 
-  // Clique na logo do header: a abertura toca de novo (não com animações reduzidas)
+  // Clique na logo do header: a abertura toca de novo
   var logo = document.querySelector('.topo__logo');
   if (logo) logo.addEventListener('click', function (e) {
     // Ctrl/Cmd/Shift/Alt + clique e clique do meio mantêm o comportamento normal do link
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     e.preventDefault();
     if (!html.classList.contains('com-intro')) tocar();
   });

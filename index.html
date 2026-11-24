@@ -30,13 +30,13 @@
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
   <link rel="stylesheet" href="css/style.css">
   <script>
-    // Abertura: roda uma vez por sessão e nunca com animações reduzidas
+    // Abertura: roda uma vez por aba (não repete no F5). Não depende de "reduzir movimento":
+        // em alguns navegadores (ex.: Zen) a preferência vem ligada sem a pessoa ter pedido
     (function () {
       try {
-        var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         // Teste: com ?intro no endereço a abertura roda sempre, a cada recarregamento
         var forcar = /[?&]intro\b/.test(location.search);
-        if (forcar || (!reduz && !sessionStorage.getItem('pelicula-intro'))) {
+        if (forcar || !sessionStorage.getItem('pelicula-intro')) {
           document.documentElement.classList.add('com-intro');
           // Quem vê a abertura começa do topo: o navegador não restaura a rolagem do recarregamento
           // e um #seção no endereço não faz pular para baixo
@@ -128,7 +128,7 @@
     </section>
 
     <section class="revista" id="revista" aria-label="Leia a Revista Película">
-      <div class="revista__palco">
+      <div class="revista__palco" tabindex="0" aria-label="Revista: use as setas do teclado para virar as páginas">
         <div class="revista__livro">
           <div id="livro"></div>
         </div>

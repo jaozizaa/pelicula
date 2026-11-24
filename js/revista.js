@@ -100,15 +100,18 @@
   anterior.addEventListener('click', function () { livro.flipPrev(); });
   proxima.addEventListener('click', function () { livro.flipNext(); });
 
-  // Setas do teclado quando a revista está visível
+  // Clicar na revista dá foco a ela (o leitor de páginas pode cancelar o foco padrão do clique)
+  var palco = secao.querySelector('.revista__palco');
+  if (palco) secao.addEventListener('pointerdown', function (e) {
+    if (!e.target.closest('button') && palco.focus) palco.focus({ preventScroll: true });
+  }, true);
+
+  // Setas do teclado, só com a revista em foco
   document.addEventListener('keydown', function (e) {
     if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-    // Só quando o foco está na revista (ou em lugar nenhum): no mapa e em campos as setas são deles
+    // Só com o foco na revista (clicou nela ou chegou pelo Tab): no mapa e em campos as setas são deles
     var foco = document.activeElement;
-    if (foco && foco !== document.body && !secao.contains(foco)) return;
-    var r = secao.getBoundingClientRect();
-    var visivel = r.top < window.innerHeight && r.bottom > 0;
-    if (!visivel) return;
+    if (!foco || !secao.contains(foco)) return;
     if (e.key === 'ArrowRight') livro.flipNext();
     if (e.key === 'ArrowLeft') livro.flipPrev();
   });

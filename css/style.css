@@ -339,9 +339,6 @@ img { display: block; max-width: 100%; }
 }
 .botao-seculo:active { transform: translateY(1px) scale(.985); transition-duration: 90ms; }
 .botao-seculo:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 10px; }
-@media (prefers-reduced-motion: reduce) {
-  .botao-seculo, .botao-seculo__fundo, .botao-seculo__texto { transition: none; }
-}
 
 .mapa__mapa {
   position: relative;
@@ -690,7 +687,6 @@ img { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .pular { transition: none; }
   .hero__pausa { display: none; } /* com animações reduzidas o slideshow já fica parado */
-  .mapa__cinema { transition: none; }
 }
 
 /* Troca de século: título e lista surgem juntos, da esquerda para a direita.
@@ -835,3 +831,6 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
   .sobre__cabecalho .titulo { white-space: normal; font-size: clamp(32px, 11vw, 44px); }
   .hero__pausa { left: 12px; bottom: 12px; }
 }
+
+/* Palco da revista: recebe o foco ao clicar; as setas do teclado só viram a página com ele em foco */
+.revista__palco:focus:not(:focus-visible) { outline: none; }

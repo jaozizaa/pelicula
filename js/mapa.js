@@ -82,7 +82,8 @@
   };
   let seculo = window.SECULO_ATUAL || 'xxi';
   const popup = new maplibregl.Popup({ closeButton: false, offset: 18, maxWidth: '260px' });
-  const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // As animações do mapa não dependem de "reduzir movimento" (no Zen a preferência costuma vir ligada)
+  const reduzir = false;
 
   // Aviso pequeno no canto do mapa (só no séc. XX)
   const aviso = document.createElement('p');
