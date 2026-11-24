@@ -87,7 +87,7 @@
   // Aviso pequeno no canto do mapa (só no séc. XX)
   const aviso = document.createElement('p');
   aviso.className = 'mapa__aviso';
-  aviso.textContent = 'Algumas localizações do séc. XX são aproximadas: o livro "O Fim das Coisas" (PBH, 1995) cita só a rua ou o bairro.';
+  aviso.append('Algumas localizações desses cinemas são aproximadas', document.createElement('br'), 'Fonte: “O Fim Das Coisas”');
   map.getContainer().appendChild(aviso);
 
   function abrirBalao(c) {
