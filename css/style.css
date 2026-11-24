@@ -452,19 +452,18 @@ img { color: transparent; }
    Área do Figma: 1240 × 653 dentro da faixa creme com 100 px de margem.
    Duas páginas lado a lado = 44 × 20 cm (proporção 2,2 : 1). */
 .revista {
+  --respiro: calc(76 * var(--u)); /* revista ↔ botões e botões ↔ fim da seção: a mesma distância */
   background: var(--creme);
-  padding: calc(100 * var(--u));
+  padding: calc(100 * var(--u)) calc(100 * var(--u)) var(--respiro);
 }
 .revista__palco {
-  height: calc(653 * var(--u));
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: calc(56 * var(--u)); /* respiro entre a revista (com a sombra) e os botões */
+  gap: var(--respiro);
 }
 .revista__livro {
-  width: min(calc(1240 * var(--u)), calc((653 - 118) * var(--u) * 2.2));
+  width: calc(1240 * var(--u));
 }
 #livro { margin: 0 auto; }
 /* Borda e sombra da revista: as páginas brancas somem no fundo branco sem isso.
@@ -539,14 +538,16 @@ img { color: transparent; }
 
 /* Tela cheia */
 .revista.is-tela-cheia {
+  --respiro: clamp(32px, 7vh, 72px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: var(--respiro) 24px;
 }
-.revista.is-tela-cheia .revista__palco { height: 100%; width: 100%; gap: 28px; }
+.revista.is-tela-cheia .revista__palco { height: 100%; width: 100%; justify-content: center; gap: var(--respiro); }
 .revista.is-tela-cheia .revista__livro {
-  width: min(calc(100vw - 48px), calc((100vh - 110px) * 2.2));
+  /* altura da tela = respiro (cima) + revista + respiro + botões (~44 px) + respiro (baixo) */
+  width: min(calc(100vw - 48px), calc((100vh - 3 * var(--respiro) - 48px) * 2.2));
 }
 
 /* ---------- Saiba mais sobre os autores (736 px) ---------- */
@@ -812,12 +813,13 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
   .mapa__seculos { flex-direction: row; gap: 16px; }
     .mapa__mapa { aspect-ratio: 1 / 1; }
 
-  .revista { padding: 32px 24px; }
-  .revista__palco { height: auto; gap: 36px; }
+  .revista { --respiro: 36px; padding: 32px 24px var(--respiro); }
+  .revista__palco { height: auto; }
   .revista__livro { width: 100%; }
   .revista__contador { font-size: 15px; min-width: 90px; }
   .revista__botao { width: 42px; height: 42px; border-width: 2.6px; border-radius: 8.4px; }
-  .revista.is-tela-cheia .revista__livro { width: min(calc(100vw - 48px), calc((100vh - 110px) * 1.1)); }
+  .revista.is-tela-cheia { padding: var(--respiro) 24px; }
+  .revista.is-tela-cheia .revista__livro { width: min(calc(100vw - 48px), calc((100vh - 3 * var(--respiro) - 48px) * 1.1)); }
 
   .autores { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 32px; }
   .autores__cabecalho, .autores__coluna, .autores__logo, .autores__copy { position: static; transform: none; height: auto; }
