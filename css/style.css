@@ -319,8 +319,6 @@ img { color: transparent; }
   border: 0;
   background: none;
   cursor: pointer;
-  /* taste-skill: sobe 1px no hover (150 ms), afunda 1px e escala .985 no clique (90 ms) */
-  transition: transform 120ms cubic-bezier(.2, .8, .2, 1);
   -webkit-tap-highlight-color: transparent;
 }
 .botao-seculo svg { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -337,10 +335,8 @@ img { color: transparent; }
 .botao-seculo[aria-pressed="true"] .botao-seculo__fundo { fill: var(--azul); }
 .botao-seculo[aria-pressed="true"] .botao-seculo__texto { fill: var(--creme); }
 @media (hover: hover) and (pointer: fine) {
-  .botao-seculo:hover { transform: translateY(-1px); transition-duration: 150ms; }
   .botao-seculo[aria-pressed="false"]:hover .botao-seculo__fundo { fill: rgba(1, 50, 202, .14); transition-duration: 150ms; }
 }
-.botao-seculo:active { transform: translateY(1px) scale(.985); transition-duration: 90ms; }
 .botao-seculo:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 10px; }
 
 .mapa__mapa {
@@ -415,8 +411,9 @@ img { color: transparent; }
 
 /* Séc. XX: muitos cinemas. A lista ocupa a mesma área da do séc. XXI e rola por dentro,
    assim os botões de século não mudam de lugar */
+/* Mesma altura da lista do séc. XXI (6 itens): os botões de século não mudam de lugar ao trocar */
 .mapa[data-seculo="xx"] .mapa__lista {
-  height: calc(268 * var(--u));
+  height: calc(238 * var(--u));
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: calc(16 * var(--u));
@@ -811,7 +808,7 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
   .mapa__lista li, .mapa__lista li:first-child { line-height: 1.1; }
   .mapa[data-seculo="xx"] .mapa__lista { height: 300px; gap: 0; margin-right: 0; padding-bottom: 52px; padding-left: 36px; }
   .mapa__cinema { min-height: 44px; }
-  .mapa__lista { gap: 0; }
+  .mapa__lista { gap: 0; height: 300px; }
   .mapa__seculos { flex-direction: row; gap: 16px; }
     .mapa__mapa { aspect-ratio: 1 / 1; }
 
@@ -845,3 +842,17 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
 
 /* Palco da revista: recebe o foco ao clicar; as setas do teclado só viram a página com ele em foco */
 .revista__palco:focus:not(:focus-visible) { outline: none; }
+
+/* Ícone do Instagram (contorno branco) ao lado dos @ do rodapé */
+.autores__coluna--social a { display: inline-flex; align-items: center; gap: .45em; }
+.icone-instagram {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icone-instagram .ponto { fill: #fff; stroke: none; }
