@@ -95,6 +95,9 @@ body {
   overflow-x: hidden;
 }
 img { display: block; max-width: 100%; }
+/* Enquanto a imagem carrega, o Firefox/Zen mostra o texto alternativo (alt) em azul/branco: deixa invisível.
+   Leitores de tela continuam lendo o alt normalmente. */
+img { color: transparent; }
 
 /* ---------- Títulos (Organda MN Bold 85,037 px) ---------- */
 .titulo {
