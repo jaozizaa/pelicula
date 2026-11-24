@@ -102,6 +102,10 @@
 
   // Setas do teclado quando a revista está visível
   document.addEventListener('keydown', function (e) {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    // Só quando o foco está na revista (ou em lugar nenhum): no mapa e em campos as setas são deles
+    var foco = document.activeElement;
+    if (foco && foco !== document.body && !secao.contains(foco)) return;
     var r = secao.getBoundingClientRect();
     var visivel = r.top < window.innerHeight && r.bottom > 0;
     if (!visivel) return;

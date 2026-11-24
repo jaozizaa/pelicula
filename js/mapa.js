@@ -32,6 +32,10 @@
     locale: {
       'CooperativeGesturesHandler.WindowsHelpText': 'Use Ctrl + rolagem para dar zoom no mapa',
       'CooperativeGesturesHandler.MacHelpText': 'Use ⌘ + rolagem para dar zoom no mapa',
+      'NavigationControl.ZoomIn': 'Aproximar o mapa',
+      'NavigationControl.ZoomOut': 'Afastar o mapa',
+      'AttributionControl.ToggleAttribution': 'Mostrar ou ocultar os créditos do mapa',
+      'AttributionControl.MapFeedback': 'Enviar comentário sobre o mapa',
       'CooperativeGesturesHandler.MobileHelpText': 'Use dois dedos para mover o mapa'
     }
   });
@@ -255,6 +259,10 @@
   function animarIcones(conj, atraso) {
     const meu = ++tokenAnim;
     const feicoes = conj.fc.features;
+    if (reduzir) { // sem movimento: os ícones já aparecem prontos
+      map.setLayoutProperty(conj.camada, 'visibility', 'visible');
+      return;
+    }
     const n = feicoes.length;
     const T = Math.min(2800, 900 + n * 18);   // tempo até o último começar
     const DUR = 560;                           // a bolinha crescendo

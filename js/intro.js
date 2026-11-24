@@ -7,6 +7,8 @@
   // Clique na logo do header: a abertura toca de novo (apaga a marca desta aba e recarrega do topo)
   var logo = document.querySelector('.topo__logo');
   if (logo) logo.addEventListener('click', function (e) {
+    // Ctrl/Cmd/Shift/Alt + clique e clique do meio mantêm o comportamento normal do link
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     try { sessionStorage.removeItem('pelicula-intro'); } catch (err) {}
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -14,6 +16,9 @@
   });
   if (!html.classList.contains('com-intro')) { intro.remove(); return; }
   // A foto do hero fica parada durante e depois da abertura: sem a animação de entrada própria do hero
+  // Enquanto a abertura cobre a tela, o conteúdo de trás não recebe foco pelo teclado
+  var atras = document.querySelectorAll('header.topo, main');
+  atras.forEach(function (el) { el.setAttribute('inert', ''); });
   var hero = document.querySelector('.hero[data-enter]');
   if (hero) hero.removeAttribute('data-enter');
 
@@ -96,6 +101,7 @@
     window.scrollTo(0, 0);
     // A faixa azul que sobrou tem a mesma cor e altura do header: some sem corte visível
     intro.style.visibility = 'hidden';
+    atras.forEach(function (el) { el.removeAttribute('inert'); });
     html.classList.add('intro-header');
     setTimeout(function () {
       document.dispatchEvent(new Event('intro-fim'));

@@ -17,6 +17,7 @@
   // cobre o texto e encolhe para a direita (Web Animations: igual em Chrome, Firefox/Zen e Safari)
   function revelarTexto() {
     if (!lateral || !titulo || !lista || !lateral.animate) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // sem movimento: o texto troca direto
     if (!cortina) {
       cortina = document.createElement('div');
       cortina.className = 'mapa__cortina';
