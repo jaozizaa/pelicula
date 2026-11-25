@@ -614,7 +614,7 @@ img { color: transparent; }
 .autor__foto--vazio { background: var(--azul); }
 .autor__foto--duo { background: var(--azul); isolation: isolate; overflow: hidden; }
 .autor__foto--duo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; filter: grayscale(1) contrast(1.3) brightness(.9); mix-blend-mode: screen; opacity: .9; }
-.faixa { position: absolute; top: 0; bottom: 0; left: calc(642 * var(--u)); width: calc(158 * var(--u)); background: var(--amarelo); }
+.faixa { position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: calc(158 * var(--u)); background: var(--amarelo); }
 .bolinha { position: absolute; mix-blend-mode: multiply; pointer-events: none; }
 .bolinha { width: calc(102.9 * var(--u)); height: calc(102.9 * var(--u)); }
 .bolinha--a1 { left: calc(898 * var(--u) - 51.45 * var(--u)); top: calc(149.5 * var(--u) - 51.45 * var(--u)); }
