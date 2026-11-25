@@ -1,43 +1,50 @@
 // Dados dos cinemas e ícone numerado desenhado por código.
 // Para ajustar a posição de um cinema, mude "coords" ([longitude, latitude]).
 
+// Numeração por ano de inauguração da sala: 1 = mais antiga, 6 = mais nova
 window.CINEMAS = [
   {
     id: 1,
+    ano: 1932,
     nome: 'Theatro Brasil',
     endereco: 'Av. Amazonas, 315 — Centro',
     coords: [-43.9379691, -19.9190461]
   },
   {
     id: 2,
+    ano: 1944,
+    nome: 'Santa Tereza',
+    endereco: 'Rua Estrela do Sul, 89 — Santa Tereza',
+    coords: [-43.9168092, -19.9163137]
+  },
+  {
+    id: 3,
+    ano: 1978,
     nome: 'Humberto Mauro',
     endereco: 'Palácio das Artes — Av. Afonso Pena, 1537, Centro',
     coords: [-43.9335244, -19.925852]
   },
   {
-    id: 3,
+    id: 4,
+    ano: 1992,
     nome: 'Belas Artes',
     endereco: 'Rua Gonçalves Dias, 1581 — Lourdes',
     coords: [-43.9396044, -19.9308357]
   },
   {
-    id: 4,
+    id: 5,
+    ano: 2022,
     nome: 'Minas Tênis',
     endereco: 'Rua da Bahia, 2244 — Lourdes',
     coords: [-43.9410098, -19.9352484]
   },
   {
-    id: 5,
+    id: 6,
+    ano: 2025,
     nome: 'Graciano',
     endereco: 'Rua Itapecerica, 468 — Lagoinha',
     // Posição aproximada (meio da Rua Itapecerica); ajuste se tiver o ponto exato
     coords: [-43.9453, -19.9075]
-  },
-  {
-    id: 6,
-    nome: 'Santa Tereza',
-    endereco: 'Rua Estrela do Sul, 89 — Santa Tereza',
-    coords: [-43.9168092, -19.9163137]
   }
 ];
 

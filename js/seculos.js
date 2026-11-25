@@ -44,7 +44,7 @@
   }
 
   // Monta a lista de cinemas da época (nomes curtos no séc. XXI, como no Figma)
-  var NOMES_XXI = { 1: 'Theatro Brasil', 2: 'Humberto Mauro', 3: 'Belas Artes', 4: 'Minas Tênis', 5: 'Graciano', 6: 'Santa Tereza' };
+  var NOMES_XXI = { 1: 'Theatro Brasil', 2: 'Santa Tereza', 3: 'Humberto Mauro', 4: 'Belas Artes', 5: 'Minas Tênis', 6: 'Graciano' };
   function montarLista(seculo) {
     if (!lista) return;
     var dados = seculo === 'xx' ? (window.CINEMAS_XX || []) : (window.CINEMAS || []);
