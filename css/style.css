@@ -595,6 +595,8 @@ img { color: transparent; }
   line-height: 1.17;
   text-align: justify;
 }
+.autor--joao .autor__bio { letter-spacing: calc(-0.3 * var(--u)); hyphenate-limit-chars: 5 2 2; }
+.sem-hifen { hyphens: manual; }
 .autor--luiza .autor__bio { letter-spacing: calc(-0.18 * var(--u)); }
 .autor__bio-resto { letter-spacing: calc(-0.48 * var(--u)); }
 .autor__bio p { margin: 0; }
@@ -938,3 +940,4 @@ html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
   stroke-linejoin: round;
 }
 .icone-instagram .ponto { fill: #fff; stroke: none; }
+.autor--joao .autor__bio p + p { letter-spacing: calc(-0.6 * var(--u)); }
