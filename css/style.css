@@ -458,7 +458,7 @@ img { color: transparent; }
    Duas páginas lado a lado = 44 × 20 cm (proporção 2,2 : 1). */
 .revista {
   --respiro: calc(76 * var(--u)); /* revista ↔ botões e botões ↔ fim da seção: a mesma distância */
-  background: var(--azul);
+  background: var(--branco);
   padding: calc(100 * var(--u)) calc(100 * var(--u)) var(--respiro);
 }
 .revista__palco {
@@ -499,10 +499,10 @@ img { color: transparent; }
   user-select: none;
   pointer-events: none;
 }
-.revista__aviso { color: var(--creme); text-align: center; }
+.revista__aviso { color: var(--azul); text-align: center; }
 
 .revista__controles {
-  /* Mesma linguagem dos botões de século: contorno de 2,667, cantos de 8,4, branco sobre o azul.
+  /* Mesma linguagem dos botões de século: contorno de 2,667, cantos de 8,4, azul sobre o branco.
      Hover: preenche de amarelo (o acento do site); clique: afunda levemente. */
   --ctl-h: calc(52 * var(--u));
   --ctl-borda: calc(2.667 * var(--u));
@@ -510,13 +510,13 @@ img { color: transparent; }
   display: flex;
   align-items: center;
   gap: calc(14 * var(--u));
-  color: var(--creme);
+  color: var(--azul);
 }
 .revista__navegacao {
   display: flex;
   align-items: stretch;
   height: var(--ctl-h);
-  border: var(--ctl-borda) solid var(--creme);
+  border: var(--ctl-borda) solid var(--azul);
   border-radius: var(--ctl-raio);
   overflow: hidden;
 }
@@ -526,7 +526,7 @@ img { color: transparent; }
   justify-content: center;
   min-width: calc(132 * var(--u));
   padding: 0 calc(16 * var(--u));
-  border-inline: var(--ctl-borda) solid var(--creme);
+  border-inline: var(--ctl-borda) solid var(--azul);
   font-family: var(--fonte-titulo);
   font-weight: 700;
   font-size: calc(30 * var(--u));
@@ -547,7 +547,7 @@ img { color: transparent; }
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--creme);
+  color: var(--azul);
   cursor: pointer;
   transition: background-color .18s ease, color .18s ease;
   -webkit-tap-highlight-color: transparent;
@@ -564,7 +564,7 @@ img { color: transparent; }
 }
 .revista__botao--tela {
   height: var(--ctl-h);
-  border: var(--ctl-borda) solid var(--creme);
+  border: var(--ctl-borda) solid var(--azul);
   border-radius: var(--ctl-raio);
 }
 .revista__botao--tela .icone-fechar { display: none; }
@@ -580,7 +580,7 @@ img { color: transparent; }
 .revista__botao:active:not(:disabled) svg { transform: scale(.88); transition-duration: .08s; }
 .revista__botao:disabled { cursor: default; }
 .revista__botao:disabled svg { opacity: .3; }
-.revista__botao:focus-visible { outline: 2px solid var(--amarelo); outline-offset: -5px; }
+.revista__botao:focus-visible { outline: 2px solid var(--azul); outline-offset: -6px; }
 .revista__botao--tela:focus-visible { outline-offset: 3px; }
 
 /* Tela cheia */
@@ -762,7 +762,7 @@ img { color: transparent; }
   outline-offset: 3px;
 }
 .mapa__lateral :where(a, button):focus-visible,
-.revista :where(a):focus-visible { outline-color: var(--creme); }
+.revista :where(a):focus-visible { outline-color: var(--azul); }
 .botao-seculo:focus-visible { border-radius: calc(10 * var(--u)); }
 
 /* Link "Pular para o conteúdo": aparece só ao usar Tab */
