@@ -21,6 +21,14 @@
       [-44.08, -20.06], // Sudoeste
       [-43.82, -19.77]  // Nordeste
     ],
+    // O índice dos tiles (TileJSON) e o estilo ficam em cache por 1 h / 24 h e o endereço dos tiles muda a cada
+    // semana: um cache velho (visto no Edge) aponta para uma versão que não existe mais e o fundo some.
+    // Aqui eles são sempre revalidados; os tiles em si (versionados) continuam em cache normalmente.
+    transformRequest: (url, tipo) => {
+      if (url.indexOf('tiles.openfreemap.org') !== -1 && (tipo === 'Style' || tipo === 'Source')) {
+        return { url: url, cache: 'no-cache' };
+      }
+    },
     attributionControl: true,
     // Rolagem da página não vira zoom: no computador, Ctrl/⌘ + rolagem; no celular, dois dedos
     cooperativeGestures: true,
@@ -56,6 +64,38 @@
   }
 
   map.once('load', enquadrarInicial);
+
+  // Recuperação do mapa de fundo: se as ruas não carregarem (rede instável, bloqueio, cache velho), tenta
+  // de novo sozinho, com intervalos maiores; se continuar falhando, mostra um aviso com botão de nova tentativa.
+  const FUNDO = 'openmaptiles';
+  let tentativas = 0, falhaTimer = null;
+  const falha = document.createElement('div');
+  falha.className = 'mapa__falha';
+  falha.hidden = true;
+  falha.setAttribute('role', 'status');
+  const falhaTexto = document.createElement('span');
+  falhaTexto.textContent = 'O mapa de fundo não carregou. ';
+  const falhaBotao = document.createElement('button');
+  falhaBotao.type = 'button';
+  falhaBotao.textContent = 'Tentar de novo';
+  falha.append(falhaTexto, falhaBotao);
+  map.getContainer().appendChild(falha);
+
+  function recarregarFundo() {
+    const fonte = map.getSource(FUNDO);
+    if (fonte && typeof fonte.setUrl === 'function' && fonte.url) fonte.setUrl(fonte.url); // busca o índice de novo e refaz os tiles
+    else if (map.style && map.style.sourceCaches && map.style.sourceCaches[FUNDO]) map.style.sourceCaches[FUNDO].reload();
+  }
+  falhaBotao.addEventListener('click', () => { falha.hidden = true; tentativas = 0; recarregarFundo(); });
+  map.on('error', (e) => {
+    if (!e || e.sourceId !== FUNDO) return;
+    if (window.console) console.warn('[mapa] falha ao carregar o mapa de fundo:', e.error && (e.error.status || e.error.message || e.error));
+    if (falhaTimer) return;
+    if (tentativas >= 3) { falha.hidden = false; return; }
+    const espera = 1200 * Math.pow(2, tentativas++);
+    falhaTimer = setTimeout(() => { falhaTimer = null; recarregarFundo(); }, espera);
+  });
+  map.on('idle', () => { if (map.areTilesLoaded()) { falha.hidden = true; tentativas = 0; } });
 
   // O zoom do navegador (Ctrl + / Ctrl -) e o redimensionamento da janela mudam o tamanho do mapa em
   // pixels. O MapLibre mantém o nível de zoom, então a área visível muda (o mapa "encolhe" ou "cresce").

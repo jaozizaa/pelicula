@@ -990,3 +990,32 @@ html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
 #map :is(.maplibregl-ctrl, .maplibregl-ctrl-attrib, .maplibregl-ctrl-attrib a, .maplibregl-popup, .maplibregl-popup-content, .maplibregl-cooperative-gesture-screen, .maplibregl-cooperative-gesture-screen *) {
   font-family: var(--fonte-texto) !important;
 }
+
+/* Aviso de falha do mapa de fundo (com botão para tentar de novo) */
+.mapa__falha {
+  position: absolute;
+  left: 50%;
+  bottom: calc(24 * var(--u));
+  transform: translateX(-50%);
+  z-index: 2;
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  border: 2px solid var(--azul);
+  border-radius: 8px;
+  background: var(--branco);
+  color: var(--azul);
+  font-family: var(--fonte-texto);
+  font-size: 14px;
+  text-align: center;
+}
+.mapa__falha[hidden] { display: none; }
+.mapa__falha button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
