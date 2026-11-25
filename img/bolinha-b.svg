@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="135.694" height="135.694" viewBox="0 0 135.694 135.694" fill="none" overflow="visible">
-<g filter="url(#f)"><circle cx="67.8468" cy="67.8468" r="66.0266" fill="#FEB801"/></g>
+<g filter="url(#f)"><circle cx="67.8468" cy="67.8468" r="66.0266" fill="#0132CA"/></g>
 <defs><filter id="f" x="0" y="0" width="135.694" height="135.694" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>

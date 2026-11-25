@@ -458,7 +458,7 @@ img { color: transparent; }
    Duas páginas lado a lado = 44 × 20 cm (proporção 2,2 : 1). */
 .revista {
   --respiro: calc(76 * var(--u)); /* revista ↔ botões e botões ↔ fim da seção: a mesma distância */
-  background: var(--creme);
+  background: var(--azul);
   padding: calc(100 * var(--u)) calc(100 * var(--u)) var(--respiro);
 }
 .revista__palco {
@@ -499,13 +499,13 @@ img { color: transparent; }
   user-select: none;
   pointer-events: none;
 }
-.revista__aviso { color: var(--azul); text-align: center; }
+.revista__aviso { color: var(--creme); text-align: center; }
 
 .revista__controles {
   display: flex;
   align-items: center;
   gap: calc(18 * var(--u));
-  color: var(--azul);
+  color: var(--creme);
 }
 .revista__contador {
   min-width: calc(110 * var(--u));
@@ -521,10 +521,10 @@ img { color: transparent; }
   width: calc(42 * var(--u));
   height: calc(42 * var(--u));
   padding: 0;
-  border: calc(2.643 * var(--u)) solid var(--azul);
+  border: calc(2.643 * var(--u)) solid var(--creme);
   border-radius: calc(8.434 * var(--u));
   background: transparent;
-  color: var(--azul);
+  color: var(--creme);
   cursor: pointer;
   transition: background .2s, color .2s;
 }
@@ -537,7 +537,7 @@ img { color: transparent; }
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.revista__botao:hover:not(:disabled) { background: var(--azul); color: var(--creme); }
+.revista__botao:hover:not(:disabled) { background: var(--creme); color: var(--azul); }
 .revista__botao:disabled { opacity: .3; cursor: default; }
 .revista__botao--tela { margin-left: calc(12 * var(--u)); }
 
@@ -612,13 +612,14 @@ img { color: transparent; }
 .autor__foto--vazio { background: var(--azul); }
 .autor__foto--duo { background: var(--azul); isolation: isolate; overflow: hidden; }
 .autor__foto--duo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; filter: grayscale(1) contrast(1.3) brightness(.9); mix-blend-mode: screen; opacity: .9; }
-.faixa { position: absolute; top: 0; bottom: 0; left: calc(642 * var(--u)); width: calc(157 * var(--u)); background: var(--azul); }
+.faixa { position: absolute; top: 0; bottom: 0; left: calc(642 * var(--u)); width: calc(158 * var(--u)); background: var(--amarelo); }
 .bolinha { position: absolute; mix-blend-mode: multiply; pointer-events: none; }
-.bolinha--a1 { left: calc(853 * var(--u) - 1.8 * var(--u)); top: calc(100 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
-.bolinha--b1 { left: calc(379 * var(--u) - 1.8 * var(--u)); top: calc(598 * var(--u) - 1.8 * var(--u)); width: calc(135.694 * var(--u)); height: calc(135.694 * var(--u)); }
-.bolinha--b2 { left: calc(545 * var(--u) - 1.8 * var(--u)); top: calc(327 * var(--u) - 1.8 * var(--u)); width: calc(135.694 * var(--u)); height: calc(135.694 * var(--u)); }
-.bolinha--a3 { left: calc(926 * var(--u) - 1.8 * var(--u)); top: calc(448 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
-.bolinha--a2 { left: calc(767 * var(--u) - 1.8 * var(--u)); top: calc(664 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
+.bolinha { width: calc(102.9 * var(--u)); height: calc(102.9 * var(--u)); }
+.bolinha--a1 { left: calc(898 * var(--u) - 51.45 * var(--u)); top: calc(149.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--b1 { left: calc(475 * var(--u) - 51.45 * var(--u)); top: calc(682.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--b2 { left: calc(616 * var(--u) - 51.45 * var(--u)); top: calc(376.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--a2 { left: calc(816 * var(--u) - 51.45 * var(--u)); top: calc(713.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--a3 { left: calc(986 * var(--u) - 51.45 * var(--u)); top: calc(499 * var(--u) - 51.45 * var(--u)); }
 
 /* ---------- Saiba mais sobre os autores (736 px) ---------- */
 .autores {
@@ -717,7 +718,7 @@ img { color: transparent; }
   outline-offset: 3px;
 }
 .mapa__lateral :where(a, button):focus-visible,
-.revista :where(a, button):focus-visible { outline-color: var(--azul); }
+.revista :where(a, button):focus-visible { outline-color: var(--creme); }
 .botao-seculo:focus-visible { border-radius: calc(10 * var(--u)); }
 
 /* Link "Pular para o conteúdo": aparece só ao usar Tab */
