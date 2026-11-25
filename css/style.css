@@ -112,34 +112,34 @@ img { color: transparent; }
   color: var(--branco);
 }
 
-/* ---------- Topo (195 px: logo à esquerda + links das seções) ---------- */
+/* ---------- Topo (126 px: logo à esquerda + links das seções) ---------- */
 .topo {
   position: relative;
   z-index: 2;
-  height: calc(195 * var(--u));
+  height: calc(126 * var(--u));
   background: var(--azul);
 }
 .topo__logo {
   position: absolute;
-  left: calc(96 * var(--u));
-  top: calc(43 * var(--u));
-  width: calc(207.565 * var(--u));
+  left: calc(99.8 * var(--u));
+  top: calc(22.8 * var(--u));
+  width: calc(152.33 * var(--u));
 }
 .topo__logo img { width: 100%; height: auto; }
 .topo__nav ul { margin: 0; padding: 0; list-style: none; }
 .topo__nav li {
   position: absolute;
-  top: calc(85 * var(--u));
+  top: calc(51 * var(--u));
 }
-.topo__nav li:nth-child(1) { left: calc(397 * var(--u)); }
-.topo__nav li:nth-child(2) { left: calc(717.68 * var(--u)); }
-.topo__nav li:nth-child(3) { left: calc(977.6 * var(--u)); }
-.topo__nav li:nth-child(4) { left: calc(1209 * var(--u)); }
+.topo__nav li:nth-child(1) { left: calc(339 * var(--u)); }
+.topo__nav li:nth-child(2) { left: calc(691 * var(--u)); }
+.topo__nav li:nth-child(3) { left: calc(961 * var(--u)); }
+.topo__nav li:nth-child(4) { left: calc(1212 * var(--u)); }
 .topo__nav a {
   display: block;
   font-family: var(--fonte-lista);
   font-weight: 500;
-  font-size: calc(25.777 * var(--u));
+  font-size: calc(25 * var(--u));
   line-height: normal;
   white-space: nowrap;
   color: var(--branco);
@@ -156,7 +156,7 @@ img { color: transparent; }
 .hero {
   position: relative;
   width: 100%;
-  height: calc(876 * var(--u));
+  height: calc(825 * var(--u));
   overflow: hidden;
   background: var(--azul);
 }
