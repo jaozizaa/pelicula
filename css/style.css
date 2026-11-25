@@ -231,6 +231,8 @@ img { color: transparent; }
   color: var(--creme);
   text-align: justify;
   line-height: 1.25;
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
 }
 .sobre__texto {
   top: calc(319 * var(--u));
@@ -581,6 +583,8 @@ img { color: transparent; }
 }
 .autor--luiza .autor__nome { text-align: right; }
 .autor__bio {
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
   position: absolute;
   top: calc(96 * var(--u));
   left: 0;
@@ -588,7 +592,7 @@ img { color: transparent; }
   margin: 0;
   font-family: var(--fonte-texto);
   font-size: calc(18 * var(--u));
-  line-height: normal;
+  line-height: 1.17;
   text-align: justify;
 }
 .autor--luiza .autor__bio { letter-spacing: calc(-0.18 * var(--u)); }
