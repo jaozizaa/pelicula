@@ -57,18 +57,27 @@
 
   map.once('load', enquadrarInicial);
 
-  // O zoom do navegador (Ctrl + rolagem fora do mapa) e o redimensionamento da janela mudam o
-  // tamanho do mapa em pixels. Sem isto, o MapLibre mantém o nível de zoom e a área visível muda
-  // (o mapa parece aproximar/afastar sozinho). Aqui guardamos a área visível e a restauramos.
-  let areaVisivel = null;
-  map.on('moveend', () => { areaVisivel = map.getBounds(); });
+  // O zoom do navegador (Ctrl + / Ctrl -) e o redimensionamento da janela mudam o tamanho do mapa em
+  // pixels. O MapLibre mantém o nível de zoom, então a área visível muda (o mapa "encolhe" ou "cresce").
+  // Guardamos centro, zoom e largura do último enquadramento escolhido (pela pessoa ou pelo código) e,
+  // a cada resize, recalculamos a partir dele: zoom + log2(largura nova / largura de referência).
+  // Isso é exato e não acumula erro, ao contrário de refazer fitBounds a cada evento.
+  let ref = null;
+  let ajustando = false;
+  function guardarReferencia() {
+    if (ajustando) return;
+    ref = { centro: map.getCenter(), zoom: map.getZoom(), largura: map.getContainer().clientWidth };
+  }
+  map.on('moveend', guardarReferencia);
   map.on('resize', () => {
-    if (!areaVisivel) return;
-    const area = areaVisivel;
-    map.fitBounds(area, { padding: 0, animate: false });
-    areaVisivel = area; // mantém a referência original, sem acumular arredondamentos
+    if (!ref) return;
+    const largura = map.getContainer().clientWidth;
+    if (!largura || !ref.largura) return;
+    ajustando = true;
+    try {
+      map.jumpTo({ center: ref.centro, zoom: ref.zoom + Math.log2(largura / ref.largura) });
+    } finally { ajustando = false; }
   });
-
 
   // Os dois conjuntos de cinemas: séc. XXI (js/cinemas.js, azul) e séc. XX (js/cinemas-xx.js, amarelo)
   const CONJUNTOS = {
