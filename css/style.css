@@ -610,10 +610,14 @@ img { color: transparent; }
 .autor--joao .autor__foto { left: 0; }
 .autor--luiza .autor__foto { left: calc(31 * var(--u)); }
 .autor__foto--vazio { background: var(--azul); }
+.autor__foto--duo { background: var(--azul); isolation: isolate; overflow: hidden; }
+.autor__foto--duo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; filter: grayscale(1) contrast(1.3) brightness(.9); mix-blend-mode: screen; opacity: .9; }
+.faixa { position: absolute; top: 0; bottom: 0; left: calc(642 * var(--u)); width: calc(157 * var(--u)); background: var(--azul); }
 .bolinha { position: absolute; mix-blend-mode: multiply; pointer-events: none; }
 .bolinha--a1 { left: calc(853 * var(--u) - 1.8 * var(--u)); top: calc(100 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
 .bolinha--b1 { left: calc(379 * var(--u) - 1.8 * var(--u)); top: calc(598 * var(--u) - 1.8 * var(--u)); width: calc(135.694 * var(--u)); height: calc(135.694 * var(--u)); }
 .bolinha--b2 { left: calc(545 * var(--u) - 1.8 * var(--u)); top: calc(327 * var(--u) - 1.8 * var(--u)); width: calc(135.694 * var(--u)); height: calc(135.694 * var(--u)); }
+.bolinha--a3 { left: calc(926 * var(--u) - 1.8 * var(--u)); top: calc(448 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
 .bolinha--a2 { left: calc(767 * var(--u) - 1.8 * var(--u)); top: calc(664 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
 
 /* ---------- Saiba mais sobre os autores (736 px) ---------- */
