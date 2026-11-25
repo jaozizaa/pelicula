@@ -137,15 +137,18 @@
         </div>
 
         <div class="revista__controles">
-          <button class="revista__botao" id="revista-anterior" type="button" aria-label="Página anterior">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
-          </button>
-          <span class="revista__contador" id="revista-contador" aria-live="polite">1 / 72</span>
-          <button class="revista__botao" id="revista-proxima" type="button" aria-label="Próxima página">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg>
-          </button>
-          <button class="revista__botao revista__botao--tela" id="revista-tela-cheia" type="button" aria-label="Tela cheia">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          <div class="revista__navegacao" role="group" aria-label="Virar páginas">
+            <button class="revista__botao" id="revista-anterior" type="button" aria-label="Página anterior">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5.5M11 5.5 4.5 12l6.5 6.5"/></svg>
+            </button>
+            <span class="revista__contador" id="revista-contador" aria-live="polite"><span class="revista__atual">1</span><span class="revista__total">&thinsp;/&thinsp;72</span></span>
+            <button class="revista__botao" id="revista-proxima" type="button" aria-label="Próxima página">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13.5M13 5.5l6.5 6.5-6.5 6.5"/></svg>
+            </button>
+          </div>
+          <button class="revista__botao revista__botao--tela" id="revista-tela-cheia" type="button" aria-label="Tela cheia" aria-pressed="false">
+            <svg class="icone-abrir" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5V4h5.5M20 9.5V4h-5.5M4 14.5V20h5.5M20 14.5V20h-5.5"/></svg>
+            <svg class="icone-fechar" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 4v5.5H4M14.5 4v5.5H20M9.5 20v-5.5H4M14.5 20v-5.5H20"/></svg>
           </button>
         </div>
       </div>

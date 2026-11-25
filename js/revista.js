@@ -84,14 +84,16 @@
   function atualizar(indice) {
     carregarPerto(indice);
     var retrato = livro.getOrientation() === 'portrait';
-    var texto;
+    var atual;
     if (retrato || indice === 0 || indice === TOTAL - 1) {
-      texto = (indice + 1) + ' / ' + TOTAL;
+      atual = String(indice + 1);
     } else {
       var esq = indice % 2 === 1 ? indice : indice - 1;
-      texto = (esq + 1) + '–' + Math.min(esq + 2, TOTAL) + ' / ' + TOTAL;
+      atual = (esq + 1) + '–' + Math.min(esq + 2, TOTAL);
     }
-    contador.textContent = texto;
+    var a = document.createElement('span'); a.className = 'revista__atual'; a.textContent = atual;
+    var t = document.createElement('span'); t.className = 'revista__total'; t.textContent = '\u2009/\u2009' + TOTAL;
+    contador.replaceChildren(a, t);
     anterior.disabled = indice === 0;
     proxima.disabled = indice >= TOTAL - 1;
   }
@@ -129,6 +131,7 @@
       var ativo = document.fullscreenElement === secao;
       secao.classList.toggle('is-tela-cheia', ativo);
       telaCheia.setAttribute('aria-label', ativo ? 'Sair da tela cheia' : 'Tela cheia');
+      telaCheia.setAttribute('aria-pressed', ativo ? 'true' : 'false');
       // Recalcula o tamanho do livro depois que o layout muda
       setTimeout(function () { livro.update(); }, 60);
     });

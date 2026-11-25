@@ -502,44 +502,86 @@ img { color: transparent; }
 .revista__aviso { color: var(--creme); text-align: center; }
 
 .revista__controles {
+  /* Mesma linguagem dos botões de século: contorno de 2,667, cantos de 8,4, branco sobre o azul.
+     Hover: preenche de amarelo (o acento do site); clique: afunda levemente. */
+  --ctl-h: calc(52 * var(--u));
+  --ctl-borda: calc(2.667 * var(--u));
+  --ctl-raio: calc(8.4 * var(--u));
   display: flex;
   align-items: center;
-  gap: calc(18 * var(--u));
+  gap: calc(14 * var(--u));
   color: var(--creme);
 }
-.revista__contador {
-  min-width: calc(110 * var(--u));
-  text-align: center;
-  font-family: var(--fonte-texto);
-  font-size: calc(16 * var(--u));
-  letter-spacing: calc(-0.32 * var(--u));
-  font-variant-numeric: tabular-nums;
+.revista__navegacao {
+  display: flex;
+  align-items: stretch;
+  height: var(--ctl-h);
+  border: var(--ctl-borda) solid var(--creme);
+  border-radius: var(--ctl-raio);
+  overflow: hidden;
 }
+.revista__contador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(132 * var(--u));
+  padding: 0 calc(16 * var(--u));
+  border-inline: var(--ctl-borda) solid var(--creme);
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: calc(30 * var(--u));
+  line-height: 1;
+  letter-spacing: calc(0.5 * var(--u));
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-top: calc(4 * var(--u)); /* a Organda assenta alto: centra opticamente */
+}
+.revista__total { opacity: .55; }
 .revista__botao {
+  position: relative;
   display: grid;
   place-items: center;
-  width: calc(42 * var(--u));
-  height: calc(42 * var(--u));
+  width: var(--ctl-h);
+  height: 100%;
   padding: 0;
-  border: calc(2.643 * var(--u)) solid var(--creme);
-  border-radius: calc(8.434 * var(--u));
+  border: 0;
+  border-radius: 0;
   background: transparent;
   color: var(--creme);
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition: background-color .18s ease, color .18s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .revista__botao svg {
-  width: 55%;
-  height: 55%;
+  width: 46%;
+  height: 46%;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2.4;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: transform .22s cubic-bezier(.3, .7, .4, 1);
 }
-.revista__botao:hover:not(:disabled) { background: var(--creme); color: var(--azul); }
-.revista__botao:disabled { opacity: .3; cursor: default; }
-.revista__botao--tela { margin-left: calc(12 * var(--u)); }
+.revista__botao--tela {
+  height: var(--ctl-h);
+  border: var(--ctl-borda) solid var(--creme);
+  border-radius: var(--ctl-raio);
+}
+.revista__botao--tela .icone-fechar { display: none; }
+.revista__botao--tela[aria-pressed="true"] .icone-abrir { display: none; }
+.revista__botao--tela[aria-pressed="true"] .icone-fechar { display: block; }
+@media (hover: hover) and (pointer: fine) {
+  .revista__botao:hover:not(:disabled) { background: var(--amarelo); color: var(--azul); }
+  #revista-anterior:hover:not(:disabled) svg { transform: translateX(-2px); }
+  #revista-proxima:hover:not(:disabled) svg { transform: translateX(2px); }
+  .revista__botao--tela:hover svg { transform: scale(1.1); }
+}
+.revista__botao:active:not(:disabled) { background: var(--amarelo); color: var(--azul); }
+.revista__botao:active:not(:disabled) svg { transform: scale(.88); transition-duration: .08s; }
+.revista__botao:disabled { cursor: default; }
+.revista__botao:disabled svg { opacity: .3; }
+.revista__botao:focus-visible { outline: 2px solid var(--amarelo); outline-offset: -5px; }
+.revista__botao--tela:focus-visible { outline-offset: 3px; }
 
 /* Tela cheia */
 .revista.is-tela-cheia {
@@ -720,7 +762,7 @@ img { color: transparent; }
   outline-offset: 3px;
 }
 .mapa__lateral :where(a, button):focus-visible,
-.revista :where(a, button):focus-visible { outline-color: var(--creme); }
+.revista :where(a):focus-visible { outline-color: var(--creme); }
 .botao-seculo:focus-visible { border-radius: calc(10 * var(--u)); }
 
 /* Link "Pular para o conteúdo": aparece só ao usar Tab */
@@ -890,8 +932,8 @@ html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
   .revista { --respiro: 36px; padding: 32px 24px var(--respiro); }
   .revista__palco { height: auto; }
   .revista__livro { width: 100%; }
-  .revista__contador { font-size: 15px; min-width: 90px; }
-  .revista__botao { width: 42px; height: 42px; border-width: 2.6px; border-radius: 8.4px; }
+  .revista__controles { --ctl-h: 48px; --ctl-borda: 2.2px; --ctl-raio: 8px; gap: 10px; }
+  .revista__contador { font-size: 24px; min-width: 96px; padding: 3px 10px 0; }
   .revista.is-tela-cheia { padding: var(--respiro) 24px; }
   .revista.is-tela-cheia .revista__livro { width: min(calc(100vw - 48px), calc((100vh - 3 * var(--respiro) - 48px) * 1.1)); }
 
@@ -921,7 +963,6 @@ html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
   /* Áreas de toque de 44 px e nada passando da tela em 320 px */
   .autores__coluna a { padding: 12px 0; }
   .autores__coluna ul { gap: 0; }
-  .revista__botao { width: 44px; height: 44px; }
   .botao-seculo { min-height: 44px; }
   .sobre__cabecalho { flex-wrap: wrap; }
   .sobre__cabecalho .titulo { white-space: normal; font-size: clamp(32px, 11vw, 44px); }
