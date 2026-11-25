@@ -689,7 +689,7 @@ img { color: transparent; }
 }
 .autores__coluna { position: absolute; top: calc(256.87 * var(--u)); }
 .autores__coluna--portfolio { left: calc(99 * var(--u)); }
-.autores__coluna--social { left: calc(609 * var(--u)); }
+.autores__coluna--social { left: 50%; transform: translateX(-50%); }
 .autores__coluna--contatos { left: calc(1092 * var(--u)); top: calc(255.65 * var(--u)); }
 .autores__coluna--revista { left: calc(1092 * var(--u)); top: calc(497.73 * var(--u)); }
 .autores__coluna h3 {
@@ -698,7 +698,7 @@ img { color: transparent; }
   font-weight: 500;
   font-size: calc(40 * var(--u));
   line-height: 1.39;
-  letter-spacing: calc(-0.8 * var(--u));
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .autores__coluna ul {
