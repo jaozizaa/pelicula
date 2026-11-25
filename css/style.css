@@ -126,15 +126,18 @@ img { color: transparent; }
   width: calc(152.33 * var(--u));
 }
 .topo__logo img { width: 100%; height: auto; }
-.topo__nav ul { margin: 0; padding: 0; list-style: none; }
-.topo__nav li {
+.topo__nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* do primeiro ao último link (x 356 → 1340 no Figma), com o mesmo espaço entre todos */
   position: absolute;
+  left: calc(356 * var(--u));
+  right: calc(100 * var(--u));
   top: calc(51 * var(--u));
+  display: flex;
+  justify-content: space-between;
 }
-.topo__nav li:nth-child(1) { left: calc(339 * var(--u)); }
-.topo__nav li:nth-child(2) { left: calc(691 * var(--u)); }
-.topo__nav li:nth-child(3) { left: calc(961 * var(--u)); }
-.topo__nav li:nth-child(4) { left: calc(1212 * var(--u)); }
 .topo__nav a {
   display: block;
   font-family: var(--fonte-lista);
@@ -550,6 +553,65 @@ img { color: transparent; }
   width: min(calc(100vw - 48px), calc((100vh - 3 * var(--respiro) - 48px) * 2.2));
 }
 
+/* ---------- Os autores (853 px) ---------- */
+.autores-pag {
+  position: relative;
+  height: calc(853 * var(--u));
+  background: var(--branco);
+  color: #161616;
+  overflow: hidden;
+}
+.autores-pag .titulo {
+  position: absolute;
+  left: calc(95 * var(--u));
+  top: calc(28 * var(--u));
+  font-size: calc(102.867 * var(--u));
+  color: var(--azul);
+}
+.autor { position: absolute; top: calc(196 * var(--u)); }
+.autor--joao { left: calc(100 * var(--u)); width: calc(237 * var(--u)); }
+.autor--luiza { left: calc(1116 * var(--u)); width: calc(226 * var(--u)); }
+.autor__nome {
+  margin: 0;
+  font-family: var(--fonte-lista);
+  font-weight: 500;
+  font-size: calc(28 * var(--u));
+  line-height: normal;
+  color: var(--azul);
+}
+.autor--luiza .autor__nome { text-align: right; }
+.autor__bio {
+  position: absolute;
+  top: calc(96 * var(--u));
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-family: var(--fonte-texto);
+  font-size: calc(18 * var(--u));
+  line-height: normal;
+  text-align: justify;
+}
+.autor--luiza .autor__bio { letter-spacing: calc(-0.18 * var(--u)); }
+.autor__bio-resto { letter-spacing: calc(-0.48 * var(--u)); }
+.autor__bio p { margin: 0; }
+.autor__bio p + p { margin-top: 1lh; }
+.autor__foto {
+  position: absolute;
+  top: calc(358 * var(--u));
+  width: calc(193 * var(--u));
+  height: calc(220 * var(--u));
+  object-fit: cover;
+  object-position: center bottom;
+}
+.autor--joao .autor__foto { left: 0; }
+.autor--luiza .autor__foto { left: calc(31 * var(--u)); }
+.autor__foto--vazio { background: var(--azul); }
+.bolinha { position: absolute; mix-blend-mode: multiply; pointer-events: none; }
+.bolinha--a1 { left: calc(853 * var(--u) - 1.8 * var(--u)); top: calc(100 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
+.bolinha--b1 { left: calc(379 * var(--u) - 1.8 * var(--u)); top: calc(598 * var(--u) - 1.8 * var(--u)); width: calc(135.694 * var(--u)); height: calc(135.694 * var(--u)); }
+.bolinha--b2 { left: calc(545 * var(--u) - 1.8 * var(--u)); top: calc(327 * var(--u) - 1.8 * var(--u)); width: calc(135.694 * var(--u)); height: calc(135.694 * var(--u)); }
+.bolinha--a2 { left: calc(767 * var(--u) - 1.8 * var(--u)); top: calc(664 * var(--u) - 1.8 * var(--u)); width: calc(127.089 * var(--u)); height: calc(127.089 * var(--u)); }
+
 /* ---------- Saiba mais sobre os autores (736 px) ---------- */
 .autores {
   position: relative;
@@ -567,7 +629,7 @@ img { color: transparent; }
 .autores__cabecalho .titulo { line-height: normal; }
 .autores__cabecalho .estrela {
   position: absolute;
-  left: calc(852 * var(--u) + 1.52 * var(--u));
+  left: calc(294 * var(--u));
   top: 0;
   width: calc(58.96 * var(--u));
   height: calc(62 * var(--u));
@@ -777,6 +839,7 @@ html.intro-header .topo__nav li:nth-child(1) { transition-delay: .1s; }
 html.intro-header .topo__nav li:nth-child(2) { transition-delay: .2s; }
 html.intro-header .topo__nav li:nth-child(3) { transition-delay: .3s; }
 html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
+html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
 
 /* ---------- Celular ----------
    Abaixo de 800 px o layout passa a empilhar os blocos. */
@@ -785,7 +848,7 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
 
   .topo { height: auto; padding: 16px 20px 12px; display: flex; flex-direction: column; gap: 10px; }
   .topo__logo { position: static; width: 104px; }
-  .topo__nav ul { display: flex; flex-wrap: wrap; gap: 0 14px; }
+  .topo__nav ul { position: static; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 0 14px; }
   .topo__nav li { position: static; }
   .topo__nav a { font-size: 15px; padding: 12px 0; }
   .hero__legenda { left: auto; right: 0; top: auto; bottom: 16px; width: auto; height: auto; padding: 10px 16px; font-size: 15px; }
@@ -820,6 +883,14 @@ html.intro-header .topo__nav li:nth-child(4) { transition-delay: .4s; }
   .revista__botao { width: 42px; height: 42px; border-width: 2.6px; border-radius: 8.4px; }
   .revista.is-tela-cheia { padding: var(--respiro) 24px; }
   .revista.is-tela-cheia .revista__livro { width: min(calc(100vw - 48px), calc((100vh - 3 * var(--respiro) - 48px) * 1.1)); }
+
+  .autores-pag { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 40px; }
+  .autores-pag .titulo { position: static; font-size: 56px; }
+  .bolinha { display: none; }
+  .autor { position: static; width: auto; display: flex; flex-direction: column; gap: 16px; }
+  .autor__nome, .autor--luiza .autor__nome { font-size: 24px; text-align: left; }
+  .autor__bio { position: static; font-size: 16px; text-align: left; }
+  .autor__foto, .autor--joao .autor__foto, .autor--luiza .autor__foto { position: static; width: 193px; height: 220px; }
 
   .autores { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 32px; }
   .autores__cabecalho, .autores__coluna, .autores__logo, .autores__copy { position: static; transform: none; height: auto; }
