@@ -1,5 +1,5 @@
 // Abertura do site: texto datilografado sobre o azul, depois o azul sobe e vira o header.
-// Ordem: parágrafo → "Hoje restam 6." → azul sobe → logo e links (esquerda → direita) → foto → subtítulo.
+// Ordem: parágrafo → "Hoje restam 8." → azul sobe → logo e links (esquerda → direita) → foto → subtítulo.
 (function () {
   var html = document.documentElement;
   var intro = document.getElementById('intro');
@@ -8,10 +8,10 @@
   var atras = document.querySelectorAll('header.topo, main');
 
   var TEXTOS = [
-    'No século XX, a capital mineira Belo Horizonte contava com mais de 100 salas de cinema de rua. ' +
+    'Ao longo do século XX, a capital contou com mais de 100 salas de cinema de rua. ' +
     'Diversos bairros da cidade tinham um lugar para que os moradores pudessem assistir filmes e ' +
     'aproveitar os finais de semana.',
-    'Hoje restam 6.'
+    'Hoje restam 8.'
   ];
   var VELOCIDADE = [30, 75];   // ms por letra em cada texto
   var PAUSA = [1800, 1600];    // ms parado depois de completo
