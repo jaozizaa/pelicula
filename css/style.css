@@ -939,9 +939,6 @@ html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
   .autores-pag { height: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 40px; }
   .autores-pag .titulo { position: static; font-size: 56px; }
   .bolinha { display: none; }
-  /* No celular a faixa amarela vira uma tira horizontal entre os dois autores (a vertical cobriria o texto) */
-    .autor--joao { order: 1; }
-  .autor--luiza { order: 3; }
   .autor { position: static; width: auto; display: flex; flex-direction: column; gap: 16px; }
   .autor__nome, .autor--luiza .autor__nome { font-size: 24px; text-align: left; }
   .autor__bio { position: static; font-size: 16px; text-align: left; }
