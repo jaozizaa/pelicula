@@ -50,8 +50,9 @@
     autoSize: true,
     maxShadowOpacity: 0.3,
     flippingTime: 820,
-    mobileScrollSupport: true,
-    swipeDistance: 30
+    // As páginas só viram pelas setas (botões e teclado): sem animação ao passar o mouse, clicar ou arrastar
+    useMouseEvents: false,
+    showPageCorners: false
   });
   livro.loadFromHTML(document.querySelectorAll('#livro .revista__pagina'));
 
