@@ -8,7 +8,7 @@
   var atras = document.querySelectorAll('header.topo, main');
 
   var TEXTOS = [
-    'Ao longo do século XX, a capital contou com mais de 100 salas de cinema de rua. ' +
+    'Ao longo do século XX, a capital mineira Belo Horizonte contou com mais de 100 salas de cinema de rua. ' +
     'Diversos bairros da cidade tinham um lugar para que os moradores pudessem assistir filmes e ' +
     'aproveitar os finais de semana.',
     'Hoje restam 8.'
