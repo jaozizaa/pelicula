@@ -53,7 +53,7 @@
   // Botões de zoom (+ / -) minimalistas no canto inferior direito
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-  // Enquadramento inicial: zoom do print de 23/11, centralizado no conjunto dos 6 cinemas
+  // Enquadramento inicial: zoom do print de 23/11, centralizado no conjunto dos cinemas do século XXI
   // (cantos sudoeste e nordeste do mapa). Como usa os cantos, o mesmo recorte aparece em qualquer tamanho de tela.
   const VISTA_INICIAL = [
     [-43.96094, -19.94893], // Sudoeste

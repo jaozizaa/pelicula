@@ -1,7 +1,7 @@
 // Dados dos cinemas e ícone numerado desenhado por código.
 // Para ajustar a posição de um cinema, mude "coords" ([longitude, latitude]).
 
-// Numeração por ano de inauguração da sala: 1 = mais antiga, 6 = mais nova
+// Numeração por ano de inauguração da sala: 1 = mais antiga, 8 = mais nova
 window.CINEMAS = [
   {
     id: 1,
@@ -33,13 +33,27 @@ window.CINEMAS = [
   },
   {
     id: 5,
+    ano: 2011,
+    nome: 'Sesc Palladium',
+    endereco: 'Rua Rio de Janeiro, 1046 / Av. Augusto de Lima, 420 — Centro',
+    coords: [-43.9399861, -19.9235673]
+  },
+  {
+    id: 6,
     ano: 2022,
     nome: 'Minas Tênis',
     endereco: 'Rua da Bahia, 2244 — Lourdes',
     coords: [-43.9410098, -19.9352484]
   },
   {
-    id: 6,
+    id: 7,
+    ano: 2024,
+    nome: 'Cardume',
+    endereco: 'Praça Rio Branco, 100, Mezanino (Rodoviária) — Centro',
+    coords: [-43.9409612, -19.9138302]
+  },
+  {
+    id: 8,
     ano: 2025,
     nome: 'Graciano',
     endereco: 'Rua Itapecerica, 468 — Lagoinha',
