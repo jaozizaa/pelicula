@@ -941,3 +941,11 @@ html.intro-header .topo__nav li:nth-child(5) { transition-delay: .5s; }
 }
 .icone-instagram .ponto { fill: #fff; stroke: none; }
 .autor--joao .autor__bio p + p { letter-spacing: calc(-0.6 * var(--u)); }
+
+/* Todo texto do mapa (atribuição, avisos de rolagem, balões) usa a Helvetica do site.
+   O MapLibre usa por padrão "Helvetica Neue/Helvetica" do sistema, e certas cópias instaladas
+   (ex.: no Windows) trocam letras, como "i" virando "I". */
+#map,
+#map :is(.maplibregl-ctrl, .maplibregl-ctrl-attrib, .maplibregl-ctrl-attrib a, .maplibregl-popup, .maplibregl-popup-content, .maplibregl-cooperative-gesture-screen, .maplibregl-cooperative-gesture-screen *) {
+  font-family: var(--fonte-texto) !important;
+}
