@@ -160,8 +160,8 @@
     const novo = base.slice(0, 3);
     for (let k = 3; k < base.length; k += 2) {
       const tam = +Math.max(0.11, base[k + 1] * fator).toFixed(4); // mínimo ~18 px para tocar
-      // animado: o tamanho vira "tamanho × progresso da feição" (a bolinha crescendo)
-      novo.push(base[k] - desloc, animado ? ['*', tam, ['coalesce', ['get', 'esc'], 1]] : tam);
+      // animado: o raio (px) vira "raio do ícone × progresso da cinema" (a bolinha crescendo), lido do feature-state
+      novo.push(base[k] - desloc, animado ? ['*', +(tam * 80).toFixed(2), ['coalesce', ['feature-state', 'esc'], 1]] : tam);
     }
     return novo;
   }
@@ -169,7 +169,7 @@
     Object.keys(CONJUNTOS).forEach((chave) => {
       const conj = CONJUNTOS[chave];
       if (map.getLayer(conj.camada)) map.setLayoutProperty(conj.camada, 'icon-size', tamanhoProporcional(conj.tamanho));
-      if (map.getLayer(conj.camada + '-base')) map.setLayoutProperty(conj.camada + '-base', 'icon-size', tamanhoProporcional(conj.tamanho, true));
+      if (map.getLayer(conj.camada + '-base')) map.setPaintProperty(conj.camada + '-base', 'circle-radius', tamanhoProporcional(conj.tamanho, true));
     });
   }
   map.on('resize', atualizarTamanhos);
@@ -187,36 +187,32 @@
         if (!map.hasImage(nome)) map.addImage(nome, window.criarIconeCinema(c.id, 160, conj.cores));
       });
       if (map.getSource(conj.fonte)) return;
-      // Disco liso da cor do ícone: é a "bolinha" que cresce antes do número e do contorno aparecerem
-      const discoNome = conj.prefixo + 'disco';
-      if (!map.hasImage(discoNome)) {
-        const cv = document.createElement('canvas');
-        cv.width = cv.height = 160;
-        const cx = cv.getContext('2d');
-        cx.beginPath(); cx.arc(80, 80, 80, 0, Math.PI * 2); cx.fillStyle = (conj.cores && conj.cores.fundo) || '#0132CA'; cx.fill();
-        map.addImage(discoNome, cx.getImageData(0, 0, 160, 160));
-      }
-      // esc = escala da bolinha (0→1); op = opacidade do ícone completo (0→1). Em repouso ficam em 1.
+      // O progresso da animação (esc = bolinha 0→1, op = ícone completo 0→1) vive no feature-state, que só
+      // atualiza propriedades de pintura (barato). Antes era setData por quadro, que refaz as telhas do GeoJSON.
+      // Sem estado definido, os dois valem 1 (repouso).
       conj.fc = {
         type: 'FeatureCollection',
         features: lista.slice().sort((a, b) => a.id - b.id).map((c) => ({
           type: 'Feature',
-          properties: { id: c.id, esc: 1, op: 1 },
+          id: c.id,
+          properties: { id: c.id },
           geometry: { type: 'Point', coordinates: c.coords }
         }))
       };
       map.addSource(conj.fonte, { type: 'geojson', data: conj.fc });
+      // A "bolinha" que cresce antes do número e do contorno aparecerem: círculo liso da cor do ícone
       map.addLayer({
         id: conj.camada + '-base',
-        type: 'symbol',
+        type: 'circle',
         source: conj.fonte,
         layout: {
           visibility: 'none',
-          'icon-image': discoNome,
-          'icon-allow-overlap': true,
-          'icon-ignore-placement': true,
-          'symbol-sort-key': ['-', 0, ['get', 'id']],
-          'icon-size': tamanhoProporcional(conj.tamanho, true)
+          'circle-sort-key': ['-', 0, ['get', 'id']]
+        },
+        paint: {
+          'circle-color': (conj.cores && conj.cores.fundo) || '#0132CA',
+          'circle-radius': tamanhoProporcional(conj.tamanho, true),
+          'circle-pitch-alignment': 'map'
         }
       });
       // Tamanho do ícone conforme o zoom: maior com o mapa afastado, menor com o mapa detalhado.
@@ -234,7 +230,7 @@
           'symbol-sort-key': ['-', 0, ['get', 'id']],
           'icon-size': tamanhoProporcional(conj.tamanho)
         },
-        paint: { 'icon-opacity': ['coalesce', ['get', 'op'], 1] }
+        paint: { 'icon-opacity': ['coalesce', ['feature-state', 'op'], 1] }
       });
       map.on('click', conj.camada, (e) => {
         const id = e.features[0].properties.id;
@@ -252,16 +248,14 @@
   const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
   let tokenAnim = 0;
 
-  function aplicarProgresso(conj) {
-    const src = map.getSource(conj.fonte);
-    if (src && conj.fc) src.setData(conj.fc);
+  function limparEstado(conj) {
+    if (map.getSource(conj.fonte)) map.removeFeatureState({ source: conj.fonte });
   }
   function repousoIcones() {
     Object.keys(CONJUNTOS).forEach((chave) => {
       const conj = CONJUNTOS[chave];
       if (!conj.fc) return;
-      conj.fc.features.forEach((f) => { f.properties.esc = 1; f.properties.op = 1; });
-      aplicarProgresso(conj);
+      limparEstado(conj);
       if (map.getLayer(conj.camada + '-base')) map.setLayoutProperty(conj.camada + '-base', 'visibility', 'none');
     });
   }
@@ -279,8 +273,17 @@
     const FADE_INI = DUR * 0.7, FADE = 420;    // contorno e número depois da bolinha
     const inicios = feicoes.map((_, i) => T * (1 - Math.pow(1 - i / n, 1.8))); // intervalos cada vez menores
     const total = T + FADE_INI + FADE;
-    feicoes.forEach((f) => { f.properties.esc = 0; f.properties.op = 0; });
     const base = conj.camada + '-base';
+    const ultimo = feicoes.map(() => null); // último estado enviado de cada cinema
+
+    function enviar(i, esc, op) {
+      const u = ultimo[i];
+      if (u && u.esc === esc && u.op === op) return; // só atualiza o que mudou neste quadro
+      ultimo[i] = { esc, op };
+      map.setFeatureState({ source: conj.fonte, id: feicoes[i].id }, { esc, op });
+    }
+    // Zera todos antes de mostrar as camadas, para os ícones não piscarem inteiros
+    feicoes.forEach((_, i) => enviar(i, 0, 0));
 
     function iniciar() {
       if (meu !== tokenAnim) return;
@@ -290,20 +293,18 @@
       (function quadro(agora) {
         if (meu !== tokenAnim) return;
         const t = agora - t0;
-        feicoes.forEach((f, i) => {
+        for (let i = 0; i < n; i++) {
           const u = t - inicios[i];
-          f.properties.esc = +easeIO(Math.min(1, Math.max(0, u / DUR))).toFixed(3);
-          f.properties.op = +easeIO(Math.min(1, Math.max(0, (u - FADE_INI) / FADE))).toFixed(3);
-        });
-        aplicarProgresso(conj);
+          if (u < 0 || (u > DUR + FADE_INI + FADE && ultimo[i].op === 1)) continue; // ainda não começou / já terminou
+          enviar(i,
+            +easeIO(Math.min(1, Math.max(0, u / DUR))).toFixed(3),
+            +easeIO(Math.min(1, Math.max(0, (u - FADE_INI) / FADE))).toFixed(3));
+        }
         if (t < total) { requestAnimationFrame(quadro); return; }
-        feicoes.forEach((f) => { f.properties.esc = 1; f.properties.op = 1; });
-        aplicarProgresso(conj);
+        limparEstado(conj);
         map.setLayoutProperty(base, 'visibility', 'none');
       })(t0);
     }
-    // Envia o estado zerado ao mapa antes de mostrar a camada, para os ícones não piscarem inteiros
-    aplicarProgresso(conj);
     let ok = false;
     const liberar = () => { if (!ok) { ok = true; setTimeout(iniciar, atraso); } };
     const aoCarregar = (e) => {
