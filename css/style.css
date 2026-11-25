@@ -597,10 +597,10 @@ img { color: transparent; }
   width: min(calc(100vw - 48px), calc((100vh - 3 * var(--respiro) - 48px) * 2.2));
 }
 
-/* ---------- Os autores (853 px) ---------- */
+/* ---------- Os autores (944 px: 100 px de respiro acima do título e abaixo das fotos) ---------- */
 .autores-pag {
   position: relative;
-  height: calc(853 * var(--u));
+  height: calc(944 * var(--u));
   background: var(--branco);
   color: #161616;
   overflow: hidden;
@@ -608,11 +608,11 @@ img { color: transparent; }
 .autores-pag .titulo {
   position: absolute;
   left: calc(95 * var(--u));
-  top: calc(28 * var(--u));
+  top: calc(98 * var(--u)); /* topo das letras a 100 px da borda */
   font-size: calc(102.867 * var(--u));
   color: var(--azul);
 }
-.autor { position: absolute; top: calc(196 * var(--u)); }
+.autor { position: absolute; top: calc(266 * var(--u)); }
 .autor--joao { left: calc(100 * var(--u)); width: calc(237 * var(--u)); }
 .autor--luiza { left: calc(1116 * var(--u)); width: calc(226 * var(--u)); }
 .autor__nome {
@@ -659,11 +659,11 @@ img { color: transparent; }
 .faixa { position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: calc(158 * var(--u)); background: var(--amarelo); }
 .bolinha { position: absolute; mix-blend-mode: multiply; pointer-events: none; }
 .bolinha { width: calc(102.9 * var(--u)); height: calc(102.9 * var(--u)); }
-.bolinha--a1 { left: calc(898 * var(--u) - 51.45 * var(--u)); top: calc(149.5 * var(--u) - 51.45 * var(--u)); }
-.bolinha--b1 { left: calc(475 * var(--u) - 51.45 * var(--u)); top: calc(682.5 * var(--u) - 51.45 * var(--u)); }
-.bolinha--b2 { left: calc(616 * var(--u) - 51.45 * var(--u)); top: calc(376.5 * var(--u) - 51.45 * var(--u)); }
-.bolinha--a2 { left: calc(816 * var(--u) - 51.45 * var(--u)); top: calc(713.5 * var(--u) - 51.45 * var(--u)); }
-.bolinha--a3 { left: calc(986 * var(--u) - 51.45 * var(--u)); top: calc(499 * var(--u) - 51.45 * var(--u)); }
+.bolinha--a1 { left: calc(898 * var(--u) - 51.45 * var(--u)); top: calc(219.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--b1 { left: calc(475 * var(--u) - 51.45 * var(--u)); top: calc(752.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--b2 { left: calc(616 * var(--u) - 51.45 * var(--u)); top: calc(446.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--a2 { left: calc(816 * var(--u) - 51.45 * var(--u)); top: calc(783.5 * var(--u) - 51.45 * var(--u)); }
+.bolinha--a3 { left: calc(986 * var(--u) - 51.45 * var(--u)); top: calc(569.0 * var(--u) - 51.45 * var(--u)); }
 
 /* ---------- Saiba mais sobre os autores (736 px) ---------- */
 .autores {
