@@ -11,7 +11,7 @@
     return;
   }
 
-  function arquivo(i) { return PASTA + String(i + 1).padStart(2, '0') + '.jpg'; }
+  function arquivo(i) { return PASTA + String(i + 1).padStart(2, '0') + '.jpg?v=2'; }
 
   // Cria as páginas (as imagens só carregam quando estão perto da página atual)
   var paginas = [];
